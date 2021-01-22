@@ -1,12 +1,31 @@
 1. Project Title
-Price Comparison Website    
+FSU Textbook Trading Web App
+
 2. Brief overview of what you are proposing
+What we are trying to accomplish is to establish a web application where FSU students 
+can trade textbooks on easily and efficiently.
 
 3. Motivation
+As college students, we buy a lot of textbooks, but most of the textbooks were only needed for
+a single semester. Therefore for the purpose of reusing these resources and also decrease the money
+wasted on buying expensive textbooks, we want to make a website where people can trade their textbook.
 
 4. Features to be implemented and types of users
+- Target user - FSU students
+***Feature***
+- Chatbox where buyer and seller could communicate with each other immediately
+- Database to store the textbooks that people posts
+- Account system for security reason
+- Search function for people to quickly find if there's a textbook they want
+- Adding a module where people can post and take down buy orders for specific textbooks
+- Sending emails to people for reminders
 
 5. Risk / Challenges
+- Risk - User information breach from improper handeling of account system
+- Potential Risk - Copyright issue
+- Challenge - Learning curve from using python, database, API, etc.
+- Challenge - Potentially need to learn CSS, HTML, or Javascript
+- Challenge - interact with email might be difficult
 
 6. Exisitng related projects
 https://student2student.com
