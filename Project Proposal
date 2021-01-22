@@ -17,7 +17,7 @@ wasted on buying expensive textbooks, we want to make a website where people can
 - Database to store the textbooks that people posts
 - Account system for security reason
 - Search function for people to quickly find if there's a textbook they want
-- Adding a module where people can post buy orders for specific textbooks
+- Adding a module where people can post and take down buy orders for specific textbooks
 - Sending emails to people for reminders
 
 5. Risk / Challenges
