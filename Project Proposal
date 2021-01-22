@@ -32,6 +32,8 @@ https://student2student.com
 This website supports selling and price comparison of textbooks.
 
 7. Intended platform / programming language
+Platform - Web Application
+Programming Language - Mainly python, potentially CSS, HTML, or Javascirpt
 
 8. Third-party libraries / APIs to be used
 Django: it provides a standalone web server for the users to test their apps
