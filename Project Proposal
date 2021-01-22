@@ -18,8 +18,14 @@ wasted on buying expensive textbooks, we want to make a website where people can
 - Account system for security reason
 - Search function for people to quickly find if there's a textbook they want
 - Adding a module where people can post buy orders for specific textbooks
-- Allowing users to take their posts down 
+- Sending emails to people for reminders
+
 5. Risk / Challenges
+- Risk - User information breach from improper handeling of account system
+- Potential Risk - Copyright issue
+- Challenge - Learning curve from using python, database, API, etc.
+- Challenge - Potentially need to learn CSS, HTML, or Javascript
+- Challenge - interact with email might be difficult
 
 6. Exisitng related projects
 
