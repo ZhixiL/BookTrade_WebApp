@@ -35,12 +35,14 @@ This website supports selling and price comparison of textbooks.
 
 8. Third-party libraries / APIs to be used
 Django: it provides a standalone web server for the users to test their apps
+
 9. Team members, expertise, project responsibilities, and team organization
 ***Zhixi Lin (Zack)***
 FSUID: zl19
 C++ (Strong), Python, little bit of Javascirpt
 ***Dennis Majano***
-
+FSUID: dvm17
+C++, Java, Python
 ***Hanyan Zhang***
 FSUID: hz19
 C++,Python,Java,HTML,CSS
