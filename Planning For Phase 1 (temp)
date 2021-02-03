@@ -1,0 +1,34 @@
+Feel free to add extra info & modify this file, everything is open for dicsussion! - Zhixi Lin (Zack)
+
+*-> assigning to
+
+Deadlines:
+  - Target start testing date: 2/16/2021
+  - Target completion deadline for Phase 1, prototype: 2/19/2021
+    This deadline will ensure us to have a safe 7 days buffer for any emergency situation that may occur. This will
+    also allow us to have time to complete other required part of the phase 1 such as progress reports, RT & ID documents, etc.
+  - Final Deadline: 2/26/2021
+
+Target:
+  - Create a prototype that should be able to run and demonstrate the purpose of our website.
+  - Our prototype that contains minimal amount of bugs that doesn't affect the stability of the software.
+
+Specific Targets:
+  - Create a database that stores user information, book information, etc. -> Zack, ?
+  - Create a functional webpage with at least minimal amount of designing and prompt window for user interaction. -> Yuki, ?
+  - Functional registering & login webpage, linking to the database. -> ?, ?
+  - Webpage (Sell Order) that displays the books that's been listed, and another page (Buy Order) that shows books being requested. -> Yuanyuan, ?
+  - Webpage where people can create buy orders, or listing books.
+  
+Modules that's been temporary put off for later:
+  - Search Engine
+  - Chatbox, user communication interface
+  - Email module
+  - More...
+  
+Sidenotes:
+  - To ensure stable software developing process, at least 2 people need to be working on the same part.
+    - This will avoiding the potential situation where a particular part is too difficult, or one person is unable to
+      code for a period of time, that the other person will sufficiently understand the topic then help/follow up
+      on the part.
+    - This will also provide a better opportunity for us to learn from this project.
