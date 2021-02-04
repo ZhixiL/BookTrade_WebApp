@@ -4,21 +4,23 @@ Feel free to add extra info & modify this file, everything is open for dicsussio
 
 Deadlines:
   - Target start testing date: 2/16/2021
-  - Target completion deadline for Phase 1, prototype: 2/19/2021
-    This deadline will ensure us to have a safe 7 days buffer for any emergency situation that may occur. This will
+    Completing IT documents as we test the code.
+  - Target completion deadline for Phase 1, prototype: 2/20/2021
+    This deadline will ensure us to have a safe 6 days buffer for any emergency situation that may occur. This will
     also allow us to have time to complete other required part of the phase 1 such as progress reports, RT & ID documents, etc.
   - Final Deadline: 2/26/2021
+  
+  - Phase 2 Deadline - March 26th
 
 Target:
   - Create a prototype that should be able to run and demonstrate the purpose of our website.
   - Our prototype that contains minimal amount of bugs that doesn't affect the stability of the software.
 
 Specific Targets:
-  - Create a database that stores user information, book information, etc. -> Zack, ?
-  - Create a functional webpage with at least minimal amount of designing and prompt window for user interaction. -> Yuki, ?
-  - Functional registering & login webpage, linking to the database. -> ?, ?
-  - Webpage (Sell Order) that displays the books that's been listed, and another page (Buy Order) that shows books being requested. -> Yuanyuan, ?
-  - Webpage where people can create buy orders, or listing books.
+  - Create a database that stores user information, book information, etc. -> Zack, Wesley
+  - Create a functional webpage with at least minimal amount of designing and prompt window for user interaction. -> Yuki, Dennis, Yuanyuan
+  - Functional registering & login webpage, linking to the database. -> Zack, Wesley
+  - Webpage (Sell Order) that displays the books that's been listed, and another page (Buy Order) that shows books being requested. -> Yuanyuan, Dennis, Yuki
   
 Modules that's been temporary put off for later:
   - Search Engine
