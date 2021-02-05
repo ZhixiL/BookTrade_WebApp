@@ -26,6 +26,8 @@ Modules that's been temporary put off for later:
   - Search Engine
   - Chatbox, user communication interface
   - Email module
+  - Webserver, api
+  - Client side server to register button click.
   - More...
   
 Sidenotes:
@@ -34,3 +36,4 @@ Sidenotes:
       code for a period of time, that the other person will sufficiently understand the topic then help/follow up
       on the part.
     - This will also provide a better opportunity for us to learn from this project.
+  - Client side python is not suitable, might want to use some other language.
