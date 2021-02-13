@@ -1,0 +1,75 @@
+1. Project Title
+FSU Textbook Trading Web App
+
+2. Brief overview of what you are proposing
+What we are trying to accomplish is to establish a web application where FSU students 
+can trade textbooks on easily and efficiently.
+
+3. Motivation
+As college students, we buy a lot of textbooks, but most of the textbooks were only needed for
+a single semester. Therefore for the purpose of reusing these resources and also decrease the money
+wasted on buying expensive textbooks, we want to make a website where people can trade their textbook.
+
+4. Features to be implemented and types of users
+- Target user - FSU students
+***Feature***
+- Chatbox where buyer and seller could communicate with each other immediately
+- Database to store the textbooks that people posts
+- Account system for security reason
+- Search function for people to quickly find if there's a textbook they want
+- Adding a module for people to list their books, or placing buy orders
+- Sending emails to people for reminders
+- Website design
+
+5. Risk / Challenges
+- Risk - User information breach from improper handeling of account system
+- Potential Risk - Copyright issue
+- Challenge - Learning curve from using python, database, API, etc.
+- Challenge - Potentially need to learn CSS, HTML, or Javascript
+- Challenge - interact with email might be difficult
+
+6. Exisitng related projects
+https://student2student.com
+This website supports selling and price comparison of textbooks.
+Our web app is different from the student2student web where our app will be intended only for fsu students.
+Ebay and Craiglist, where people sell used stuff
+
+7. Intended platform / programming language
+Platform - Web Application
+Programming Language - Mainly python, potentially CSS, HTML, or Javascirpt
+
+8. Third-party libraries / APIs to be used
+Django: it provides a standalone web server for the users to test their apps
+
+9. Team members, expertise, project responsibilities, and team organization
+***Zhixi Lin (Zack)***
+FSUID: zl19
+C++ (Strong), Python, little bit of Javascirpt
+Responsibility - Search engine, database
+
+***Dennis Majano***
+FSUID: dvm17
+C++, Java, Python
+Responsibility - Chatbox
+
+***Hanyan Zhang***
+FSUID: hz19
+C++,Python,Java,HTML,CSS
+Responsibility - Web design, Email
+
+***Wesley White***
+FSUID: wlw19
+C++, Python, JavaScript
+Responsibility - Account system
+
+***Yuanyuan Bao***
+FSUID: yb19b
+My strongest programming language would be C++, and I have some experience in C, Java, python.
+Responsibility - Module for people to list their books, or placing buy orders
+
+
+
+The communication will be through Slack, Zoom and Canves.
+
+*All of us participated on the discussion through Zoom on 01/22/2021, and contributed to
+the proposal.
