@@ -6,6 +6,8 @@ info is correctly formatted.
 Followed are the references if needed:
 https://wtforms.readthedocs.io/en/2.3.x/validators/#built-in-validators
 https://flask-wtf.readthedocs.io/en/stable/
+
+-- comment & code by Zhixi Lin --
 '''
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -18,15 +20,18 @@ EqualTo() checks if input is equal to given value
 '''
 
 class signupForm(FlaskForm):
+    firstname = StringField('FirstName', validators=[DataRequired(), Length(min=1,max=30)])
+    lastname = StringField('LastName', validators=[DataRequired(), Length(min=1,max=30)])
     username = StringField('Username', validators=[DataRequired(), Length(min=5,max=30)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=5,max=15)])
     #Can add password requirement that forces use of num & letter later
     password_again = PasswordField('Enter Password Again', validators=[EqualTo('password')])
     #ensure password is entered correctly
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    fsuid = StringField('FSUID', validators=[DataRequired(), Length(max=10)]) #This will also served as email, by appending @my.fsu.edu
     signup = SubmitField('Sign up')
 
 class signinForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=5,max=30)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=5,max=15)])
+    #keeplogin = BooleanField() can be added later for "Remembre for 30 days" Feature
     signin = SubmitField('Sign in')
