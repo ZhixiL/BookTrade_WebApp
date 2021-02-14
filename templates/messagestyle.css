@@ -1,0 +1,40 @@
+/* clear all formatting */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+/* a background image filling the entire page */
+html, body {
+    height: 100%;
+}
+
+.bg {
+    height: 100%;
+    background: url(images/loginbackground.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bg .message {
+    position: absolute;
+    width: 800px;
+    height: 43px;
+    margin-top: 600px;
+    background-color: #fff;
+    margin-left: -100px;
+    left: 40%;
+    color: black;
+    text-align: center;
+    font-size: xx-large;
+    border-radius: 10px;
+}
