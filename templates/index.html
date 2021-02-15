@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <!-- import style.css -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -14,23 +14,21 @@
     <div class="header w">
         <!-- logo -->
         <div class="logo">
-            <img src="images/logo2.png" alt="">
+            <img src="templates/images/logo2.png" alt="">
         </div>
 
         <!-- search box -->
         <div class="search">
-            <input type="text" value="Search for a textbook">
+            <input type="text" placeholder=" Search for a textbook">
             <button></button>
         </div>
 
         <!-- profile photo and name -->
         <div class="profile">
-            <img src="images/profilepic.png" alt="">
+            <img src="templates/images/profilepic.png" alt="">
             <h5>temp-user</h5>
         </div>
     </div>
-
-    <!-- This is the banner section -->
     <div class="banner">
         <!-- background image -->
         <div class="w2">
@@ -53,7 +51,7 @@
                 <!-- login and signup -->
                 <ul class="ul2">
                     <li>
-                        <a href="#" class="a1">Login</a>
+                        <a href="{{ url_for('login') }}" class="a1">Login</a>
                         <a href="#" class="a2">Signup</a>
                     </li>
                 </ul>
@@ -80,11 +78,11 @@
         <div class="info">
             <!-- logo -->
             <div class="logo2">
-                <img src="images/logo2.png" alt="">
+                <img src="templates/images/logo2.png" alt="">
             </div>
             <!-- copyright section -->
             <div class="copyright">
-                <img src="images/copyright.png" alt="">
+                <img src="templates/images/copyright.png" alt="">
                 <h6>2021 CEN4020L Group 5</h6>
             </div>
             <!-- nav in the footer -->
