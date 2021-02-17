@@ -59,10 +59,15 @@ def login():
 def msg(): 
     if request.method == 'POST':
         try: 
-            usr = request.form['User']
-            pas = request.form['Pass']
-            print(usr,pas)
-            msg = "Successfull"
+            usr = str(request.form['User'])
+            pas = str(request.form['Pass'])
+            temp = Account.query.filter_by(username=usr).first()
+            if temp == None:
+                msg = "Username doesn't exist!"
+            elif temp.password == pas:
+                msg = "Success!"
+            else:
+                msg = "Wrong Password!"
         except:
             msg = "Failed in signin due to some errors"
         finally:
