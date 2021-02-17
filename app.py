@@ -56,7 +56,6 @@ def index():
 def login():
     form = signinForm()
     #if request.method == 'POST':
-    test = signinForm(username='sicilyshen',password='password')
     print(form.validate_on_submit())
     if form.validate_on_submit():
         if form.username.data == 'zacklin' and form.password.data == 'password':

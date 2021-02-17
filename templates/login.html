@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <!-- import loginstyle.css -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='loginstyletest.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='loginstyle.css') }}">
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         <div class="loginsection">
             <div class="logintitle">
                 <h3>Login to FSU Book Trade</h3>
-                <form action="" id="loginform">
+                <form action="" id="loginform" method = "POST">
                     <input type="text" placeholder=" Enter Username" class="user" required>
                     <input type="password" placeholder=" Enter Password" class="pass" required>
                     <input type="checkbox" class="check" id="check"><label for="check">Keep me login for 30 days</label>
