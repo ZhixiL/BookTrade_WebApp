@@ -19,8 +19,8 @@ app = Flask(
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
 wadb = SQLAlchemy(app)  # Web app database, referencing
 
-SECRET_KEY = os.urandom(32)
-app.config['SECRET_KEY'] = SECRET_KEY
+#SECRET_KEY = os.urandom(32)
+#app.config['SECRET_KEY'] = SECRET_KEY
 
 
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
@@ -28,30 +28,22 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     # When Refer back to this table, use the lower case table name
     # Other table use this key to refer back to this table.
     id = wadb.Column(wadb.Integer, primary_key=True)
-    # (!nullable)name can't be empty
-    firstname = wadb.Column(wadb.String(30), nullable=False)
+    firstname = wadb.Column(wadb.String(30), nullable=False)# (!nullable)name can't be empty
     lastname = wadb.Column(wadb.String(30), nullable=False)
-    # unique because every user need their own username to login
-    username = wadb.Column(wadb.String(30), nullable=False, unique=True)
-    avatar = wadb.Column(wadb.String(
-        30), default='///templates/images/default_avatar.jpg', nullable=False)
+    username = wadb.Column(wadb.String(30), nullable=False, unique=True)# unique because every user need their own username to login
+    avatar = wadb.Column(wadb.String(30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
     email = wadb.Column(wadb.String(100), nullable=False, unique=True)
-    fsuid = wadb.Column(wadb.String(10), default='None',
-                        nullable=False, unique=True)
-    # number of posts by the unique user
-    num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
+    fsuid = wadb.Column(wadb.String(10), default='None', nullable=False, unique=True)
+    num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True) # number of posts by the unique user
 
 
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
-    # this will connect back to the account through account's
-    creator = wadb.Column(wadb.Integer, wadb.ForeignKey('account.id'))
-    # User must input a Title of their post
-    header = wadb.Column(wadb.String(30), nullable=False)
-    # User is able to put a body to their post
-    body = wadb.Column(wadb.String(100), nullable=True)
+    creator = wadb.Column(wadb.Integer, wadb.ForeignKey('account.id'))# this will connect back to the account through account's
+    header = wadb.Column(wadb.String(30), nullable=False)# User must input a Title of their post
+    body = wadb.Column(wadb.String(100), nullable=True)# User is able to put a body to their post
 
 
 @app.route("/")
@@ -63,13 +55,18 @@ def index():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = signinForm()
+    #if request.method == 'POST':
+    test = signinForm(username='sicilyshen',password='password')
+    print(form.validate_on_submit())
     if form.validate_on_submit():
-        if form.username.data == 'zack' and form.password.data == 'password':
-            flash('You have been logged in!', 'success')
+        if form.username.data == 'zacklin' and form.password.data == 'password':
+            #flash('You have been logged in!', 'success')
+            print('login success')
             return redirect(url_for('index'))
         else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
-    return render_template('login.html')
+            #flash('Login Unsuccessful. Please check username and password', 'danger')
+            print('login failed')
+    return render_template('login.html', form = form)
 
 
 if __name__ == '__main__':
