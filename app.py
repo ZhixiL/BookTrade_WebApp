@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from inpforms import signinForm, signupForm
 import os
@@ -13,8 +13,7 @@ More Reference avaliable on above link.
 --- comment by Zhixi Lin ---
 '''
 
-app = Flask(
-    __name__, static_folder='templates')
+app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
 wadb = SQLAlchemy(app)  # Web app database, referencing
@@ -34,7 +33,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     avatar = wadb.Column(wadb.String(30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
     email = wadb.Column(wadb.String(100), nullable=False, unique=True)
-    fsuid = wadb.Column(wadb.String(10), default='None', nullable=False, unique=True)
+    fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True) # number of posts by the unique user
 
 
@@ -52,20 +51,25 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login")
 def login():
-    form = signinForm()
-    #if request.method == 'POST':
-    print(form.validate_on_submit())
-    if form.validate_on_submit():
-        if form.username.data == 'zacklin' and form.password.data == 'password':
-            #flash('You have been logged in!', 'success')
-            print('login success')
-            return redirect(url_for('index'))
-        else:
-            #flash('Login Unsuccessful. Please check username and password', 'danger')
-            print('login failed')
-    return render_template('login.html', form = form)
+    return render_template('login.html')
+
+@app.route('/msg', methods = ['POST', 'GET'])
+def msg(): 
+    if request.method == 'POST':
+        try: 
+            usr = request.form['username']
+            pas = request.form['password']
+            print(usr,pas)a
+        except:
+            msg = "Failed in signin due to some errors"
+        finally:
+            print(Account.query.filter(username=='zacklin'))
+            return render_template("message.html", msg = msg)
+    else:#This is the situation where user access /revrec directly without "submit" on /addrev page
+        msg="Error, do not access this page directly!"
+        return render_template("message.html", msg = msg)
 
 
 if __name__ == '__main__':

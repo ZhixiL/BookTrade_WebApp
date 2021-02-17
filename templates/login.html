@@ -19,9 +19,9 @@
         <div class="loginsection">
             <div class="logintitle">
                 <h3>Login to FSU Book Trade</h3>
-                <form action="" id="loginform" method = "POST">
-                    <input type="text" placeholder=" Enter Username" class="user" required>
-                    <input type="password" placeholder=" Enter Password" class="pass" required>
+                <form action="{{url_for('msg')}}" method = "POST">
+                    <input type="text" name = "User" placeholder=" Enter Username" class="user" required>
+                    <input type="password" name = "Pass" placeholder=" Enter Password" class="pass" required>
                     <input type="checkbox" class="check" id="check"><label for="check">Keep me login for 30 days</label>
                     <a href="#" class="forgot">Forgot Password</a>
                     <input type="submit" value="Login" class="submit">
