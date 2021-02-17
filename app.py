@@ -59,13 +59,13 @@ def login():
 def msg(): 
     if request.method == 'POST':
         try: 
-            usr = request.form['username']
-            pas = request.form['password']
-            print(usr,pas)a
+            usr = request.form['User']
+            pas = request.form['Pass']
+            print(usr,pas)
+            msg = "Successfull"
         except:
             msg = "Failed in signin due to some errors"
         finally:
-            print(Account.query.filter(username=='zacklin'))
             return render_template("message.html", msg = msg)
     else:#This is the situation where user access /revrec directly without "submit" on /addrev page
         msg="Error, do not access this page directly!"

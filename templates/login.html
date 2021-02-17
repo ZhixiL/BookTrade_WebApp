@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <!-- import loginstyle.css -->
+    <!--import loginstyle.css-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='loginstyle.css') }}">
 </head>
 
@@ -19,12 +20,17 @@
         <div class="loginsection">
             <div class="logintitle">
                 <h3>Login to FSU Book Trade</h3>
-                <form action="{{url_for('msg')}}" method = "POST">
+                <form action="{{ url_for('msg') }}" method = "POST">
+                    <input type="text", name = "username"><br>
+                    <input type="password", name = "password"><br>
+                    <input type="submit", name = "submit"><br>
+                    <!--
                     <input type="text" name = "User" placeholder=" Enter Username" class="user" required>
                     <input type="password" name = "Pass" placeholder=" Enter Password" class="pass" required>
                     <input type="checkbox" class="check" id="check"><label for="check">Keep me login for 30 days</label>
                     <a href="#" class="forgot">Forgot Password</a>
                     <input type="submit" value="Login" class="submit">
+                    -->
                 </form>
                 <h3 class="newuser">New to our website? <a href="#">Signup</a></h3>
             </div>
@@ -33,3 +39,17 @@
 </body>
 
 </html>
+
+<!--
+<!DOCTYPE html>
+<html>
+    <body>
+        <form action="{{ url_for('msg') }}" method = "POST">
+            <input type="text", name = "username"><br>
+            <input type="password", name = "password"><br>
+            <input type="submit", name = "submit"><br>
+        </form>
+        <h4><a href="/">Back to Home</a></h4>
+    </body>
+</html>
+-->
