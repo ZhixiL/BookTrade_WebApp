@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
 from inpforms import signinForm, signupForm
+import time
 import os
 '''
 --- DATABASE EXPLAIN ---
@@ -18,8 +19,8 @@ app = Flask(__name__, static_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
 wadb = SQLAlchemy(app)  # Web app database, referencing
 
-#SECRET_KEY = os.urandom(32)
-#app.config['SECRET_KEY'] = SECRET_KEY
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 
 
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
@@ -41,20 +42,20 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
     creator = wadb.Column(wadb.Integer, wadb.ForeignKey('account.id'))
-    # this will connect back to the account through account's
+    # this will connect back to the account through account's ^^
     name_of_book = wadb.Column(wadb.String(30), nullable=False)
-    # User must input a Title of their post
-    # Assumption that header is the same as book name in post.html
-    post_price = wadb.Column(wadb.Float, precision=2, nullable=False)
-    # User has to input the price of their listing with up to 2 decimals
+    # User must input a Title of their post^^
+    # Assumption that header is the same as book name in post.html^^
+    post_price = wadb.Column(wadb.Float, nullable=False)
+    # User has to input the price of their listing with up to 2 decimals ^^
     status = wadb.Column(wadb.String(30), nullable=False)
-    # User must state if the book is in process of being sold, newly listed, etc.
+    # User must state if the book is in process of being sold, newly listed, etc.^^
     category = wadb.Column(wadb.String(30), nullable=False)
-    # User must state what category the book is in to better situate the listing
+    # User must state what category the book is in to better situate the listing ^^
     picture = wadb.Column(wadb.String(30), default='///templates/images/default_book.jpg', nullable=False)
-    # Allows user to input an image, and has a default in case user does not input a picture
+    # Allows user to input an image, and has a default in case user does not input a picture ^^
     body = wadb.Column(wadb.String(100), nullable=True)
-    # User is able to put a body to their post
+    # User is able to put a body to their post^^
     # Assumption that body is the same as description in post.html
     
     
@@ -62,15 +63,43 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template('index.html')
+    if 'user' in session:
+        return render_template('index.html',user = session['user'])
+    else:
+        return render_template('index.html',user = 'offline')
 
 
-@app.route("/login")
+@app.route("/login", methods = ['POST', 'GET'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        try: 
+            usr = str(request.form['User'])
+            pas = str(request.form['Pass'])
+            temp = Account.query.filter_by(username=usr).first()
+            if temp == None:
+                flash('Username does not exist!')
+            elif temp.password == pas:
+                session['user'] = usr
+                flash('Sign in successful!')
+            else:
+                flash('Wrong Password!')
+        except:
+            flash('Failed to sign in due to some errors')
+        finally:
+            if 'user' in session:
+                return render_template('index.html',user = session['user'])
+            else:
+                return render_template('login.html')
+    else:
+        if 'user' in session:
+            return redirect(url_for('index'))
+        else:
+            return render_template('login.html')
 
 @app.route('/msg', methods = ['POST', 'GET'])
-def msg(): 
+def msg():
+    return render_template("message.html", msg="placeholder")
+''' #This section of codes has been intergrated into login()
     if request.method == 'POST':
         try: 
             usr = str(request.form['User'])
@@ -79,17 +108,19 @@ def msg():
             if temp == None:
                 msg = "Username doesn't exist!"
             elif temp.password == pas:
-                msg = "Success!"
+                session['user'] = usr
+                msg = "Sign in successful!"
+                flash('You were successfully logged in')
             else:
                 msg = "Wrong Password!"
         except:
-            msg = "Failed in signin due to some errors"
+            msg = "Failed to sign in due to some errors"
         finally:
             return render_template("message.html", msg = msg)
     else:#This is the situation where user access /revrec directly without "submit" on /addrev page
         msg="Error, do not access this page directly!"
         return render_template("message.html", msg = msg)
-
+'''
 
 if __name__ == '__main__':
     app.run(debug=True)
