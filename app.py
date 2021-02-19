@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
-from inpforms import signinForm, signupForm
+#from inpforms import signinForm, signupForm #This API has been abandoned
 import time
 import os
 '''
@@ -43,17 +43,17 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     id = wadb.Column(wadb.Integer, primary_key=True)
     creator = wadb.Column(wadb.Integer, wadb.ForeignKey('account.id'))
     # this will connect back to the account through account's ^^
-    name_of_book = wadb.Column(wadb.String(30), nullable=False)
+    bookname = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    post_price = wadb.Column(wadb.Float, nullable=False, default = 0)
+    price = wadb.Column(wadb.Float, nullable=False, default = 0)
     # User has to input the price of their listing with up to 2 decimals ^^
-    status = wadb.Column(wadb.String(30), nullable=False)
-    # User must state if the book is in process of being sold, newly listed, etc.^^
+    stat = wadb.Column(wadb.String(30), nullable=False, default = "New")
+    # Status example: "New", "Some wear", "Teared pages", etc.^^
     category = wadb.Column(wadb.String(30), nullable=False)
     # User must state what category the book is in to better situate the listing ^^
     picture = wadb.Column(wadb.String(30), default='///templates/images/default_book.jpg', nullable=False)
     # Allows user to input an image, and has a default in case user does not input a picture ^^
-    body = wadb.Column(wadb.String(100), nullable=True)
+    description = wadb.Column(wadb.String(100), nullable=True)
     # User is able to put a body to their post^^
     # Assumption that body is the same as description in post.html
     
