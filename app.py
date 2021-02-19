@@ -45,7 +45,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # this will connect back to the account through account's ^^
     name_of_book = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    post_price = wadb.Column(wadb.String(30), nullable=False)
+    post_price = wadb.Column(wadb.float, nullable=False, default = 0)
     # User has to input the price of their listing with up to 2 decimals ^^
     status = wadb.Column(wadb.String(30), nullable=False)
     # User must state if the book is in process of being sold, newly listed, etc.^^
@@ -73,31 +73,32 @@ def signout():
 
 @app.route("/login", methods = ['POST', 'GET'])
 def login():
-    if request.method == 'POST':
-        try: 
+    if request.method == 'POST': #Here's the POST request part
+        try: #this will make sure all the extraneous situation gets reported as failed
             usr = str(request.form['User'])
             pas = str(request.form['Pass'])
-            temp = Account.query.filter_by(username=usr).first()
-            if temp == None:
+            temp = Account.query.filter_by(username=usr).first() #search for user info    
+            if temp == None: #this is the case where temp matches with no account
                 flash('Username does not exist!')
-            elif temp.password == pas:
-                session['user'] = usr
+            elif temp.password == pas:#temp has matched an account, veryfing the password
+                session['user'] = usr #set up the session, keep track of user
                 flash('Sign in successful!')
-            else:
+            else:#This is the case where password doesnt match the account
                 flash('Wrong Password!')
         except:
             flash('Failed to sign in due to some errors')
         finally:
-            if 'user' in session:
+            if 'user' in session: #This is the case where user successfully signed in.
                 return redirect("/")
-            else:
+            else: #This is the case where user failed to sign in
                 return render_template('login.html')
-    else:
-        if 'user' in session:
+    else: #here's the GET request part
+        if 'user' in session:#user already signed in
             return redirect(url_for('index'))
-        else:
+        else:#user didn't signed in
             return render_template('login.html')
         
+
 @app.route("/post", methods = ['POST'])        
 def post():
     name_of_book = request.form.get('Book Name')
