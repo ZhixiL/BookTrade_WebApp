@@ -45,7 +45,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # this will connect back to the account through account's ^^
     name_of_book = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    post_price = wadb.Column(wadb.float, nullable=False, default = 0)
+    post_price = wadb.Column(wadb.Float, nullable=False, default = 0)
     # User has to input the price of their listing with up to 2 decimals ^^
     status = wadb.Column(wadb.String(30), nullable=False)
     # User must state if the book is in process of being sold, newly listed, etc.^^
