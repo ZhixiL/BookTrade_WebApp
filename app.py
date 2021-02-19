@@ -46,7 +46,8 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
-    time = wadb.Column(wadb.Date, nullable=False) #this should be automatically inserted
+    time = wadb.Column(wadb.Date, nullable=False) 
+    #Keep track of time when listing are posted ^^
     creator = wadb.Column(wadb.Integer, wadb.ForeignKey('account.id'))
     # this will connect back to the account through account's ^^
     bookname = wadb.Column(wadb.String(30), nullable=False)
