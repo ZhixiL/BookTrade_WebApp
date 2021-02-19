@@ -45,7 +45,6 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # this will connect back to the account through account's ^^
     name_of_book = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    # Assumption that header is the same as book name in post.html^^
     post_price = wadb.Column(wadb.Float, nullable=False)
     # User has to input the price of their listing with up to 2 decimals ^^
     status = wadb.Column(wadb.String(30), nullable=False)
@@ -59,7 +58,6 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # Assumption that body is the same as description in post.html
     
     
-    
 @app.route("/")
 @app.route("/index")
 def index():
@@ -68,6 +66,10 @@ def index():
     else:
         return render_template('index.html',user = 'offline')
 
+@app.route("/signout")
+def signout():
+    session.pop('user', None)
+    return redirect("/")
 
 @app.route("/login", methods = ['POST', 'GET'])
 def login():
@@ -87,7 +89,7 @@ def login():
             flash('Failed to sign in due to some errors')
         finally:
             if 'user' in session:
-                return render_template('index.html',user = session['user'])
+                return redirect("/")
             else:
                 return render_template('login.html')
     else:
@@ -99,28 +101,7 @@ def login():
 @app.route('/msg', methods = ['POST', 'GET'])
 def msg():
     return render_template("message.html", msg="placeholder")
-''' #This section of codes has been intergrated into login()
-    if request.method == 'POST':
-        try: 
-            usr = str(request.form['User'])
-            pas = str(request.form['Pass'])
-            temp = Account.query.filter_by(username=usr).first()
-            if temp == None:
-                msg = "Username doesn't exist!"
-            elif temp.password == pas:
-                session['user'] = usr
-                msg = "Sign in successful!"
-                flash('You were successfully logged in')
-            else:
-                msg = "Wrong Password!"
-        except:
-            msg = "Failed to sign in due to some errors"
-        finally:
-            return render_template("message.html", msg = msg)
-    else:#This is the situation where user access /revrec directly without "submit" on /addrev page
-        msg="Error, do not access this page directly!"
-        return render_template("message.html", msg = msg)
-'''
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -26,7 +26,7 @@
         <!-- profile photo and name -->
         <div class="profile">
             <img src="templates/images/profilepic.png" alt="">
-            <h5>temp-user</h5>
+            <h5>{{user}}</h5>
         </div>
     </div>
     <div class="banner">
@@ -51,8 +51,12 @@
                 <!-- login and signup -->
                 <ul class="ul2">
                     <li>
+                        {% if user == "offline" %}
                         <a href="{{ url_for('login') }}" class="a1">Login</a>
                         <a href="#" class="a2">Signup</a>
+                        {% else %}
+                        <a href="signout" class="a2">Sign Out</a>
+                        {% endif %}
                     </li>
                 </ul>
             </div>
