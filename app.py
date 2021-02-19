@@ -109,7 +109,7 @@ def login():
             return render_template('login.html')
 
 
-@app.route("/post", methods=['POST'])
+@app.route("/post", methods=['POST', 'GET'])
 def post():
     name_of_book = request.form.get('Book Name')
     post_price = request.form.get('Price')
