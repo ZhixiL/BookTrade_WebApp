@@ -11,24 +11,27 @@
 
 <body>
     <!-- This is the header section -->
-    <div class="header w">
-        <!-- logo -->
-        <div class="logo">
-            <img src="templates/images/logo2.png" alt="">
-        </div>
-
-        <!-- search box -->
-        <div class="search">
-            <input type="text" placeholder=" Search for a textbook">
-            <button></button>
-        </div>
-
-        <!-- profile photo and name -->
-        <div class="profile">
-            <img src="templates/images/profilepic.png" alt="">
-            <h5>{{user}}</h5>
+    <div class="mainheader">
+        <div class="header w">
+            <!-- logo -->
+            <div class="logo">
+                <img src="templates/images/logo2.png" alt="">
+            </div>
+    
+            <!-- search box -->
+            <div class="search">
+                <input type="text" placeholder=" Search for a textbook">
+                <button></button>
+            </div>
+    
+            <!-- profile photo and name -->
+            <div class="profile">
+                <img src="templates/images/profilepic.png" alt="">
+                <h5>{{user}}</h5>
+            </div>
         </div>
     </div>
+ <div class="mainbanner">
     <div class="banner">
         <!-- background image -->
         <div class="w2">
@@ -36,7 +39,7 @@
             <div class="subnavi">
                 <ul class="ul1">
                     <li>
-                        <a href="#">Post a Book<span>&gt;</span></a>
+                        <a href="/templates/post.html">Post a Book<span>&gt;</span></a>
                     </li>
                     <li>
                         <a href="#">Book List<span>&gt;</span></a>
@@ -62,8 +65,10 @@
             </div>
         </div>
     </div>
+ </div>
 
     <!-- This is the main post section -->
+   <div class="mainpostbg">
     <div class="mainpost">
         <!-- header section -->
         <div class="head">
@@ -76,8 +81,10 @@
 
         </div>
     </div>
+   </div>
 
     <!-- This is the footer section -->
+   <div class="mainfooter">
     <div class="footer">
         <div class="info">
             <!-- logo -->
@@ -96,6 +103,7 @@
             </div>
         </div>
     </div>
+   </div>
 </body>
 
 </html>
