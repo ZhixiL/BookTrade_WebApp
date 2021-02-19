@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bookliststyle.css') }}">
+</head>
+<body>
+    <!-- This is the header section -->
+    <div class="mainheader">
+        <div class="header w">
+            <!-- logo -->
+            <div class="logo">
+                <img src="images/logo2.png" alt="">
+            </div>
+    
+            <!-- search box -->
+            <div class="search">
+                <input type="text" placeholder=" Search for a textbook">
+                <button></button>
+            </div>
+    
+            <!-- profile photo and name -->
+            <div class="profile">
+                <img src="images/profilepic.png" alt="">
+                <h5>{{user}}</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="mainbooks">
+        <div class="books">
+            <div class="heading">
+                <div class="btn">
+                    <span class="sorttag">Sort By</span>
+                    <button type="button" class="sortbutton" onclick="sortRecent()">Recently Posted</button>
+                    <button type="button" class="sortbutton" onclick="sortRecent()">Alphabetically</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- This is a temp section just for place holder. Will be replaced by JS later. -->
+    <script>
+        function sortrecent() {
+          
+        }
+        function sortAlpha() {
+
+        }
+        </script>
+</body>
+</html>
