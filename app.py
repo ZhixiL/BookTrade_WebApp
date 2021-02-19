@@ -45,7 +45,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # this will connect back to the account through account's ^^
     name_of_book = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    post_price = wadb.Column(wadb.Float, nullable=False)
+    post_price = wadb.Column(wadb.String(30), nullable=False)
     # User has to input the price of their listing with up to 2 decimals ^^
     status = wadb.Column(wadb.String(30), nullable=False)
     # User must state if the book is in process of being sold, newly listed, etc.^^
@@ -97,7 +97,16 @@ def login():
             return redirect(url_for('index'))
         else:
             return render_template('login.html')
-
+        
+@app.route("/post", methods = ['POST'])        
+def post():
+    name_of_book = request.form.get('Book Name')
+    post_price = request.form.get('Price')
+    status = request.form.get('Status')
+    category = request.form.get('Category')
+    picture = request.form.get('file')
+    return render_template('post.html')
+            
 @app.route('/msg', methods = ['POST', 'GET'])
 def msg():
     return render_template("message.html", msg="placeholder")
