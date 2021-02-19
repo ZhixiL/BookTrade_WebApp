@@ -47,12 +47,11 @@ html, body {
 .bg .loginsection {
     position: absolute;
     width: 650px;
-    height: 700px;
-    margin-top: 350px;
+    height: 650px;
+    margin-top: 40px;
     background-color: #fff;
-    margin-left: -100px;
-    left: 40%;
-    box-shadow: 10px 20px
+    margin-left: -325px;
+    left: 50%;
 }
 
 .bg .loginsection .logintitle {
