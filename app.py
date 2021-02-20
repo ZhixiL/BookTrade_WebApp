@@ -1,6 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select
 #from inpforms import signinForm, signupForm #This API has been abandoned
 import datetime
 import time
@@ -28,13 +27,12 @@ app.config['SECRET_KEY'] = SECRET_KEY
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
     __tablename__ = 'account'  # table name will generally be lower case
     # When Refer back to this table, use the lower case table name
-    # Other table use this key to refer back to this table.
-    id = wadb.Column(wadb.Integer, primary_key=True)
     # (!nullable)name can't be empty
     firstname = wadb.Column(wadb.String(30), nullable=False)
     lastname = wadb.Column(wadb.String(30), nullable=False)
     # unique because every user need their own username to login
-    username = wadb.Column(wadb.String(30), nullable=False, unique=True)
+    username = wadb.Column(wadb.String(30), nullable=False, unique=True, primary_key=True)
+    #The username will also served as the primary key for other table to reference back.
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
@@ -42,14 +40,18 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
-
+    
+    def __repr__(self):
+        return 'Account({firstname},{lastname},{username},{avatar},{email},{fsuid})'.format(
+            firstname=self.firstname, lastname=self.lastname, username=self.username, 
+            avatar=self.avatar, email=self.email,fsuid=self.fsuid)
 
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
     time = wadb.Column(wadb.Date, nullable=False) 
     #Keep track of time when listing are posted ^^
-    creator = wadb.Column(wadb.Integer, wadb.ForeignKey('account.id'))
+    by = wadb.Column(wadb.Integer, wadb.ForeignKey('account.username'))
     # this will connect back to the account through account's ^^
     bookname = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
@@ -64,6 +66,11 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     description = wadb.Column(wadb.String(100), nullable=True)
     # User is able to put a body to their post^^
     # Assumption that body is the same as description in post.html
+
+    def __repr__(self):
+        return 'Account({time},{by},{bookname},{price},{stat},{category},{picture},{description})'.format(
+            time=self.time,by=self.by,bookname=self.bookname,price=self.price,stat=self.stat,category=self.category,
+            picture=self.picture,description=self.description)
 
 
 @app.route("/")
@@ -130,6 +137,7 @@ def booklist():
         user = session['user']
     else:
         user = 'offline'
+    allbooks = wadb.session.execute(wadb.select(post).order_by(post.bookname))
     return render_template("booklist.html", user = user, booktitle="none")
 
 if __name__ == '__main__':
