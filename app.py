@@ -10,6 +10,7 @@ The models below will be declared using SQLAlchemy ORM
 and utilizes SQlite3(Temporary, can be updated) as local
 database to store info for Account & Book Post.
 Object Relation Tutorial for SQLAlchemy: https://docs.sqlalchemy.org/en/13/orm/tutorial.html
+Flask-SQLAlchemy reference:https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 More Reference avaliable on above link.
 *Since we're using sqlite3, when declaring model with attribute String, specify the size.
 --- comment by Zhixi Lin ---
@@ -49,7 +50,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
-    time = wadb.Column(wadb.Date, nullable=False) 
+    time = wadb.Column(wadb.DateTime, nullable=False) 
     #Keep track of time when listing are posted ^^
     by = wadb.Column(wadb.Integer, wadb.ForeignKey('account.username'))
     # this will connect back to the account through account's ^^
@@ -59,8 +60,8 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # User has to input the price of their listing with up to 2 decimals ^^
     stat = wadb.Column(wadb.String(30), nullable=False, default = "New")
     # Status example: "New", "Some wear", "Teared pages", etc.^^
-    category = wadb.Column(wadb.String(30), nullable=False)
-    # User must state what category the book is in to better situate the listing ^^
+    college = wadb.Column(wadb.String(30), nullable=False)
+    # User must state what college the book is belong to ^^
     picture = wadb.Column(wadb.String(30), default='///templates/images/default_book.jpg', nullable=False)
     # Allows user to input an image, and has a default in case user does not input a picture ^^
     description = wadb.Column(wadb.String(100), nullable=True)
