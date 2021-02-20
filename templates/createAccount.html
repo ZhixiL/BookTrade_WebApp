@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Create Account</title>
+		<!-- import style.css -->
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	</head>
+	<body>
+		<div>
+			<h1>Website Info</h1>
+		</div>
+		<div>
+			<h1>Agreements</h1>
+		</div>
+		<hr/>
+		<form action= "{{ url_for('createAcc') }}" method = "POST">	
+			<label for="Username">Username:</label>
+			<input type="text" name="username" id="username"><br><br>
+			
+			<label for="pwd1">Password:</label>
+			<input type="password" name="pwd1" id="pwd1"><br><br>
+
+			<label for="pwd2">Confirm Password:</label>
+			<input type="password" name="pwd2" id="pwd2"><br><br>
+
+			<label for="firstName">First Name:</label>
+			<input type="text" name="firstName" id="firstName"><br><br>
+			
+			<label for="lastName">Last Name:</label>
+			<input type="text" name="lastName" id="lastName"><br><br>
+			
+			Gender:
+			<label for="male">Male</label>
+			<input type="radio" name="gender" id="male" value="male">
+			<label for="female">Female</label>
+			<input type="radio" name="gender" id="female" value="female"><br><br>
+			
+			<label for="emailAddress">Email:</label>
+			<input type="email" name="emailAddress" id="emailAddress"><br><br>
+			
+			<label for="phoneNumber">Phone Number:</label>
+			<input type="tel" name="phoneNumber" id="phoneNumber"><br><br>
+			
+			<label for="aboutMe">About Me:</label><br>
+			<textarea row="30" cols="50" name="aboutMe" id="aboutMe"/></textarea><br><br>
+				
+			<input type="submit" value="Submit">
+		</form>
+		<br><a href="/">Back to Home</a><br>
+
+		<!-- This is the footer section -->
+   		<div class="mainfooter">
+    		<div class="footer">
+        		<div class="info">
+            		<!-- logo -->
+            		<div class="logo2">
+                		<img src="templates/images/logo2.png" alt="">
+            		</div>
+            		<!-- copyright section -->
+            		<div class="copyright">
+                		<img src="templates/images/copyright.png" alt="">
+                		<h6>2021 CEN4020L Group 5</h6>
+            		</div>
+            		<!-- nav in the footer -->
+            		<div class="footernavi">
+                		<a href="#">Contact Us</a>
+                		<a href="#">Commonly Asked Q&A</a>
+            		</div>
+        		</div>
+    		</div>
+   		</div>	
+	
+	</body>
+</html>
