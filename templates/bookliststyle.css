@@ -138,7 +138,7 @@ li {
   font-size: 14px;
   text-align: center;
   color: white;
-  background-color: rgb(76, 76, 241);
+  background-color: #7e3644;
   border-style: solid;
   border-color: #000000;
   border-radius: 10px;
@@ -174,6 +174,57 @@ li {
   border-style: dotted;
   border-radius: 2px;
   border-color: #000000;
+}
+
+.mainbooks .books .listingbooks .onebook {
+  float: left;
+  height: 215px;
+  width: 213.5px;
+  padding: 5px 5px;
+}
+
+.mainbooks .books .listingbooks .onebook .bookpic {
+  height: 125px;
+  width: 214px;
+  background: url(images/tempbook.jpg);
+}
+
+.mainbooks .books .listingbooks .onebook a h4 {
+  margin: 20px 0;
+  color: #000000;
+}
+
+.mainbooks .books .mainpagination {
+  height: 34px;
+  margin: 0 50px;
+}
+
+.mainbooks .books .mainpagination .pagination {
+  display: inline-block;
+  float: right;
+}
+
+.mainbooks .books .mainpagination .pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.mainbooks .books .mainpagination .pagination a.active {
+  background-color: #7e3644;
+  color: white;
+  border-radius: 5px;
+}
+
+.mainbooks .books .mainpagination .pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+.mainbooks .books .onebook a h4:hover {
+  text-decoration: underline;
+  color: #7e3644;
 }
 
 .mainfooter {
