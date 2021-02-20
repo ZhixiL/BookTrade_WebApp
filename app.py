@@ -77,8 +77,10 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
 @app.route("/")
 @app.route("/index")
 def index():
-    if 'user' in session:
-        return render_template('index.html', user=session['user'])
+    if 'user' in session:#Ensure the user's full name is send to post.html
+        user = Account.query.filter_by(username=session['user']).first(
+        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+        return render_template('index.html', user=user)
     else:
         return render_template('index.html', user='offline')
 
@@ -119,8 +121,9 @@ def login():
 
 @app.route("/post", methods=['POST', 'GET'])
 def post():
-    if 'user' in session: #Ensure the user name is send to post.html
-        user = session['user']
+    if 'user' in session: 
+        user = Account.query.filter_by(username=session['user']).first(
+        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         user = 'offline'
     name_of_book = request.form.get('Book Name')
@@ -138,7 +141,8 @@ def msg():
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
     if 'user' in session:
-        user = session['user']
+        user = Account.query.filter_by(username=session['user']).first(
+        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         user = 'offline'
     bklist = Post.query.order_by(Post.time).all() #in default order by post time
