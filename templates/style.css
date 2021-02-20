@@ -218,6 +218,24 @@ in the middle of the page */
   margin-left: 200px;
 }
 
+.mainpostbg .mainpost .postedbooks .onebook {
+  float: left;
+  height: 215px;
+  width: 213.5px;
+  padding: 15px 17.51px;
+}
+
+.mainpostbg .mainpost .postedbooks .onebook .bookpic {
+  height: 125px;
+  width: 214px;
+  background: url(images/tempbook.jpg);
+}
+
+.mainpostbg .mainpost .postedbooks .onebook a h4 {
+  margin: 20px 0;
+  color: #000000;
+}
+
 .mainfooter {
   width: auto;
   height: 131px;
