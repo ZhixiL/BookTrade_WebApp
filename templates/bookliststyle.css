@@ -122,19 +122,113 @@ li {
 .mainbooks .books .heading {
   height: 80px;
   width: auto;
+  padding-top: 15px;
 }
 
 .mainbooks .books .heading .btn {
-  margin: 0 20px;
+  margin: 0 70px;
 }
 
-.mainbooks .books .heading .btn .sorttag {
-  width: 10px;
-  height: 5px;
+.mainbooks .books .heading .btn .tag {
+  float: left;
+  width: 60px;
+  height: 22px;
+  line-height: 22px;
+  margin-right: 350px;
   font-size: 14px;
+  text-align: center;
   color: white;
-  background-color: blue;
+  background-color: rgb(76, 76, 241);
   border-style: solid;
   border-color: #000000;
-  box-shadow: tomato;
+  border-radius: 10px;
+  border-width: 2px;
+  /* box-shadow: tomato; */
+}
+
+.mainbooks .books .heading .btn2 {
+  margin-left: 70px;
+}
+
+.mainbooks .books .heading .btn2 .sort {
+  display: inline;
+  float: left;
+  width: 190px;
+  height: 15px;
+  margin-right: 225px;
+  margin-top: 20px;
+}
+
+.mainbooks .books .heading .btn2 .subject {
+  display: inline;
+  float: left;
+  width: 190px;
+  height: 15px;
+  margin-right: 200px;
+  margin-top: 20px;
+}
+
+.mainbooks .books .listingbooks {
+  height: 900px;
+  margin: 20px 50px;
+  border-style: dotted;
+  border-radius: 2px;
+  border-color: #000000;
+}
+
+.mainfooter {
+  width: auto;
+  height: 131px;
+  background-color: #7e3644;
+}
+
+/* footer section */
+.footer {
+  width: 1400px;
+  height: 130px;
+  margin: auto;
+  background-color: #7e3644;
+}
+
+.footer .info {
+  margin: 0 200px;
+}
+
+/* logo section */
+.footer .info .logo2 img {
+  float: left;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+/* copyright section */
+.footer .info .copyright {
+  float: left;
+  margin-left: 200px;
+  margin-right: 100px;
+  margin-top: 50px;
+}
+
+/* copyright image */
+.footer .info .copyright img {
+  display: inline;
+}
+
+/* CEN4020L group5 */
+.footer .info .copyright h6 {
+  display: inline;
+}
+
+/* nav in the footer */
+.footer .info .footernavi {
+  padding: 60px 0;
+}
+
+.footer .info .footernavi a {
+  margin: 0 30px;
+  color: #000000;
+}
+
+.footer .info .footernavi a:hover {
+  color: blue;
 }
