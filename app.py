@@ -129,7 +129,7 @@ def booklist():
     if 'user' in session:
         user = session['user']
     else:
-        user = 'offline
+        user = 'offline'
     return render_template("booklist.html", user = user, booktitle="none")
 
 if __name__ == '__main__':
