@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book List</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bookliststyle.css') }}">
+    <link rel="stylesheet" href="bookliststyle.css">
 </head>
 <body>
     <!-- This is the header section -->
@@ -13,7 +13,7 @@
         <div class="header w">
             <!-- logo -->
             <div class="logo">
-                <img src="templates/images/logo2.png" alt="">
+                <img src="images/logo2.png" alt="">
             </div>
     
             <!-- search box -->
@@ -24,7 +24,7 @@
     
             <!-- profile photo and name -->
             <div class="profile">
-                <img src="templates/images/profilepic.png" alt="">
+                <img src="images/profilepic.png" alt="">
                 <h5>{{user}}</h5>
             </div>
         </div>
@@ -34,12 +34,49 @@
         <div class="books">
             <div class="heading">
                 <div class="btn">
-                    <span class="sorttag">Sort By</span>
-                    <button type="button" class="sortbutton" onclick="sortRecent()">Recently Posted</button>
-                    <button type="button" class="sortbutton" onclick="sortRecent()">Alphabetically</button>
+                    <div class="tag">Sort By</div>
+                    <div class="tag">Subjects</div>
+                </div>
+                <div class="btn2">
+                    <div class="sort">
+                        <button type="button" class="sortbutton" onclick="sortRecent()">Recently Posted</button>
+                        <button type="button" class="sortbutton" onclick="sortRecent()">Alphabetically</button>
+                    </div>
+                    <div class="subject">
+                        <!-- list popular subjects -->
+                        <button type="button" class="subbutton1" onclick="sortSub()">temp</button>
+                        <!-- click on more for all subjects (scroll down menu) -->
+                        <button type="button" class="subbutton2" onclick="sortSub()">More</button>
+                    </div>
                 </div>
             </div>
+
+            <div class="listingbooks">
+
+            </div>
         </div>
+
+        <!-- This is the footer section -->
+   <div class="mainfooter">
+    <div class="footer">
+        <div class="info">
+            <!-- logo -->
+            <div class="logo2">
+                <img src="images/logo2.png" alt="">
+            </div>
+            <!-- copyright section -->
+            <div class="copyright">
+                <img src="images/copyright.png" alt="">
+                <h6>2021 CEN4020L Group 5</h6>
+            </div>
+            <!-- nav in the footer -->
+            <div class="footernavi">
+                <a href="#">Contact Us</a>
+                <a href="#">Commonly Asked Q&A</a>
+            </div>
+        </div>
+    </div>
+   </div>
     </div>
 <!-- This is a temp section just for place holder. Will be replaced by JS later. -->
     <script>
@@ -47,6 +84,9 @@
           
         }
         function sortAlpha() {
+
+        }
+        function sortSub() {
 
         }
         </script>
