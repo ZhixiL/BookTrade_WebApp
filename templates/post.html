@@ -1,34 +1,115 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="css/post.css">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='post.css') }}">
         <title>Post Webpage</title>
         <mete name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <img src="3.png" alt="books photo"/>
-        <p><b>Warning: </b>This website does not guarantee the accuracy, 
-            completeness, validity, timeliness, and legality of articles, 
-            information, pictures, materials, etc. posted by all users on 
-            this website. Please make your own judgment based on the situation. 
-            The user is responsible for the losses caused by misleading reading 
-            of the contents of this edition and other factors. This site has no 
-            responsibility.</p>
-        <br/>
+        <!-- This is the header section -->
+        <div class="header w">
+            <!-- logo -->
+            <div class="logo">
+                <img src="templates/images/logo2.png" alt="">
+            </div>
+    
+            <!-- search box      <img src="templates/images/fa-search.jpg" alt="">-->
+            <div class="search">
+                <input type="text" placeholder=" Search for a textbook">
+                <button></button>
+            </div>
+    
+            <!-- profile photo and name -->
+            <div class="profile">
+                <img src="templates/images/profilepic.png" alt="">
+                <h5>{{user}}</h5>
+            </div>
+        </div>
 
-        <form>
-            <br>Book Name: <input type="text" name = "Book Name"/></br>
-            <br>Price: <input type="text" name = "Price"/></br>
-            <br>Status: <input type="text" name = "Status"/></br>
-            <br>Category: <input type="text" name = "Category"/></br>
-            <br>Picture: <input type="file"/></br>
-            <br/>
-            Description:<br>
-            <textarea rows = "80" cols = "100" ></textarea></br>
-            <br/>
-            <button>Submit</button>
-        </form>
-        
+        <div class="banner">
+
+            <div class="book">
+                <img src="templates/images/books2.jpg" alt=" " style="width:71.5%"/>
+            </div>
+
+            <div class="Warning">
+                <p><br/><b>Warning: </b>This website does not guarantee the accuracy, 
+                    completeness, validity, timeliness, and legality of articles, 
+                    information, pictures, materials, etc. posted by all users on 
+                    this website. Please make your own judgment based on the situation. 
+                    The user is responsible for the losses caused by misleading reading 
+                    of the contents of this edition and other factors. This site has no 
+                    responsibility.</p>
+                <br/>
+            </div>
+            
+            <div class="inputs">
+                <form>
+                    <br/>
+                    <br/>
+                    <br>Book Name: <input type="text" name = "Book Name"/></br>
+                    <br>Price: <input type="text" name = "Price"/></br>
+                    <br><label for="status">Choose Status:</label>
+                    <select name="status" id="status">
+                        <option value="new">New</option>
+                        <option value="likeNew">Like new</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select></br>
+                    <br><label for="category">Choose Category:</label>
+                    <select name="category" id="category">
+                        <option value="artS">College of Arts and Sciences</option>
+                        <option value="business">College of Business</option>
+                        <option value="conmmunicationI">College of Communication & Information</option>
+                        <option value="criminologyCJ">College of Criminology and Criminal Justice</option>
+                        <option value="education">College of Education</option>
+                        <option value="engineering">College of Engineering</option>
+                        <option value="fineA">College of Fine Arts</option>
+                        <option value="humanS">College of Human Sciences</option>
+                        <option value="law">College of Law</option>
+                        <option value="medicine">College of Medicine</option>
+                        <option value="motionPA">College of Motion Picture Arts</option>
+                        <option value="music">College of Music</option>
+                        <option value="nursing">College of Nursing</option>
+                        <option value="socialSPP">College of Social Sciences and Public Policy</option>
+                        <option value="socialW">College of Social Work</option>
+                        <option value="dedmanCH">Dedman College of Hospitality</option>
+                        <option value="jimMCE">Jim Moran College of Entrepreneurship</option>
+                    </select></br>
+                    
+                    <br>Category: <input type="text" name = "Category"/></br>
+                    <br>Picture: <input type="file"/></br>
+                    <br/>
+                    Description:<br>
+                    <textarea roows = "80" cols = "100" ></textarea></br>
+                    <br/>
+                    <button>Submit</button>
+                </form>
+            </div>
+            
+        </div>
+
+        <!-- This is the footer section -->
+        <div class="footer">
+            <div class="info">
+                <!-- logo -->
+                <div class="logo2">
+                    <img src="templates/images/logo2.png" alt="">
+                </div>
+                <!-- copyright section -->
+                <div class="copyright">
+                    <img src="templates/images/copyright.png" alt="">
+                    <h6>2021 CEN4020L Group 5</h6>
+                </div>
+                <!-- nav in the footer -->
+                <div class="footernavi">
+                    <a href="#">Contact Us</a>
+                    <a href="#">Commonly Asked Q&A</a>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>
 
