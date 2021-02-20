@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import select
 #from inpforms import signinForm, signupForm #This API has been abandoned
 import datetime
 import time
@@ -86,8 +87,7 @@ def login():
         try:  # this will make sure all the extraneous situation gets reported as failed
             usr = str(request.form['User'])
             pas = str(request.form['Pass'])
-            temp = Account.query.filter_by(
-                username=usr).first()  # search for user info
+            temp = Account.query.filter_by(username=usr).first()  # search for user info
             if temp == None:  # this is the case where temp matches with no account
                 flash('Username does not exist!')
             elif temp.password == pas:  # temp has matched an account, veryfing the password
@@ -126,8 +126,11 @@ def msg():
 
 @app.route('/booklist', methods=['GET'])
 def booklist():
-    return render_template("booklist.html", booktitle="none")
-
+    if 'user' in session:
+        user = session['user']
+    else:
+        user = 'offline
+    return render_template("booklist.html", user = user, booktitle="none")
 
 if __name__ == '__main__':
     app.run(debug=True)
