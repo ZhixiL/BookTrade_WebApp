@@ -148,7 +148,28 @@ def booklist():
     bklist = Post.query.order_by(Post.time).all() #in default order by post time
     return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
             
+@app.route('/createAccPage')
+def createAccPage():
+    return render_template("createAccount.html")
 
+@app.route('/createAcc', methods=['POST', 'GET])
+def createAcc():
+    if request.method == 'POST':
+        try:
+            username = request.form['username']
+            pwd = request.form['pwd1']
+            firstName = request.form['firstName']
+            lastName = request.form['lastName']
+            gender = request.form['gender']
+            email = request.form['emailAddress']
+            phoneNumber = request.form['phoneNumber']
+            aboutMe = request.form['aboutMe']
+            #add the above variables to a database
+        except:
+            #rollback if data go through to database
+            i = 1 #dummy variable
+        finally:
+            render_template("/")
 
 if __name__ == '__main__':
     app.run(debug=True)
