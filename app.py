@@ -152,7 +152,7 @@ def booklist():
 def createAccPage():
     return render_template("createAccount.html")
 
-@app.route('/createAcc', methods=['POST', 'GET])
+@app.route('/createAcc', methods=['POST', 'GET'])
 def createAcc():
     if request.method == 'POST':
         try:
