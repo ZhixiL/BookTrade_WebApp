@@ -119,18 +119,21 @@ def login():
 
 @app.route("/post", methods=['POST', 'GET'])
 def post():
+    if 'user' in session: #Ensure the user name is send to post.html
+        user = session['user']
+    else:
+        user = 'offline'
     name_of_book = request.form.get('Book Name')
     post_price = request.form.get('Price')
     status = request.form.get('Status')
     category = request.form.get('Category')
     picture = request.form.get('file')
-    return render_template('post.html')
+    return render_template('post.html', user = user)
 
 
 @app.route('/msg', methods=['POST', 'GET'])
 def msg():
     return render_template("message.html", msg="placeholder")
-
 
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():

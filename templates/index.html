@@ -10,27 +10,8 @@
 </head>
 
 <body>
-    <!-- This is the header section -->
-    <div class="mainheader">
-        <div class="header w">
-            <!-- logo -->
-            <div class="logo">
-                <img src="templates/images/logo2.png" alt="">
-            </div>
-    
-            <!-- search box -->
-            <div class="search">
-                <input type="text" placeholder=" Search for a textbook">
-                <button></button>
-            </div>
-    
-            <!-- profile photo and name -->
-            <div class="profile">
-                <img src="templates/images/profilepic.png" alt="">
-                <h5>{{user}}</h5>
-            </div>
-        </div>
-    </div>
+    {% extends "design_temp.html" %}
+    {% block content %}
  <div class="mainbanner">
     <div class="banner">
         <!-- background image -->
@@ -166,27 +147,7 @@
     </div>
    </div>
 
-    <!-- This is the footer section -->
-   <div class="mainfooter">
-    <div class="footer">
-        <div class="info">
-            <!-- logo -->
-            <div class="logo2">
-                <img src="templates/images/logo2.png" alt="">
-            </div>
-            <!-- copyright section -->
-            <div class="copyright">
-                <img src="templates/images/copyright.png" alt="">
-                <h5>2021 CEN4020L Group 5</h5>
-            </div>
-            <!-- nav in the footer -->
-            <div class="footernavi">
-                <a href="#">Contact Us</a>
-                <a href="#">Commonly Asked Q&A</a>
-            </div>
-        </div>
-    </div>
-   </div>
+   {% endblock content %}
 </body>
 
 </html>
