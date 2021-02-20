@@ -41,7 +41,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
     
-    def __repr__(self):
+    def __repr__(self):#Important, for when you cann the object, it returns tuple
         return 'Account({firstname},{lastname},{username},{avatar},{email},{fsuid})'.format(
             firstname=self.firstname, lastname=self.lastname, username=self.username, 
             avatar=self.avatar, email=self.email,fsuid=self.fsuid)
@@ -137,7 +137,6 @@ def booklist():
         user = session['user']
     else:
         user = 'offline'
-    allbooks = wadb.session.execute(wadb.select(post).order_by(post.bookname))
     return render_template("booklist.html", user = user, booktitle="none")
 
 if __name__ == '__main__':
