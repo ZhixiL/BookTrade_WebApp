@@ -69,8 +69,8 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # Assumption that body is the same as description in post.html
 
     def __repr__(self):
-        return 'Account({time},{by},{bookname},{price},{stat},{category},{picture},{description})'.format(
-            time=self.time,by=self.by,bookname=self.bookname,price=self.price,stat=self.stat,category=self.category,
+        return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
+            time=self.time,by=self.by,bookname=self.bookname,price=self.price,stat=self.stat,college=self.college,
             picture=self.picture,description=self.description)
 
 
@@ -132,13 +132,16 @@ def msg():
     return render_template("message.html", msg="placeholder")
 
 
-@app.route('/booklist', methods=['GET'])
+@app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
     if 'user' in session:
         user = session['user']
     else:
         user = 'offline'
-    return render_template("booklist.html", user = user, booktitle="none")
+    bklist = Post.query.order_by(Post.time).all() #in default order by post time
+    return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
+            
+
 
 if __name__ == '__main__':
     app.run(debug=True)
