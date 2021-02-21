@@ -193,7 +193,6 @@ def createAcc():
             lastName = request.form['lastName']
             email = request.form['emailAddress']
             fsuid = request.form['fsuId']
-            aboutMe = request.form['aboutMe']
         except:
             # rollback if data go through to database
             i = 1  # dummy variable
