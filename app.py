@@ -191,16 +191,14 @@ def createAcc():
             pwd = request.form['pwd1']
             firstName = request.form['firstName']
             lastName = request.form['lastName']
-            gender = request.form['gender']
             email = request.form['emailAddress']
-            phoneNumber = request.form['phoneNumber']
+            fsuid = request.form['fsuId']
             aboutMe = request.form['aboutMe']
-            # add the above variables to a database
         except:
             # rollback if data go through to database
             i = 1  # dummy variable
         finally:
-            render_template("/")
+            return redirect("/")
 
 
 if __name__ == '__main__':
