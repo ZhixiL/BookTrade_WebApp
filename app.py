@@ -145,9 +145,21 @@ def booklist():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         user = 'offline'
-    bklist = Post.query.order_by(Post.time).all() #in default order by post time
-    return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
-            
+
+    if request.method == 'GET':
+        bklist = Post.query.order_by(Post.time).all() #in default order by post time
+        return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
+
+    else: #this is POST request, from search.
+        key = str(request.form['keywords'])
+        bklist = Post.query.filter(Post.bookname.contains(key)).order_by(Post.time).all()
+        if not bklist: #This is the case for nothing found
+            return redirect(url_for('index'))
+        else:
+            return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
+
+
+
 @app.route('/createAccPage')
 def createAccPage():
     return render_template("createAccount.html")
@@ -170,6 +182,8 @@ def createAcc():
             i = 1 #dummy variable
         finally:
             render_template("/")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
