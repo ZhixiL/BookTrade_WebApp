@@ -59,90 +59,14 @@
 
         <!-- book section -->
         <div class="postedbooks">
+            {% for bk in bklist %}
             <div class="onebook">
                 <div class="bookpic">
-
                 </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
+                <a href="#" ><h4>{{bk["bookname"]}}</h4></a>
+                <h5>${{bk["price"]}}&nbsp &nbsp Posted By: {{bk["by"]}}</h5>
             </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
-            <div class="onebook">
-                <div class="bookpic">
-
-                </div>
-                <a href="#" ><h4>Title Here</h4></a>
-                <h6>Price Here</h6>
-            </div>
+            {% endfor %}
         </div>
     </div>
    </div>
