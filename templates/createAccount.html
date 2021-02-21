@@ -1,76 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<script>
+			// Function to check whether password1 and 
+			// password2 are the same. 
+            function checkPassword(form) { 
+                password1 = form.pwd1.value; 
+                password2 = form.pwd2.value; 
+  
+                if (password1 == '') 
+                    alert ("Please enter Password");  
+                else if (password2 == '') 
+                    alert ("Please enter Confirm password"); 
+                else if (password1 != password2) { 
+                    alert ("Passwords do not match: Please try again...") 
+                    return false; 
+                } 
+                else 
+                    return true; 
+            } 
+		</script>
 		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatibl" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Create Account</title>
-		<!-- import style.css -->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='createAccount.css') }}">
 	</head>
 	<body>
-		<div>
-			<h1>Website Info</h1>
-		</div>
-		<div>
-			<h1>Agreements</h1>
-		</div>
-		<hr/>
-		<form action= "{{ url_for('createAcc') }}" method = "POST">	
-			<label for="Username">Username:</label>
-			<input type="text" name="username" id="username"><br><br>
+		{% extends "design_temp.html" %}
+		{% block content %}
+		<br><br><br>
+		<form action= "{{ url_for('createAcc') }}" method = "POST" class="form1">
+			<div class="box1">	
+				<h3>Create Your Book Trade Account<h3><br><br>
 			
-			<label for="pwd1">Password:</label>
-			<input type="password" name="pwd1" id="pwd1"><br><br>
-
-			<label for="pwd2">Confirm Password:</label>
-			<input type="password" name="pwd2" id="pwd2"><br><br>
-
-			<label for="firstName">First Name:</label>
-			<input type="text" name="firstName" id="firstName"><br><br>
-			
-			<label for="lastName">Last Name:</label>
-			<input type="text" name="lastName" id="lastName"><br><br>
-			
-			Gender:
-			<label for="male">Male</label>
-			<input type="radio" name="gender" id="male" value="male">
-			<label for="female">Female</label>
-			<input type="radio" name="gender" id="female" value="female"><br><br>
-			
-			<label for="emailAddress">Email:</label>
-			<input type="email" name="emailAddress" id="emailAddress"><br><br>
-			
-			<label for="phoneNumber">Phone Number:</label>
-			<input type="tel" name="phoneNumber" id="phoneNumber"><br><br>
-			
-			<label for="aboutMe">About Me:</label><br>
-			<textarea row="30" cols="50" name="aboutMe" id="aboutMe"/></textarea><br><br>
-				
-			<input type="submit" value="Submit">
+				<input type="text" name="firstName" id="firstName" placeholder="First Name">
+				<input type="text" name="lastName" id="lastName" placeholder="Last Name"><br><br>
+				<input type="text" name="username" id="username" placeholder="Username"><br><br>
+				<input type="password" name="pwd1" id="pwd1" placeholder="Password">
+				<input type="password" name="pwd2" id="pwd2" placeholder="ConfirmPassword"><br><br>
+				<input type="email" name="emailAddress" id="emailAddress" placeholder="emailAddress"><br><br>	
+				<input type="text" name="fsuId" id="fsuId" placeholder="fsuId"><br><br>
+				<input type="submit" value="Submit">
+			</div>
 		</form>
-		<br><a href="/">Back to Home</a><br>
-
-		<!-- This is the footer section -->
-   		<div class="mainfooter">
-    		<div class="footer">
-        		<div class="info">
-            		<!-- logo -->
-            		<div class="logo2">
-                		<img src="templates/images/logo2.png" alt="">
-            		</div>
-            		<!-- copyright section -->
-            		<div class="copyright">
-                		<img src="templates/images/copyright.png" alt="">
-                		<h6>2021 CEN4020L Group 5</h6>
-            		</div>
-            		<!-- nav in the footer -->
-            		<div class="footernavi">
-                		<a href="#">Contact Us</a>
-                		<a href="#">Commonly Asked Q&A</a>
-            		</div>
-        		</div>
-    		</div>
-   		</div>	
-	
+		<br><br><br>
+		{% endblock content %}
 	</body>
 </html>
