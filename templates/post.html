@@ -5,6 +5,17 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='post.css') }}">
         <title>Post Webpage</title>
         <mete name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            input{
+                border: 2px solid black;
+            }
+            select{
+                border: 2px solid  black;
+            }
+            textarea{
+                border: 2px solid black;
+            }
+        </style> 
     </head>
     <body>
         {% extends "design_temp.html" %}
@@ -31,17 +42,17 @@
                 <form>
                     <br/>
                     <br/>
-                    <br>Book Name: <input type="text" name = "Book Name"/></br>
-                    <br>Price: <input type="text" name = "Price"/></br>
+                    <br>Book Name: <input type="text" name = "Book Name" required="required"/></br>
+                    <br>Price: <input type="text" name = "Price" required="required"/></br>
                     <br><label for="status">Choose Status:</label>
-                    <select name="status" id="status">
+                    <select name="status" id="status" required="required">
                         <option value="new">New</option>
                         <option value="likeNew">Like new</option>
                         <option value="good">Good</option>
                         <option value="fair">Fair</option>
                     </select></br>
                     <br><label for="category">Choose Category:</label>
-                    <select name="category" id="category">
+                    <select name="category" id="category" required="required">
                         <option value="artS">College of Arts and Sciences</option>
                         <option value="business">College of Business</option>
                         <option value="conmmunicationI">College of Communication & Information</option>
@@ -60,12 +71,11 @@
                         <option value="dedmanCH">Dedman College of Hospitality</option>
                         <option value="jimMCE">Jim Moran College of Entrepreneurship</option>
                     </select></br>
-                    
-                    <br>Category: <input type="text" name = "Category"/></br>
-                    <br>Picture: <input type="file"/></br>
+                    <br>Picture: <input type="file" required="required"/></br>
                     <br/>
-                    Description:<br>
-                    <textarea roows = "80" cols = "100" ></textarea></br>
+                    <label for="description">Description:</label>
+                    <br/>
+                    <textarea id="description" name="description" rows="8" cols="100"></textarea>
                     <br/>
                     <button>Submit</button>
                 </form>
