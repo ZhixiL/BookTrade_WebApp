@@ -77,8 +77,8 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
             picture=self.picture, description=self.description)
 
 
-@app.route("/", methods=['POST', 'GET'])
-@app.route("/index", methods=['POST', 'GET'])
+@app.route("/", methods=['GET'])
+@app.route("/index", methods=['GET'])
 def index():
     if 'user' in session:  # Ensure the user's full name is send to post.html
         user = Account.query.filter_by(username=session['user']).first(
@@ -86,18 +86,9 @@ def index():
     else:
         user = 'offline'
 
-    if request.method == 'GET':
-        bklist = Post.query.order_by(Post.time).limit(
-            12).all()  # 12 most recently posted books
-        return render_template("index.html", user=user, booktitle="none", bklist=bklist)
-    else:  # this is POST request, from search.
-        key = str(request.form['keywords'])
-        bklist = Post.query.filter(
-            Post.bookname.contains(key)).order_by(Post.time).all()
-        if not bklist:  # This is the case for nothing found
-            return redirect(url_for('index'))
-        else:
-            return render_template("index.html", user=user, booktitle="none", bklist=bklist)
+    bklist = Post.query.order_by(Post.time).limit(
+        12).all()  # 12 most recently posted books
+    return render_template("index.html", user=user, booktitle="none", bklist=bklist)
 
 
 @app.route("/signout")
