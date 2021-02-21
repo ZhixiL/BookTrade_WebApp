@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
-#from inpforms import signinForm, signupForm #This API has been abandoned
+# from inpforms import signinForm, signupForm #This API has been abandoned
 import datetime
 import time
 import os
@@ -32,8 +32,9 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     firstname = wadb.Column(wadb.String(30), nullable=False)
     lastname = wadb.Column(wadb.String(30), nullable=False)
     # unique because every user need their own username to login
-    username = wadb.Column(wadb.String(30), nullable=False, unique=True, primary_key=True)
-    #The username will also served as the primary key for other table to reference back.
+    username = wadb.Column(wadb.String(30), nullable=False,
+                           unique=True, primary_key=True)
+    # The username will also served as the primary key for other table to reference back.
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
@@ -41,28 +42,30 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
-    
-    def __repr__(self):#Important, for when you cann the object, it returns tuple
+
+    def __repr__(self):  # Important, for when you cann the object, it returns tuple
         return 'Account({firstname},{lastname},{username},{avatar},{email},{fsuid})'.format(
-            firstname=self.firstname, lastname=self.lastname, username=self.username, 
-            avatar=self.avatar, email=self.email,fsuid=self.fsuid)
+            firstname=self.firstname, lastname=self.lastname, username=self.username,
+            avatar=self.avatar, email=self.email, fsuid=self.fsuid)
+
 
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
-    time = wadb.Column(wadb.DateTime, nullable=False) 
-    #Keep track of time when listing are posted ^^
+    time = wadb.Column(wadb.DateTime, nullable=False)
+    # Keep track of time when listing are posted ^^
     by = wadb.Column(wadb.Integer, wadb.ForeignKey('account.username'))
     # this will connect back to the account through account's ^^
     bookname = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    price = wadb.Column(wadb.Float, nullable=False, default = 0)
+    price = wadb.Column(wadb.Float, nullable=False, default=0)
     # User has to input the price of their listing with up to 2 decimals ^^
-    stat = wadb.Column(wadb.String(30), nullable=False, default = "New")
+    stat = wadb.Column(wadb.String(30), nullable=False, default="New")
     # Status example: "New", "Some wear", "Teared pages", etc.^^
     college = wadb.Column(wadb.String(30), nullable=False)
     # User must state what college the book is belong to ^^
-    picture = wadb.Column(wadb.String(30), default='///templates/images/default_book.jpg', nullable=False)
+    picture = wadb.Column(wadb.String(
+        30), default='///templates/images/default_book.jpg', nullable=False)
     # Allows user to input an image, and has a default in case user does not input a picture ^^
     description = wadb.Column(wadb.String(100), nullable=True)
     # User is able to put a body to their post^^
@@ -70,19 +73,31 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
 
     def __repr__(self):
         return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
-            time=self.time,by=self.by,bookname=self.bookname,price=self.price,stat=self.stat,college=self.college,
-            picture=self.picture,description=self.description)
+            time=self.time, by=self.by, bookname=self.bookname, price=self.price, stat=self.stat, college=self.college,
+            picture=self.picture, description=self.description)
 
 
-@app.route("/")
-@app.route("/index")
+@app.route("/", methods=['POST', 'GET'])
+@app.route("/index", methods=['POST', 'GET'])
 def index():
-    if 'user' in session:#Ensure the user's full name is send to post.html
+    if 'user' in session:  # Ensure the user's full name is send to post.html
         user = Account.query.filter_by(username=session['user']).first(
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
-        return render_template('index.html', user=user)
     else:
-        return render_template('index.html', user='offline')
+        user = 'offline'
+
+    if request.method == 'GET':
+        bklist = Post.query.order_by(Post.time).limit(
+            12).all()  # 12 most recently posted books
+        return render_template("index.html", user=user, booktitle="none", bklist=bklist)
+    else:  # this is POST request, from search.
+        key = str(request.form['keywords'])
+        bklist = Post.query.filter(
+            Post.bookname.contains(key)).order_by(Post.time).all()
+        if not bklist:  # This is the case for nothing found
+            return redirect(url_for('index'))
+        else:
+            return render_template("index.html", user=user, booktitle="none", bklist=bklist)
 
 
 @app.route("/signout")
@@ -97,7 +112,8 @@ def login():
         try:  # this will make sure all the extraneous situation gets reported as failed
             usr = str(request.form['User'])
             pas = str(request.form['Pass'])
-            temp = Account.query.filter_by(username=usr).first()  # search for user info
+            temp = Account.query.filter_by(
+                username=usr).first()  # search for user info
             if temp == None:  # this is the case where temp matches with no account
                 flash('Username does not exist!')
             elif temp.password == pas:  # temp has matched an account, veryfing the password
@@ -121,7 +137,7 @@ def login():
 
 @app.route("/post", methods=['POST', 'GET'])
 def post():
-    if 'user' in session: 
+    if 'user' in session:
         user = Account.query.filter_by(username=session['user']).first(
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
@@ -131,12 +147,13 @@ def post():
     status = request.form.get('Status')
     category = request.form.get('Category')
     picture = request.form.get('file')
-    return render_template('post.html', user = user)
+    return render_template('post.html', user=user)
 
 
 @app.route('/msg', methods=['POST', 'GET'])
 def msg():
     return render_template("message.html", msg="placeholder")
+
 
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
@@ -147,22 +164,24 @@ def booklist():
         user = 'offline'
 
     if request.method == 'GET':
-        bklist = Post.query.order_by(Post.time).all() #in default order by post time
-        return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
+        # in default order by post time
+        bklist = Post.query.order_by(Post.time).all()
+        return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
-    else: #this is POST request, from search.
+    else:  # this is POST request, from search.
         key = str(request.form['keywords'])
-        bklist = Post.query.filter(Post.bookname.contains(key)).order_by(Post.time).all()
-        if not bklist: #This is the case for nothing found
+        bklist = Post.query.filter(
+            Post.bookname.contains(key)).order_by(Post.time).all()
+        if not bklist:  # This is the case for nothing found
             return redirect(url_for('index'))
         else:
-            return render_template("booklist.html", user = user, booktitle="none", bklist = bklist)
-
+            return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
 
 @app.route('/createAccPage')
 def createAccPage():
     return render_template("createAccount.html")
+
 
 @app.route('/createAcc', methods=['POST', 'GET'])
 def createAcc():
@@ -176,13 +195,12 @@ def createAcc():
             email = request.form['emailAddress']
             phoneNumber = request.form['phoneNumber']
             aboutMe = request.form['aboutMe']
-            #add the above variables to a database
+            # add the above variables to a database
         except:
-            #rollback if data go through to database
-            i = 1 #dummy variable
+            # rollback if data go through to database
+            i = 1  # dummy variable
         finally:
             render_template("/")
-
 
 
 if __name__ == '__main__':
