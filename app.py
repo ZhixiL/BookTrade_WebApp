@@ -130,7 +130,7 @@ def booklist():
     else:  #This is the case for search
         key = str(request.form['keywords'])
         bklist = Post.query.filter(
-            Post.bookname.contains(key)).order_by(Post.time).all()
+            Post.bookname.contains(key)).order_by(Post.time).limit(12)
         if not bklist:  # This is the case for nothing found
             return redirect(url_for('index'))
         else:
