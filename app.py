@@ -162,17 +162,17 @@ def post():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         user = 'offline'
-    if post.method == 'GET':
+    if request.method == 'GET':
 
         return render_template('post.html', user=user)
     else: #Separation of post & get
-        name_of_book = request.form.get('Book Name')
-        post_price = request.form.get('Price')
-        status = request.form.get('Status')
-        category = request.form.get('Category')
+        name_of_book = request.form.get('BookName')
+        post_price = float(round(request.form.get('Price'),2)) #ensure pricing is precisely round to 2 decimal place.
+        status = request.form.get('status')
+        category = request.form.get('category')
         picture = request.form.get('file')
         return render_template('post.html', user=user)
-#End Yuanyuan, Wesley
+#End Yuanyuan, Wesley, Zhixi Lin
 
 
 #Following are the code by Dennis Majanos, Wesley White
