@@ -154,7 +154,7 @@ def index():
 #End Yuki & Zack
 
 
-#Following are the code by Yuanyuan Bao, Wesley White
+#Following are the code by Yuanyuan Bao, Wesley White, Zhixi Lin
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     if 'user' in session:
@@ -162,12 +162,16 @@ def post():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         user = 'offline'
-    name_of_book = request.form.get('Book Name')
-    post_price = request.form.get('Price')
-    status = request.form.get('Status')
-    category = request.form.get('Category')
-    picture = request.form.get('file')
-    return render_template('post.html', user=user)
+    if post.method == 'GET':
+
+        return render_template('post.html', user=user)
+    else: #Separation of post & get
+        name_of_book = request.form.get('Book Name')
+        post_price = request.form.get('Price')
+        status = request.form.get('Status')
+        category = request.form.get('Category')
+        picture = request.form.get('file')
+        return render_template('post.html', user=user)
 #End Yuanyuan, Wesley
 
 
