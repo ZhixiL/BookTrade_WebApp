@@ -35,6 +35,13 @@
 
             <!-- This should be put into a for loop to display all books -->
             <div class="listingbooks">
+                <!--Giving User feedback when no search result found.-->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <br><br><br>
+                    <center><h3>{{ message }}</h3></center>
+                {% endfor %}{% endif %}{% endwith %}
 
                 {% for bk in bklist %}
                 <div class="onebook">

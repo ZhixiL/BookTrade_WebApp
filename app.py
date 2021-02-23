@@ -34,6 +34,8 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # this will connect back to the account through account's ^^
     bookname = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
+    author = wadb.Column(wadb.String(30), nullable=False, default = "Author Not Specified")
+    # Storing the author of the textbook^
     price = wadb.Column(wadb.Float, nullable=False, default=0)
     # User has to input the price of their listing with up to 2 decimals ^^
     stat = wadb.Column(wadb.String(30), nullable=False, default="New")
@@ -129,10 +131,10 @@ def booklist():
 
     else:  #This is the case for search
         key = str(request.form['keywords'])
-        bklist = Post.query.filter(
-            Post.bookname.contains(key)).order_by(Post.time).limit(12)
+        bklist = list(Post.query.filter(Post.bookname.contains(key)).order_by(Post.time).limit(12))
         if not bklist:  # This is the case for nothing found
-            return redirect(url_for('index'))
+            flash('Nothing was found!')
+            return render_template('booklist.html', user=user, booktitle="none", bklist=bklist)
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 #End Zack
@@ -161,11 +163,14 @@ def post():
         user = Account.query.filter_by(username=session['user']).first(
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
-        user = 'offline'
-    if request.method == 'GET':
+        flash('Please Sign in Before Posting!')
+        return render_template('login.html')
+        #User are not allowed to enter new post without signed in.
 
+    if request.method == 'GET':
         return render_template('post.html', user=user)
     else: #Separation of post & get
+        post_by = session['user']
         name_of_book = request.form.get('BookName')
         post_price = float(round(request.form.get('Price'),2)) #ensure pricing is precisely round to 2 decimal place.
         status = request.form.get('status')
