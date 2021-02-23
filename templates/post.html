@@ -8,9 +8,11 @@
         <style>
             input{
                 border: 2px solid black;
+                height: 30px;
             }
             select{
                 border: 2px solid  black;
+                height: 30px;
             }
             textarea{
                 border: 2px solid black;
@@ -20,13 +22,10 @@
     <body>
         {% extends "design_temp.html" %}
         {% block content %}
-
         <div class="banner">
-
             <div class="book">
                 <img src="templates/images/books2.jpg" alt=" " style="width:71.5%"/>
             </div>
-
             <div class="Warning">
                 <p><br/><b>Warning: </b>This website does not guarantee the accuracy, 
                     completeness, validity, timeliness, and legality of articles, 
@@ -37,12 +36,11 @@
                     responsibility.</p>
                 <br/>
             </div>
-            
             <div class="inputs">
-                <form>
-                    <br/>
-                    <br/>
+                <form action="{{ url_for('post') }}" method = "POST">
+                    <br/><br/>
                     <br>Book Name: <input type="text" name = "BookName" required="required"/></br>
+                    <br>Author: <input type="text" name = "Author" required="required"/></br>
                     <br>Price: $ <input type="number" name = "Price" min="0.00" max="500.00" step="0.01" required="required"/></br>
                     <br><label for="status">Choose Status:</label>
                     <select name="status" id="status" required="required">
@@ -71,20 +69,17 @@
                         <option value="dedmanCH">Dedman College of Hospitality</option>
                         <option value="jimMCE">Jim Moran College of Entrepreneurship</option>
                     </select></br>
-                    <br>Picture: <input type="file"/></br>
+                    <br>Picture: <input type="file" required="required"/></br>
                     <br/>
                     <label for="description">Description:</label>
                     <br/>
-                    <textarea id="description" name="description" rows="8" cols="100"></textarea>
+                    <textarea id="description" name="description" rows="8" cols="100"></textarea>                    
                     <br/>
-                    <button>Submit</button>
+                    <center><button>Submit</button></center>                   
                 </form>
-            </div>
-            
+            </div>            
         </div>
-
         {% endblock content %}
-
     </body>
 </html>
 
