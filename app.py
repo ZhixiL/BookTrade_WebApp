@@ -137,6 +137,19 @@ def booklist():
             return render_template('booklist.html', user=user, booktitle="none", bklist=bklist)
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
+
+@app.route('/bookdetail', methods=['POST', 'GET']) #Still developing, postponed to iteration 2
+def bookdetail():
+    if 'user' in session:
+        user = Account.query.filter_by(username=session['user']).first(
+        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+    else:
+        user = 'offline'
+    if request.method == 'GET':
+        return render_template(listdetail.html, user=user)
+        #return redirect(url_for('index')) #This page is not allowed to be accessed directly
+    else: #post request
+        pass
 #End Zack
 
 
@@ -184,7 +197,8 @@ def post():
 @app.route('/createAccPage')
 def createAccPage():
     return render_template("createAccount.html")
-
+#You don't need two routes here, you can just use one route &
+#separate Get & Post request by if statements - (from Zack)
 @app.route('/createAcc', methods=['POST', 'GET'])
 def createAcc():
     if request.method == 'POST':
