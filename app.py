@@ -75,7 +75,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
-    email = wadb.Column(wadb.String(100), nullable=False, unique=False)
+    email = wadb.Column(wadb.String(100), nullable=False, unique=True)
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
