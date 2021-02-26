@@ -34,7 +34,11 @@
 		<form action= "{{ url_for('createAcc') }}" method = "POST" class="form1">
 			<div class="box1">	
 				<h3>Create Your Book Trade Account<h3><br><br>
-			
+				{% with messages = get_flashed_messages() %}
+                    		{% if messages %}
+                    		{% for message in messages %}
+                    		<center><h4>{{ message }}</h4></center>
+                    		{% endfor %}{% endif %}{% endwith %}
 				<input type="text" name="firstName" id="firstName" placeholder="First Name">
 				<input type="text" name="lastName" id="lastName" placeholder="Last Name"><br><br>
 				<input type="text" name="username" id="username" placeholder="Username"><br><br>
@@ -43,6 +47,8 @@
 				<input type="email" name="emailAddress" id="emailAddress" placeholder="emailAddress"><br><br>	
 				<input type="text" name="fsuId" id="fsuId" placeholder="fsuId"><br><br>
 				<input type="submit" value="Submit">
+			
+
 			</div>
 		</form>
 		<br><br><br>
