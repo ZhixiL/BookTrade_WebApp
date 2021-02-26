@@ -1,7 +1,10 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
 # from inpforms import signinForm, signupForm #This API has been abandoned
-import datetime, time, os, re
+import datetime
+import time
+import os
+import re
 '''
 --- DATABASE EXPLAIN ---
 The models below will be declared using SQLAlchemy ORM
@@ -13,7 +16,7 @@ More Reference avaliable on above link.
 *Since we're using sqlite3, when declaring model with attribute String, specify the size.
 --- comment by Zhixi Lin ---
 '''
-#Contribution: The name on each section on app.py is ordered by contribution: Most -> Least
+# Contribution: The name on each section on app.py is ordered by contribution: Most -> Least
 
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
@@ -23,7 +26,9 @@ wadb = SQLAlchemy(app)  # Web app database, referencing
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-#Following are the code by Wesley & Zhixi Lin (Zack)
+# Following are the code by Wesley & Zhixi Lin (Zack)
+
+
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     __tablename__ = 'post'
     id = wadb.Column(wadb.Integer, primary_key=True)
@@ -33,7 +38,8 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # this will connect back to the account through account's ^^
     bookname = wadb.Column(wadb.String(30), nullable=False)
     # User must input a Title of their post^^
-    author = wadb.Column(wadb.String(30), nullable=False, default = "Author Not Specified")
+    author = wadb.Column(wadb.String(30), nullable=False,
+                         default="Author Not Specified")
     # Storing the author of the textbook^
     price = wadb.Column(wadb.Float, nullable=False, default=0)
     # User has to input the price of their listing with up to 2 decimals ^^
@@ -51,9 +57,11 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
         return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
             time=self.time, by=self.by, bookname=self.bookname, price=self.price, stat=self.stat, college=self.college,
             picture=self.picture, description=self.description)
-#End Wesley & Zack
+# End Wesley & Zack
 
-#Following are the code by Zhixi Lin (Zack)
+# Following are the code by Zhixi Lin (Zack)
+
+
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
     __tablename__ = 'account'  # table name will generally be lower case
     # When Refer back to this table, use the lower case table name
@@ -67,7 +75,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
-    email = wadb.Column(wadb.String(100), nullable=False, unique=True)
+    email = wadb.Column(wadb.String(100), nullable=False, unique=False)
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
@@ -77,10 +85,12 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             firstname=self.firstname, lastname=self.lastname, username=self.username,
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
+
 @app.route("/signout")
 def signout():
     session.pop('user', None)
     return redirect("/")
+
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
@@ -109,9 +119,11 @@ def login():
         else:  # user didn't signed in
             return render_template('login.html')
 
+
 @app.route('/msg', methods=['POST', 'GET'])
 def msg():
     return render_template("message.html", msg="placeholder")
+
 
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
@@ -126,16 +138,19 @@ def booklist():
         bklist = Post.query.order_by(Post.time).all()
         return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
-    else:  #This is the case for search
+    else:  # This is the case for search
         key = str(request.form['keywords'])
-        bklist = list(Post.query.filter(Post.bookname.contains(key)).order_by(Post.time).limit(12))
+        bklist = list(Post.query.filter(
+            Post.bookname.contains(key)).order_by(Post.time).limit(12))
         if not bklist:  # This is the case for nothing found
             flash('Nothing was found!')
             return render_template('booklist.html', user=user, booktitle="none", bklist=bklist)
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
-@app.route('/bookdetail', methods=['POST', 'GET']) #Still developing, postponed to iteration 2
+
+# Still developing, postponed to iteration 2
+@app.route('/bookdetail', methods=['POST', 'GET'])
 def bookdetail():
     if 'user' in session:
         user = Account.query.filter_by(username=session['user']).first(
@@ -144,13 +159,13 @@ def bookdetail():
         user = 'offline'
     if request.method == 'GET':
         return render_template(listdetail.html, user=user)
-        #return redirect(url_for('index')) #This page is not allowed to be accessed directly
-    else: #post request
+        # return redirect(url_for('index')) #This page is not allowed to be accessed directly
+    else:  # post request
         pass
-#End Zack
+# End Zack
 
 
-#following are the code by Hanyan Zhang (Yuki), Zhixi Lin (Zack)
+# following are the code by Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route("/", methods=['GET'])
 @app.route("/index", methods=['GET'])
 def index():
@@ -163,10 +178,10 @@ def index():
     bklist = Post.query.order_by(Post.time).limit(
         12).all()  # 12 most recently posted books
     return render_template("index.html", user=user, booktitle="none", bklist=bklist)
-#End Yuki & Zack
+# End Yuki & Zack
 
 
-#Following are the code by Zhixi Lin, Wesley White, Yuanyuan Bao
+# Following are the code by Zhixi Lin, Wesley White, Yuanyuan Bao
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     if 'user' in session:
@@ -175,34 +190,35 @@ def post():
     else:
         flash('Please Sign in Before Posting!')
         return redirect(url_for('login'))
-        #User are not allowed to enter new post without signed in.
+        # User are not allowed to enter new post without signed in.
 
     if request.method == 'GET':
         return render_template('post.html', user=user)
-    else: #Separation of post & get
+    else:  # Separation of post & get
         post_by = session['user']
         bkname = request.form.get('BookName')
         aut = request.form.get('Author')
-        post_price = round(float(request.form.get('Price')),2) #ensure pricing is precisely round to 2 decimal place.
+        # ensure pricing is precisely round to 2 decimal place.
+        post_price = round(float(request.form.get('Price')), 2)
         stat = request.form.get('status')
         coll = request.form.get('college')
         ava = request.form.get('file')
         descrip = request.form.get('description')
 
-        flag = True #Simple validation mechanism
+        flag = True  # Simple validation mechanism
 
-        #Basically loop every single char in book title to check if character is contained
-        if not any(namechar.isalpha() for namechar in bkname): 
+        # Basically loop every single char in book title to check if character is contained
+        if not any(namechar.isalpha() for namechar in bkname):
             flash("Book title with no letter is not allowed!")
             flag = False
         if not any(autchar.isalpha() for autchar in aut):
             flash("Author name with no letter is not allowed!")
             flag = False
-        if flag == True: 
+        if flag == True:
             try:
-                post = Post(by = post_by, bookname = bkname, author = aut, price = post_price, stat = stat, 
-                college = coll, description = descrip, time = datetime.datetime.now())
-                if ava != None: #We haven't developed picture uploading function
+                post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+                            college=coll, description=descrip, time=datetime.datetime.now())
+                if ava != None:  # We haven't developed picture uploading function
                     post.avatar = ava
                 if descrip != None:
                     post.description = descrip
@@ -212,34 +228,34 @@ def post():
             except:
                 flash("An Exception has occured!")
         return render_template('post.html', user=user)
-#End Yuanyuan, Wesley, Zhixi Lin
+# End Yuanyuan, Wesley, Zhixi Lin
 
 
-#Following are the code by Dennis Majanos, Hanyan Zhang (Yuki)
-@app.route('/createAcc', methods=['POST', 'GET'])
+# Following are the code by Dennis Majanos, Hanyan Zhang (Yuki)
+@app.route('/createAccPage', methods=['POST', 'GET'])
 def createAcc():
     if request.method == 'GET':
         return render_template("createAccount.html")
     if request.method == 'POST':
-        #this variable determines if we can update the database or recollect
-        #data
+        # this variable determines if we can update the database or recollect
+        # data
         updateDatabase = False
 
-        #getting info from webpage for creating an account
+        # getting info from webpage for creating an account
         user = str(request.form['username'])
         pwd = str(request.form['pwd1'])
         firstName = str(request.form['firstName'])
         lastName = str(request.form['lastName'])
         mail = str(request.form['emailAddress'])
-        fsuid = str(request.form['fsuId'])
-         
-        updateDatabase = True 
-        #checking if username already exsists
-        condition1 = Account.query.filter_by(username = user)
-        #checking if email already exsists
-        condition2 = Account.query.filter_by(email = mail)
-        
-        #validating all the user input
+        FSUid = str(request.form['fsuId'])
+
+        updateDatabase = True
+        # checking if username already exsists
+        condition1 = Account.query.filter_by(username=user)
+        # checking if email already exsists
+        condition2 = Account.query.filter_by(email=mail)
+
+        # validating all the user input
         if (len(firstName) > 30 or len(firstName) == 0):
             flash("FirstName must be between 1 and 30 characters long")
             updateDatabase = False
@@ -255,32 +271,41 @@ def createAcc():
         if (len(mail) > 100 or len(mail) == 0):
             flash("Email must be between 1 and 100 characters long")
             updateDatabase = False
-        if (len(fsuid) > 10 or len(fsuid) == 0):
+        if (len(FSUid) > 10 or len(FSUid) == 0):
             flash("Fsuid must be between 1 and 10 characters long")
             updateDatabase = False
-        if condition1 != None:
-            flash("Username already exsists")
-            updateDatabase = False
-        if condition2 != None:
-            flash("Email already exsists")
-            updateDatabase = False
-            
-        
-        userInput = (firstName, lastName, user, pwd, mail, fsuid)
-        
-        try:
-            #if updateDatabase == true:
-                #add variable input into the database
-            pass #placeholder
-        except:
-            # rollback if data go through to database
-            pass #placeholder
-        finally:
-            if updateDatabase == True:
+        # if condition1 != None:
+        #     flash("Username already exsists")
+        #     updateDatabase = False
+        # if condition2 != None:
+        #     flash("Email already exsists")
+        #     updateDatabase = False
+
+        userInput = (firstName, lastName, user, pwd, mail, FSUid)
+        if updateDatabase == True:
+            try:
+                # add variable input into the database
+                if wadb.session.query(Account).filter_by(email=mail).count() < 1:
+                    userinfo = Account(firstname=firstName, lastname=lastName, username=user,
+                                       password=pwd, email=mail, fsuid=FSUid)
+                    print(userinfo)
+                    wadb.session.add(userinfo)
+                    wadb.session.commit()
+                    print("test3")
+                    flash("Success!")
                 return redirect("/")
-            elif updateDatabase == False:
-                return render_template("createAccount.html", inp = userInput)
-#End Dennis, Wesley
+            except:
+                # flash alert message and stay on register page
+                flash("An Exception has occurred!")
+                return render_template("createAccount.html", inp=userInput)
+            # finally:
+            #     if updateDatabase == True:
+            #         return redirect("/")
+            #     elif updateDatabase == False:
+            #         return render_template("createAccount.html", inp = userInput)
+        else:  # if invalid data is entered, allow users to enter again
+            return render_template("createAccount.html", inp=userInput)
+# End Dennis, Wesley
 
 
 if __name__ == '__main__':
