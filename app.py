@@ -215,7 +215,7 @@ def post():
 #End Yuanyuan, Wesley, Zhixi Lin
 
 
-#Following are the code by Dennis Majanos, Wesley White
+#Following are the code by Dennis Majanos, Hanyan Zhang (Yuki)
 @app.route('/createAcc', methods=['POST', 'GET'])
 def createAcc():
     if request.method == 'GET':
@@ -233,6 +233,7 @@ def createAcc():
         mail = str(request.form['emailAddress'])
         fsuid = str(request.form['fsuId'])
          
+        updateDatabase = True 
         #checking if username already exsists
         condition1 = Account.query.filter_by(username = user)
         #checking if email already exsists
@@ -240,31 +241,30 @@ def createAcc():
         
         #validating all the user input
         if (len(firstName) > 30 or len(firstName) == 0):
-            flash("FirstName must be between 0 and 30 characters long")
+            flash("FirstName must be between 1 and 30 characters long")
             updateDatabase = False
-        elif (len(lastName) > 30 or len(lastName) == 0):
-            flash("LastName must be between 0 and 30 characters long")
+        if (len(lastName) > 30 or len(lastName) == 0):
+            flash("LastName must be between 1 and 30 characters long")
             updateDatabase = False
-        elif (len(user) > 30 or len(user) == 0):
-            flash("Username must be between 0 and 30 characters long")
+        if (len(user) > 30 or len(user) == 0):
+            flash("Username must be between 1 and 30 characters long")
             updateDatabase = False
-        elif (len(pwd) > 15 or len(pwd) == 0):
-            flash("Password must be between 0 and 15 characters long")
+        if (len(pwd) > 15 or len(pwd) == 0):
+            flash("Password must be between 1 and 15 characters long")
             updateDatabase = False
-        elif (len(mail) > 100 or len(mail) == 0):
-            flash("Email must be between 0 and 100 characters long")
+        if (len(mail) > 100 or len(mail) == 0):
+            flash("Email must be between 1 and 100 characters long")
             updateDatabase = False
-        elif (len(fsuid) > 10 or len(fsuid) == 0):
-            flash("Fsuid must be between 0 and 10 characters long")
+        if (len(fsuid) > 10 or len(fsuid) == 0):
+            flash("Fsuid must be between 1 and 10 characters long")
             updateDatabase = False
-        elif condition1 != None:
+        if condition1 != None:
             flash("Username already exsists")
             updateDatabase = False
-        elif condition2 != None:
+        if condition2 != None:
             flash("Email already exsists")
             updateDatabase = False
-        else:
-            updateDatabase = True 
+            
         
         userInput = (firstName, lastName, user, pwd, mail, fsuid)
         
