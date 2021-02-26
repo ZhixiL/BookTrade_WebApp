@@ -1,7 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
 # from inpforms import signinForm, signupForm #This API has been abandoned
-import datetime, time, os, re
+import datetime
+import time
+import os
 '''
 --- DATABASE EXPLAIN ---
 The models below will be declared using SQLAlchemy ORM
@@ -13,7 +15,6 @@ More Reference avaliable on above link.
 *Since we're using sqlite3, when declaring model with attribute String, specify the size.
 --- comment by Zhixi Lin ---
 '''
-#Contribution: The name on each section on app.py is ordered by contribution: Most -> Least
 
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
@@ -46,6 +47,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
     # Allows user to input an image, and has a default in case user does not input a picture ^^
     description = wadb.Column(wadb.String(100), nullable=True)
     # User is able to put a body to their post^^
+    # Assumption that body is the same as description in post.html
 
     def __repr__(self):
         return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
@@ -94,6 +96,7 @@ def login():
                 flash('Username does not exist!')
             elif temp.password == pas:  # temp has matched an account, veryfing the password
                 session['user'] = usr  # set up the session, keep track of user
+                flash('Sign in successful!')
             else:  # This is the case where password doesnt match the account
                 flash('Wrong Password!')
         except:
@@ -166,7 +169,7 @@ def index():
 #End Yuki & Zack
 
 
-#Following are the code by Zhixi Lin, Wesley White, Yuanyuan Bao
+#Following are the code by Yuanyuan Bao, Wesley White, Zhixi Lin
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     if 'user' in session:
@@ -174,68 +177,87 @@ def post():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         flash('Please Sign in Before Posting!')
-        return redirect(url_for('login'))
+        return render_template('login.html')
         #User are not allowed to enter new post without signed in.
 
     if request.method == 'GET':
         return render_template('post.html', user=user)
     else: #Separation of post & get
         post_by = session['user']
-        bkname = request.form.get('BookName')
-        aut = request.form.get('Author')
-        post_price = round(float(request.form.get('Price')),2) #ensure pricing is precisely round to 2 decimal place.
-        stat = request.form.get('status')
-        coll = request.form.get('college')
-        ava = request.form.get('file')
-        descrip = request.form.get('description')
-
-        flag = True #Simple validation mechanism
-
-        #Basically loop every single char in book title to check if character is contained
-        if not any(namechar.isalpha() for namechar in bkname): 
-            flash("Book title with no letter is not allowed!")
-            flag = False
-        if not any(autchar.isalpha() for autchar in aut):
-            flash("Author name with no letter is not allowed!")
-            flag = False
-        if flag == True: 
-            try:
-                post = Post(by = post_by, bookname = bkname, author = aut, price = post_price, stat = stat, 
-                college = coll, description = descrip, time = datetime.datetime.now())
-                if ava != None: #We haven't developed picture uploading function
-                    post.avatar = ava
-                if descrip != None:
-                    post.description = descrip
-                wadb.session.add(post)
-                wadb.session.commit()
-                flash("Successfully uploaded!")
-            except:
-                flash("An Exception has occured!")
+        name_of_book = request.form.get('BookName')
+        post_price = float(round(request.form.get('Price'),2)) #ensure pricing is precisely round to 2 decimal place.
+        status = request.form.get('status')
+        category = request.form.get('category')
+        picture = request.form.get('file')
         return render_template('post.html', user=user)
 #End Yuanyuan, Wesley, Zhixi Lin
 
 
 #Following are the code by Dennis Majanos, Wesley White
-@app.route('/createAccPage')
-def createAccPage():
-    return render_template("createAccount.html")
-#You don't need two routes here, you can just use one route &
-#separate Get & Post request by if statements - (from Zack)
-@app.route('/createAcc', methods=['POST', 'GET'])
+@app.route('/createAccPage', methods=['POST', 'GET'])
 def createAcc():
+    if request.method == 'GET':
+        return render_template("createAccount.html")
     if request.method == 'POST':
+        #this variable determines if we can update the database or recollect
+        #data
+        updateDatabase = False
+
+        #getting info from webpage for creating an account
+        user = str(request.form['username'])
+        pwd = str(request.form['pwd1'])
+        firstName = str(request.form['firstName'])
+        lastName = str(request.form['lastName'])
+        mail = str(request.form['emailAddress'])
+        fsuid = str(request.form['fsuId'])
+         
+        #checking if username already exsists
+        condition1 = Account.query.filter_by(username = user)
+        #checking if email already exsists
+        condition2 = Account.query.filter_by(email = mail)
+        
+        #validating all the user input
+        if (len(firstName) > 30 or len(firstName) == 0):
+            flash("FirstName must be between 0 and 30 characters long")
+            updateDatabase = False
+        elif (len(lastName) > 30 or len(lastName) == 0):
+            flash("LastName must be between 0 and 30 characters long")
+            updateDatabase = False
+        elif (len(user) > 30 or len(user) == 0):
+            flash("Username must be between 0 and 30 characters long")
+            updateDatabase = False
+        elif (len(pwd) > 15 or len(pwd) == 0):
+            flash("Password must be between 0 and 15 characters long")
+            updateDatabase = False
+        elif (len(mail) > 100 or len(mail) == 0):
+            flash("Email must be between 0 and 100 characters long")
+            updateDatabase = False
+        elif (len(fsuid) > 10 or len(fsuid) == 0):
+            flash("Fsuid must be between 0 and 10 characters long")
+            updateDatabase = False
+        elif condition1 != None:
+            flash("Username already exsists")
+            updateDatabase = False
+        elif condition2 != None:
+            flash("Email already exsists")
+            updateDatabase = False
+        else:
+            updateDatabase = True 
+        
+        userInput = (firstName, lastName, user, pwd, mail, fsuid)
+        
         try:
-            username = request.form['username']
-            pwd = request.form['pwd1']
-            firstName = request.form['firstName']
-            lastName = request.form['lastName']
-            email = request.form['emailAddress']
-            fsuid = request.form['fsuId']
+            #if updateDatabase == true:
+                #add variable input into the database
+            k = 1 # dummy variable, can remove after implementation
         except:
             # rollback if data go through to database
-            i = 1  # dummy variable
+            i = 1  # dummy variable, can remove after implementing rollback
         finally:
-            return redirect("/")
+            if updateDatabase == True:
+                return redirect("/")
+            elif updateDatabase == False:
+                return render_template("createAccount.html", inp = userInput)
 #End Dennis, Wesley
 
 if __name__ == '__main__':
