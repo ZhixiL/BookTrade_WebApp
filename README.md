@@ -7,6 +7,6 @@ Execute with following command:
 python app.py
  
 For Client to access web app:
-This web application should be able to operate on any browsers including Safari and Chrome.
-Access with the following link:
-http://localhost:5000/
+- This web application should be able to operate on any browsers including Safari and Chrome.
+- Access with the following link:
+- http://localhost:5000/
