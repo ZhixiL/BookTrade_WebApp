@@ -228,10 +228,10 @@ def post():
             except:
                 flash("An Exception has occured!")
         return render_template('post.html', user=user)
-# End Yuanyuan, Wesley, Zhixi Lin
+# End Zhixi Lin, Yuanyuan, Wesley
 
 
-# Following are the code by Dennis Majanos, Hanyan Zhang (Yuki)
+# Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 def createAcc():
     if request.method == 'GET':
@@ -244,18 +244,26 @@ def createAcc():
         # getting info from webpage for creating an account
         user = str(request.form['username'])
         pwd = str(request.form['pwd1'])
+        conf_pwd = str(request.form['pwd2'])
         firstName = str(request.form['firstName'])
         lastName = str(request.form['lastName'])
         mail = str(request.form['emailAddress'])
         FSUid = str(request.form['fsuId'])
 
         updateDatabase = True
-        # checking if username already exsists
-        condition1 = Account.query.filter_by(username=user)
-        # checking if email already exsists
-        condition2 = Account.query.filter_by(email=mail)
 
-        # validating all the user input
+        # Validation of the user input:
+        #If filter returns a result, it means the user or email already exist
+        if bool(Account.query.filter_by(username=user).all()):
+            flash("Username already exsists")
+            updateDatabase = False
+        if bool(Account.query.filter_by(email=mail).all()):
+            flash("Email already exsists")
+            updateDatabase = False
+        if pwd != conf_pwd:
+            flash("Password and confirm password doesn't match!")
+            updateDatabase = False
+
         if (len(firstName) > 30 or len(firstName) == 0):
             flash("FirstName must be between 1 and 30 characters long")
             updateDatabase = False
@@ -274,25 +282,18 @@ def createAcc():
         if (len(FSUid) > 10 or len(FSUid) == 0):
             flash("Fsuid must be between 1 and 10 characters long")
             updateDatabase = False
-        # if condition1 != None:
-        #     flash("Username already exsists")
-        #     updateDatabase = False
-        # if condition2 != None:
-        #     flash("Email already exsists")
-        #     updateDatabase = False
 
         userInput = (firstName, lastName, user, pwd, mail, FSUid)
         if updateDatabase == True:
             try:
                 # add variable input into the database
-                if wadb.session.query(Account).filter_by(email=mail).count() < 1:
-                    userinfo = Account(firstname=firstName, lastname=lastName, username=user,
-                                       password=pwd, email=mail, fsuid=FSUid)
-                    print(userinfo)
-                    wadb.session.add(userinfo)
-                    wadb.session.commit()
-                    print("test3")
-                    flash("Success!")
+                #if wadb.session.query(Account).filter_by(email=mail).count() < 1:
+                userinfo = Account(firstname=firstName, lastname=lastName, username=user,
+                           password=pwd, email=mail, fsuid=FSUid)
+                wadb.session.add(userinfo)
+                wadb.session.commit()
+                #Ensure the account can be found on database, so there's nothing wrong with input to database.
+                session['user'] = str(Account.query.filter_by(username=user).first().username)
                 return redirect("/")
             except:
                 # flash alert message and stay on register page
@@ -305,7 +306,7 @@ def createAcc():
             #         return render_template("createAccount.html", inp = userInput)
         else:  # if invalid data is entered, allow users to enter again
             return render_template("createAccount.html", inp=userInput)
-# End Dennis, Wesley
+# End Dennis, Yuki, Zack
 
 
 if __name__ == '__main__':
