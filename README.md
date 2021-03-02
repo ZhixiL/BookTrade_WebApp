@@ -3,7 +3,8 @@ The requirement for the server to operate:
 - python 2.7.18 and up
 - flask
 - flask-SQLAlchemy
-- Execute with following command:
+
+Execute with following command:
 - python app.py
  
 For Client to access web app:
