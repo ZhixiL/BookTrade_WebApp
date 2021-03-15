@@ -13,7 +13,7 @@ import { FooterTemplateComponent } from './footer-template/footer-template.compo
     AppComponent,
     HomeComponent,
     HeaderTemplateComponent,
-    FooterTemplateComponent
+    FooterTemplateComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +22,8 @@ import { FooterTemplateComponent } from './footer-template/footer-template.compo
     RouterModule.forRoot([
       { 
         path: '', 
-        component: HomeComponent },
+        component: HomeComponent 
+      },
     ])
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
