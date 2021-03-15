@@ -7,6 +7,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterTemplateComponent } from './footer-template/footer-template.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { BooklistComponent } from './booklist/booklist.component';
+import { PostComponent } from './post/post.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +19,11 @@ import { FooterTemplateComponent } from './footer-template/footer-template.compo
     HomeComponent,
     HeaderTemplateComponent,
     FooterTemplateComponent,
+    LoginComponent,
+    RegisterComponent,
+    BooklistComponent,
+    PostComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,6 +33,26 @@ import { FooterTemplateComponent } from './footer-template/footer-template.compo
       { 
         path: '', 
         component: HomeComponent 
+      },
+      { 
+        path: 'login', 
+        component: LoginComponent 
+      },
+      { 
+        path: 'post', 
+        component: PostComponent 
+      },
+      { 
+        path: 'booklist', 
+        component: BooklistComponent 
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
+      {
+        path: '**',
+        component: NotfoundComponent
       },
     ])
   ],
