@@ -1,0 +1,131 @@
+/* clear all formatting */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+/* a background image filling the entire page */
+html, body {
+    height: 100%;
+}
+
+.bg {
+    height: 100%;
+    background: url(../../assets/images/loginbackground.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/* the logo and website title */
+.bg .title {
+    position: absolute;
+    width: auto;
+    height: 127px;
+    margin-top: 200px;
+    margin-left: -100px;
+    left: 40%;
+}
+
+/* logo */
+.bg .title .loginlogo {
+    width: 120px;
+    height: 127px;
+    background: url(../../assets/images/logo2login.png);
+    background-repeat: no-repeat;
+}
+
+/* the login box */
+.bg .loginsection {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    margin-top: 40px;
+    background-color: #fff;
+    margin-left: -325px;
+    left: 50%;
+}
+
+.bg .loginsection .logintitle {
+    width: 410px;
+    height: 700px;
+    margin: 0 115px;
+}
+
+/* Login to FSU Book Trade */
+.bg .loginsection .logintitle h3{
+    margin: 55px 0;
+    font-size: 36px;
+}
+
+/* username and password input */
+.bg .loginsection .logintitle form .user, .bg .loginsection .logintitle form .pass {
+    width: 410px;
+    height: 60px;
+    margin: 20px 0;
+}
+
+/* enlarge the check box */
+input[type="checkbox"] {
+    zoom: 1.5;
+}
+
+/* check Keep me login for 30 days */
+.bg .loginsection .logintitle form .check {
+    margin-top: 10px;
+}
+
+.bg .loginsection .logintitle form label {
+    margin-left: 10px;
+    font-size: 9px;
+}
+
+/* forget password */
+.bg .loginsection .logintitle .forgot {
+    color: blue;
+    margin-left: 65px;
+}
+
+.bg .loginsection .logintitle .forgot:hover {
+    text-decoration: underline;
+}
+
+/* submit username and password */
+.bg .loginsection .logintitle form .submit {
+    width: 410px;
+    height: 60px;
+    margin: 30px 0;
+    background-color: rgb(25, 131, 218);
+    color: azure;
+    border-radius: 10px;
+}
+
+.bg .loginsection .logintitle form .submit:hover {
+    background-color: rgb(12, 85, 194);
+}
+
+/* let new users signup */
+.bg .loginsection .logintitle .newuser {
+    margin-top: 50px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.bg .loginsection .logintitle .newuser {
+    margin-left: 90px;
+}
+.bg .loginsection .logintitle .newuser a {
+    color: blue;
+}
+
+.bg .loginsection .logintitle .newuser a:hover {
+    text-decoration: underline;
+}

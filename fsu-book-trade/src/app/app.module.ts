@@ -1,13 +1,13 @@
 import { HeaderTemplateComponent } from './header-template/header-template.component';
+import { FooterTemplateComponent } from './footer-template/footer-template.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+//import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FooterTemplateComponent } from './footer-template/footer-template.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { BooklistComponent } from './booklist/booklist.component';
@@ -16,7 +16,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
-    FormsModule,
+    //FormsModule,
     AppComponent,
     HomeComponent,
     HeaderTemplateComponent,
@@ -34,7 +34,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
     RouterModule.forRoot([
       { 
         path: '', 
-        component: HomeComponent 
+        component: HomeComponent
       },
       { 
         path: 'login', 
