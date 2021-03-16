@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderTemplateComponent } from './header-template/header-template.component';
 import { FooterTemplateComponent } from './footer-template/footer-template.component';
 import { HomeComponent } from './home/home.component';
@@ -13,7 +14,6 @@ import { RegisterComponent } from './register/register.component';
 import { BooklistComponent } from './booklist/booklist.component';
 import { PostComponent } from './post/post.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
       { 

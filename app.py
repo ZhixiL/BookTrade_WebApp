@@ -148,6 +148,9 @@ def booklist():
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
+@app.route('/ping', methods=['GET', 'POST'])
+def ping():
+    return "pong"
 
 # Still developing, postponed to iteration 2
 @app.route('/bookdetail', methods=['POST', 'GET'])
