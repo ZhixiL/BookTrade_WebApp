@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect, request, session
+from flask import Flask, render_template, url_for, flash, redirect, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 # from inpforms import signinForm, signupForm #This API has been abandoned
+from flask_cors import CORS
 import datetime
 import time
 import os
@@ -21,6 +22,7 @@ More Reference avaliable on above link.
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
+CORS(app) #Allowing access from angular
 wadb = SQLAlchemy(app)  # Web app database, referencing
 
 SECRET_KEY = os.urandom(32)
@@ -86,6 +88,10 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
 
+@app.route('/ping', methods=['GET', 'POST'])
+def ping():
+    return jsonify(the = "pong")
+
 @app.route("/signout")
 def signout():
     session.pop('user', None)
@@ -147,10 +153,6 @@ def booklist():
             return render_template('booklist.html', user=user, booktitle="none", bklist=bklist)
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
-
-@app.route('/ping', methods=['GET', 'POST'])
-def ping():
-    return "pong"
 
 # Still developing, postponed to iteration 2
 @app.route('/bookdetail', methods=['POST', 'GET'])
