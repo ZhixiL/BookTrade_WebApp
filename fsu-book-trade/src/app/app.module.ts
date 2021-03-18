@@ -14,6 +14,7 @@ import { RegisterComponent } from './register/register.component';
 import { BooklistComponent } from './booklist/booklist.component';
 import { PostComponent } from './post/post.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import 'rxjs/Rx';
 
 @NgModule({
   declarations: [

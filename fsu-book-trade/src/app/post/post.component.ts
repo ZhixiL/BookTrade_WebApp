@@ -1,5 +1,6 @@
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'app-post',
@@ -14,7 +15,8 @@ export class PostComponent implements OnInit {
   post: any;
 
   getPosts() {
-    this.post = JSON.stringify(this.http.get(this.BASE_URL))
+    var temp = this.http.get(this.BASE_URL)
+    this.post = this.http.get(this.BASE_URL).map(r: string => response.json())
   }
 
   ngOnInit(): void {
