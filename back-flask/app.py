@@ -88,7 +88,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
 #     stat = fields.Str()
 #     time = fields.Str()
 
-# Following are the code by Zhixi Lin (Zack)
+# Following are the code by Zhixi Lin (Zack), Hanyan Zhang (Yuki)
 
 @dataclass
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
