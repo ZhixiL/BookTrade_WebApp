@@ -1,5 +1,7 @@
+import { Textbook } from './../Textbook';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
+import { RestService } from '../Services/rest.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private rs : RestService){}
 
-  ngOnInit(): void {
+  headers = ["author", "bookname", "by", "college", "description",
+              "id", "picture", "price", "stat", "time"]
+
+  textbook : Textbook[] = [];
+
+  ngOnInit()
+  {
+      this.rs.readTextbook()
+      .subscribe
+        (
+          (response) => 
+          {
+            this.textbook = response[0]["bookdata"];
+          },
+          (error) =>
+          {
+            console.log("No Data Found" + error);
+          }
+
+        )
   }
 
 }

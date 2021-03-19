@@ -2,7 +2,17 @@
 
 <button (click)="getPosts()">Get Pong</button> 
 
-<div>
-    {{BASE_URL}}
-    {{post.the}}
-</div>
+<table id="weather">
+    <tr>
+        <th *ngFor="let column of headers">
+            {{column}}
+        </th>
+    </tr>
+
+    <tr *ngFor="let row of textbook">
+        <td *ngFor="let col of headers">
+            {{row[col]}}
+        </td>
+    </tr>
+
+</table>

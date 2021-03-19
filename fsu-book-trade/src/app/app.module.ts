@@ -1,3 +1,4 @@
+import { RestService } from './Services/rest.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderTemplateComponent } from './header-template/header-template.component';
 import { FooterTemplateComponent } from './footer-template/footer-template.component';
@@ -14,7 +15,6 @@ import { RegisterComponent } from './register/register.component';
 import { BooklistComponent } from './booklist/booklist.component';
 import { PostComponent } from './post/post.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import 'rxjs/Rx';
 
 @NgModule({
   declarations: [
@@ -63,7 +63,7 @@ import 'rxjs/Rx';
     ])
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [RestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
