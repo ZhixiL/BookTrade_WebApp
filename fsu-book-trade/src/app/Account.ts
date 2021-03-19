@@ -7,7 +7,7 @@ export class Account
     lastname:string;
     num_of_posts:number;
     password:string;
-    username:number;
+    username:string;
 
 
     constructor(avatar, email, firstname, fsuid, lastname, num_of_posts, password, username)
