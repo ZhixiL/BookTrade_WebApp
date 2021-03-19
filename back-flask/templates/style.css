@@ -1,0 +1,294 @@
+/* clear all formatting */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.mainheader {
+  width: auto;
+  height: 72px;
+  background-color: #ceb888;
+}
+/* set the width and color of the header */
+/* margin is set to auto for the sections to display 
+in the middle of the page */
+.w {
+  width: 1400px;
+  margin: auto;
+  background-color: #ceb888;
+}
+
+/* set the height of the header */
+.header {
+  height: 72px;
+  margin: auto;
+}
+
+/* set the position of the logo */
+.logo {
+  float: left;
+  width: 74px;
+  height: 72px;
+  margin-left: 250px;
+  margin-right: 130px;
+}
+
+/* set the size and position of the search box and search logo */
+.search {
+  float: left;
+  width: 412px;
+  height: 42px;
+  margin-left: 15px;
+  margin-right: 130px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* set the size and position of search box itself */
+.header .search input {
+  float: left;
+  display: block;
+  width: 345px;
+  height: 40px;
+  border-style: solid;
+  border-color: #000000;
+  border-right: none;
+  border-width: 1px;
+  color: #bfbfbf;
+  font-size: 14px;
+  padding-left: 15px;
+}
+
+/* set the position and size of the search logo button */
+.search button {
+  float: left;
+  width: 50px;
+  height: 44px;
+  border-style: solid;
+  border-color: #000000;
+  border-left: none;
+  border-width: 1px;
+  background: url(images/fa-search.jpg);
+}
+
+/* profile section */
+.profile {
+  float: left;
+  width: 117px;
+  height: 30px;
+  margin-right: 30px;
+  padding-top: 15px;
+  padding-bottom: 21px;
+  padding-left: 30px;
+}
+
+/* profile photo */
+.profile img {
+  float: left;
+  padding: 6px;
+}
+
+/* username */
+.profile h5 {
+  float: left;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 42px;
+  color: #666666;
+  height: 42px;
+}
+
+.mainbanner {
+  width: auto;
+  height: 400px;
+  background-color: #e7dddb;
+}
+
+/* banner section */
+.banner {
+  width: 1400px;
+  height: 400px;
+  margin: auto;
+  background-color: #e7dddb;
+}
+
+/* banner background image */
+.banner .w2 {
+  height: 400px;
+  background: url(images/banner.jpg) no-repeat top center;
+}
+
+/* main nav section */
+.subnavi {
+  width: 250px;
+  height: 400px;
+  margin-left: 200px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* each option to navigate to */
+.subnavi .ul1 li {
+  height: 45px;
+  line-height: 45px;
+  padding: 0 20px;
+}
+
+/* the link itself */
+.subnavi ul li a {
+  font-style: 14px;
+  color: rgb(255, 255, 255);
+}
+
+/* changes after hover over it */
+.subnavi ul li a:hover {
+  color: #e7c9c9;
+  text-decoration: underline;
+}
+
+/* the greater than symbol */
+.subnavi .ul1 li a span {
+  float: right;
+}
+
+/* did same thing of the login and signup nav */
+.subnavi .ul2 li {
+  height: 20px;
+  line-height: 150px;
+  padding: 0 20px;
+}
+
+.subnavi .ul2 li .a2 {
+  margin: 0 40px;
+}
+
+.mainpostbg {
+  width: auto;
+  height: 800px;
+  background-color: #e7dddb;
+}
+
+/* main post section */
+.mainpost {
+  width: 1400px;
+  height: 800px;
+  margin: auto;
+  background-color: #e7dddb;
+}
+
+/* header section */
+.mainpost .head {
+  padding-top: 15px;
+}
+
+/* links in the header */
+.mainpost .head a {
+  font-size: x-large;
+  font-weight: 700;
+  color: #7e3644;
+}
+
+/* changes after hover over it */
+.mainpost .head a:hover {
+  text-decoration: underline;
+}
+
+.mainpost .head .viewall {
+  float: right;
+  margin-right: 200px;
+}
+
+.mainpost .postedbooks {
+  height: 757px;
+  margin: 20px 200px;
+  border-style: dotted;
+  border-radius: 2px;
+  border-color: #000000;
+}
+
+/* book section */
+.mainpost .head .recent {
+  margin-left: 200px;
+}
+
+.mainpostbg .mainpost .postedbooks .onebook {
+  float: left;
+  height: 215px;
+  width: 213.5px;
+  padding: 15px 17.51px;
+}
+
+.mainpostbg .mainpost .postedbooks .onebook .bookpic {
+  height: 125px;
+  width: 214px;
+  background: url(images/tempbook.jpg);
+}
+
+.mainpostbg .mainpost .postedbooks .onebook a h4 {
+  margin: 20px 0;
+  color: #000000;
+}
+
+.mainfooter {
+  width: auto;
+  height: 131px;
+  background-color: #7e3644;
+}
+
+/* footer section */
+.footer {
+  width: 1400px;
+  height: 130px;
+  margin: auto;
+  background-color: #7e3644;
+}
+
+.footer .info {
+  margin: 0 200px;
+}
+
+/* logo section */
+.footer .info .logo2 img {
+  float: left;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+/* copyright section */
+.footer .info .copyright {
+  float: left;
+  margin-left: 200px;
+  margin-right: 100px;
+  margin-top: 50px;
+}
+
+/* copyright image */
+.footer .info .copyright img {
+  display: inline;
+}
+
+/* CEN4020L group5 */
+.footer .info .copyright h6 {
+  display: inline;
+}
+
+/* nav in the footer */
+.footer .info .footernavi {
+  padding: 60px 0;
+}
+
+.footer .info .footernavi a {
+  margin: 0 30px;
+  color: #000000;
+}
+
+.footer .info .footernavi a:hover {
+  color: blue;
+}

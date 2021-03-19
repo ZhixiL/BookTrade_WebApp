@@ -1,0 +1,67 @@
+<div class="mainbanner">
+    <div class="banner">
+        <!-- background image -->
+        <div class="w2">
+            <!-- navigation -->
+            <div class="subnavi">
+                <ul class="ul1">
+                    <li>
+                        <a routerLink="/post">Post a Book<span>&gt;</span></a>
+                    </li>
+                    <li>
+                        <a routerLink="/booklist">Book List<span>&gt;</span></a>
+                    </li>
+                    <li>
+                        <a href="#">About Us<span>&gt;</span></a>
+                    </li>
+                    <li>
+                        <a href="#">Commonly Asked Q&A<span>&gt;</span></a>
+                    </li>
+                </ul>
+                <!-- login and signup -->
+                <ul class="ul2">
+                    <li>
+                        <!-- {% if user == "offline" %}
+                        <a href="{{ url_for('login') }}" class="a1">Login</a>
+                        <a href="createAccPage" class="a2">Signup</a>
+                        {% else %}
+                        <a href="signout" class="a2">Sign Out</a>
+                        {% endif %} -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+ </div>
+
+    <!-- This is the main post section -->
+   <div class="mainpostbg">
+    <div class="mainpost">
+        <!-- header section -->
+        <div class="head">
+            <a routerLink="#" class="recent">Recently Posted Books</a>
+            <a routerLink="/booklist" class="viewall">View All</a>
+        </div>
+
+        <!-- book section -->
+        <!-- <div class="postedbooks">
+            {% for bk in bklist %}
+            <div class="onebook">
+                <div class="bookpic">
+                </div>
+                <a href="#" ><h4>{{bk["bookname"]}}</h4></a>
+                <h5>${{bk["price"]}}&nbsp &nbsp Posted By: {{bk["by"]}}</h5>
+            </div>
+            {% endfor %}
+        </div> -->
+
+        <div class="postedbooks">
+            <div class="onebook" *ngFor="let book of textbook">
+                <div class="bookpic">
+                </div>
+                <a href="#" ><h4>{{book["bookname"]}}</h4></a>
+                <h5>${{book["price"]}}   Posted By: {{book["by"]}}</h5>
+            </div>
+        </div>
+    </div>
+   </div>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- import style.css -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    {% extends "design_temp.html" %}
+    {% block content %}
+    <!-- This is the main post section -->
+    <div class="mainpostbg">
+        <div class="mainpost">
+            <!-- header section -->
+            <div class="head">
+                <a href="#" class="recent">Recently Posted Books</a>
+                <a href="/booklist" class="viewall">View All</a>
+            </div>
+
+            <!-- book section -->
+            <div class="postedbooks">
+                {% for bk in bklist %}
+                <div class="onebook">
+                    <div class="bookpic">
+                    </div>
+                    <a href="#" ><h4>{{bk["bookname"]}}</h4></a>
+                    <h5>${{bk["price"]}}&nbsp &nbsp Posted By: {{bk["by"]}}</h5>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+   {% endblock content %}
+</body>
+
+</html>

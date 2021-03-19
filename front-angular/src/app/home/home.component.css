@@ -1,0 +1,143 @@
+/* clear all formatting */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.mainbanner {
+  width: auto;
+  height: 400px;
+  background-color: #e7dddb;
+}
+
+/* banner section */
+.banner {
+  width: 1400px;
+  height: 400px;
+  margin: auto;
+  background-color: #e7dddb;
+}
+
+/* banner background image */
+.banner .w2 {
+  height: 400px;
+  background: url(../../assets/images/banner.jpg) no-repeat top center;
+}
+
+/* main nav section */
+.subnavi {
+  width: 250px;
+  height: 400px;
+  margin-left: 200px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* each option to navigate to */
+.subnavi .ul1 li {
+  height: 45px;
+  line-height: 45px;
+  padding: 0 20px;
+}
+
+/* the link itself */
+.subnavi ul li a {
+  font-style: 14px;
+  color: rgb(255, 255, 255);
+}
+
+/* changes after hover over it */
+.subnavi ul li a:hover {
+  color: #e7c9c9;
+  text-decoration: underline;
+}
+
+/* the greater than symbol */
+.subnavi .ul1 li a span {
+  float: right;
+}
+
+/* did same thing of the login and signup nav */
+.subnavi .ul2 li {
+  height: 20px;
+  line-height: 150px;
+  padding: 0 20px;
+}
+
+.subnavi .ul2 li .a2 {
+  margin: 0 40px;
+}
+
+.mainpostbg {
+  width: auto;
+  height: 800px;
+  background-color: #e7dddb;
+}
+
+/* main post section */
+.mainpost {
+  width: 1400px;
+  height: 800px;
+  margin: auto;
+  background-color: #e7dddb;
+}
+
+/* header section */
+.mainpost .head {
+  padding-top: 15px;
+}
+
+/* links in the header */
+.mainpost .head a {
+  font-size: x-large;
+  font-weight: 700;
+  color: #7e3644;
+}
+
+/* changes after hover over it */
+.mainpost .head a:hover {
+  text-decoration: underline;
+}
+
+.mainpost .head .viewall {
+  float: right;
+  margin-right: 200px;
+}
+
+.mainpost .postedbooks {
+  height: 757px;
+  margin: 20px 200px;
+  border-style: dotted;
+  border-radius: 2px;
+  border-color: #000000;
+}
+
+/* book section */
+.mainpost .head .recent {
+  margin-left: 200px;
+}
+
+.mainpostbg .mainpost .postedbooks .onebook {
+  float: left;
+  height: 215px;
+  width: 213.5px;
+  padding: 15px 17.51px;
+}
+
+.mainpostbg .mainpost .postedbooks .onebook .bookpic {
+  height: 125px;
+  width: 214px;
+  background: url(../../assets/images/tempbook.jpg);
+}
+
+.mainpostbg .mainpost .postedbooks .onebook a h4 {
+  margin: 20px 0;
+  color: #000000;
+}

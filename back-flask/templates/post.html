@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='post.css') }}">
+        <title>Post Webpage</title>
+        <mete name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            input{
+                border: 2px solid black;
+                height: 30px;
+            }
+            select{
+                border: 2px solid  black;
+                height: 30px;
+            }
+            textarea{
+                border: 2px solid black;
+            }
+        </style> 
+    </head>
+    <body>
+        {% extends "design_temp.html" %}
+        {% block content %}
+        <div class="banner">
+            <div class="book">
+                <img src="templates/images/books2.jpg" alt=" " style="width:71.5%"/>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <center><h4>{{ message }}</h4></center>
+            {% endfor %}{% else %}
+            <div class="Warning">
+                <p><br/><b>Warning: </b>This website does not guarantee the accuracy, 
+                    completeness, validity, timeliness, and legality of articles, 
+                    information, pictures, materials, etc. posted by all users on 
+                    this website. Please make your own judgment based on the situation. 
+                    The user is responsible for the losses caused by misleading reading 
+                    of the contents of this edition and other factors. This site has no 
+                    responsibility.</p>
+                <br/>
+            </div>
+            {% endif %}{% endwith %}
+
+            <div class="inputs">
+                <form action="{{ url_for('post') }}" method = "POST">
+                    <br/><br/>
+                    <br>Title: <input type="text" name = "BookName" required="required"/></br>
+                    <br>Author: <input type="text" name = "Author" required="required"/></br>
+                    <br>Price: $ <input type="number" name = "Price" min="0.00" max="500.00" step="0.01" required="required"/></br>
+                    <br><label for="status">Choose Condition:</label>
+                    <select name="status" id="status" required="required">
+                        <option value="New">New</option>
+                        <option value="LikeNew">Like new</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                        <option value="Poor">Fair</option>
+                    </select></br>
+                    <br><label for="category">Choose College Belong To:</label>
+                    <select name="college" id="college" required="required">
+                        <option value="College of Arts and Sciences">College of Arts and Sciences</option>
+                        <option value="College of Business">College of Business</option>
+                        <option value="College of Communication & Information">College of Communication & Information</option>
+                        <option value="College of Criminology and Criminal Justice">College of Criminology and Criminal Justice</option>
+                        <option value="College of Education">College of Education</option>
+                        <option value="College of Engineering">College of Engineering</option>
+                        <option value="College of Fine Arts">College of Fine Arts</option>
+                        <option value="College of Human Sciences">College of Human Sciences</option>
+                        <option value="College of Law">College of Law</option>
+                        <option value="College of Medicine">College of Medicine</option>
+                        <option value="College of Motion Picture Arts">College of Motion Picture Arts</option>
+                        <option value="College of Music">College of Music</option>
+                        <option value="College of Nursing">College of Nursing</option>
+                        <option value="College of Social Sciences and Public Policy">College of Social Sciences and Public Policy</option>
+                        <option value="College of Social Work">College of Social Work</option>
+                        <option value="Dedman College of Hospitality">Dedman College of Hospitality</option>
+                        <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
+                    </select></br>
+                    <br>Avatar upload will be implemented in the future</br>
+                    <!--<br>Picture: <input type="file"/></br>-->
+                    <br/>
+                    <label for="description">Description:</label>
+                    <br/>
+                    <textarea id="description" name="description" rows="8" cols="100"></textarea>                    
+                    <br/>
+                    <center><button>Submit</button></center>                   
+                </form>
+            </div>            
+        </div>
+        {% endblock content %}
+    </body>
+</html>
+
+
