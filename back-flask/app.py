@@ -188,9 +188,13 @@ def msg():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user' in session:
-        pass
+        userlist = Account.query.filter_by(username=session["user"]).first()
+        jsonData = {
+            "userdata": userlist
+        }
+        return jsonify([jsonData])
     else:
-        pass
+        return "not found"
 
 
 @app.route('/booklist', methods=['GET', 'POST'])
