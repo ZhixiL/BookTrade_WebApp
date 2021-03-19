@@ -90,8 +90,17 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
 
 # Following are the code by Zhixi Lin (Zack)
 
-
+@dataclass
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
+    firstname: str
+    lastname: str
+    username: str
+    avatar: str
+    password: str
+    email: str
+    fsuid: str
+    num_of_posts: int
+
     __tablename__ = 'account'  # table name will generally be lower case
     # When Refer back to this table, use the lower case table name
     # (!nullable)name can't be empty
@@ -174,6 +183,14 @@ def login():
 @app.route('/msg', methods=['POST', 'GET'])
 def msg():
     return render_template("message.html", msg="placeholder")
+
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user' in session:
+        pass
+    else:
+        pass
 
 
 @app.route('/booklist', methods=['GET', 'POST'])
