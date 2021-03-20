@@ -126,28 +126,6 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
 
-testData = {
-    "data": [
-        {
-            "title": "book1",
-            "author": "Yuki",
-            "date": "3/18/2021",
-            "price": 9999
-        },
-        {
-            "title": "book2",
-            "author": "Yuki",
-            "date": "3/18/2021",
-            "price": 8888
-        }
-    ]
-}
-@app.route('/ping/', methods=['GET'])
-def ping():
-    global testData
-    return jsonify([testData])
-
-
 @app.route("/signout")
 def signout():
     session.pop('user', None)
@@ -243,7 +221,7 @@ def bookdetail():
         # return redirect(url_for('index')) #This page is not allowed to be accessed directly
     else:  # post request
         pass
-# End Zack
+# End Zack， Yukiaa
 
 
 # following are the code by Hanyan Zhang (Yuki), Zhixi Lin (Zack)
