@@ -100,6 +100,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     email: str
     fsuid: str
     num_of_posts: int
+    # book: Post
 
     __tablename__ = 'account'  # table name will generally be lower case
     # When Refer back to this table, use the lower case table name
@@ -117,6 +118,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
+    # book = wadb.relationship(Post)
 
     def __repr__(self):  # Important, for when you cann the object, it returns tuple
         return 'Account({firstname},{lastname},{username},{avatar},{email},{fsuid})'.format(
@@ -187,14 +189,22 @@ def msg():
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'user' in session:
-        userlist = Account.query.filter_by(username=session["user"]).first()
-        jsonData = {
-            "userdata": userlist
-        }
-        return jsonify([jsonData])
-    else:
-        return "not found"
+    # if 'user' in session:
+    userlist = Account.query.filter_by(username="zacklin").first()
+    tbooklist = Post.query.filter_by(
+        by="zacklin").order_by(Post.time).limit(8).all()
+    jsonDataUser = {
+        "userdata": userlist
+    }
+
+    jsonDataBook = {
+        "bookdata": tbooklist
+    }
+
+    print(type(tbooklist))
+    return jsonify(jsonDataUser, jsonDataBook)
+    # else:
+    #     return "not found"
 
 
 @app.route('/booklist', methods=['GET', 'POST'])

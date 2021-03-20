@@ -1,0 +1,79 @@
+.mainsectionbg {
+  width: auto;
+  height: 1000px;
+  background-color: #e7dddb;
+}
+
+/* main profile section */
+.mainsection {
+  width: 1400px;
+  height: 1000px;
+  margin: auto;
+  background-color: blue;
+}
+.mainsectionbg .mainsection .profilesection {
+  display: block;
+  height: 400px;
+}
+
+.mainsectionbg .mainsection .profilesection .profilepic {
+  float: left;
+  width: 200px;
+  height: 300px;
+  margin-left: 200px;
+  margin-top: 50px;
+  background: url(../../assets/images/tempbook.jpg);
+}
+
+.mainsectionbg .mainsection .profilesection .profileinfo {
+  float: left;
+  width: 500px;
+  height: 300px;
+  margin-left: 100px;
+  margin-top: 50px;
+  background-color: #fff;
+}
+
+.mainsectionbg .mainsection .profilesection .profileinfo .fullname {
+  display: inline;
+  margin-left: 10px;
+  font-weight: 500;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.mainsectionbg .mainsection .profilesection .profileinfo .fsuid {
+  display: inline;
+  margin-left: 200px;
+}
+
+.mainsectionbg .mainsection .profilesection .profileinfo .email {
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+.mainsectionbg .mainsection .booksection {
+  display: block;
+  height: 504.7px;
+  margin: 20px 200px;
+  border-style: dotted;
+  border-radius: 2px;
+  border-color: #000000;
+}
+
+.mainsectionbg .mainsection .booksection .onebook {
+  float: left;
+  height: 215px;
+  width: 213.5px;
+  padding: 15px 17.51px;
+}
+
+.mainsectionbg .mainsection .booksection .onebook .bookpic {
+  height: 125px;
+  width: 214px;
+  background: url(../../assets/images/tempbook.jpg);
+}
+
+.mainsectionbg .mainsection .booksection .onebook a h4 {
+  margin: 20px 0;
+  color: #000000;
+}
