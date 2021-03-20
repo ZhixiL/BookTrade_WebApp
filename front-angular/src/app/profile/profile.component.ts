@@ -1,8 +1,8 @@
-import { Textbook } from './../Textbook';
+import { Textbook } from './../model';
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../Services/rest.service';
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
-import { Account } from '../Account';
+import { Account } from '../model';
 
 @Component({
   selector: 'app-profile',
