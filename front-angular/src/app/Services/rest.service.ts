@@ -18,6 +18,11 @@ export class RestService implements OnInit {
     return this.http.get<Textbook[]>(this.baseUrl + "/booklistbrief");
   }
 
+  readTextbookAll()
+  {
+    return this.http.get<Textbook[]>(this.baseUrl + "/booklistall");
+  }
+
   readUserData()
   {
     return this.http.get<Account[]>(this.baseUrl + "/profile");

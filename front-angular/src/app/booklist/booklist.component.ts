@@ -1,3 +1,5 @@
+import { Textbook } from './../model';
+import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BooklistComponent implements OnInit {
 
-  constructor() { }
+  constructor(private rs : RestService) { }
 
-  ngOnInit(): void {
+  textbooks : Textbook[] = [];
+  ngOnInit()
+  {
+    this.rs.readTextbookAll()
+    .subscribe
+      (
+        (response) => 
+        {
+          this.textbooks = response[0]["bookdata"];
+        },
+        (error) =>
+        {
+          console.log("No Data Found" + error);
+        }
+
+      )
   }
 
 }

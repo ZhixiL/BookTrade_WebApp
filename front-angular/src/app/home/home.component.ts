@@ -17,19 +17,19 @@ export class HomeComponent implements OnInit {
 
   ngOnInit()
   {
-      this.rs.readTextbook()
-      .subscribe
-        (
-          (response) => 
-          {
-            this.textbook = response[0]["bookdata"];
-          },
-          (error) =>
-          {
-            console.log("No Data Found" + error);
-          }
+    this.rs.readTextbook()
+    .subscribe
+      (
+        (response) => 
+        {
+          this.textbook = response[0]["bookdata"];
+        },
+        (error) =>
+        {
+          console.log("No Data Found" + error);
+        }
 
-        )
+      )
   }
 
 }

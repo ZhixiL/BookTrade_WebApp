@@ -1,6 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
-# from inpforms import signinForm, signupForm #This API has been abandoned
 from flask_cors import CORS
 from dataclasses import dataclass
 # from marshmallow import Schema, fields
@@ -30,8 +29,7 @@ wadb = SQLAlchemy(app)  # Web app database, referencing
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-# Following are the code by Wesley & Zhixi Lin (Zack)
-
+# Following are the code by Wesley, Yuki, Zhixi Lin (Zack)
 
 @dataclass
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
@@ -73,7 +71,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
         return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
             time=self.time, by=self.by, bookname=self.bookname, price=self.price, stat=self.stat, college=self.college,
             picture=self.picture, description=self.description)
-# End Wesley & Zack
+# End Wesley, Yuki, Zack
 
 
 # class PostSchema(Schema):
@@ -89,7 +87,6 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
 #     time = fields.Str()
 
 # Following are the code by Zhixi Lin (Zack), Hanyan Zhang (Yuki)
-
 @dataclass
 class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
     firstname: str
@@ -201,7 +198,7 @@ def profile():
     # else:
     #     return "not found"
 
-
+#removing later
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
     if 'user' in session:
@@ -225,7 +222,7 @@ def booklist():
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
-# Still developing, postponed to iteration 2
+# removing later
 @app.route('/bookdetail', methods=['POST', 'GET'])
 def bookdetail():
     if 'user' in session:
@@ -257,8 +254,6 @@ def booklistall():
         "bookdata": bklist
     }
     return jsonify([jsonData])
-
-
 
 #removing this route later
 @app.route("/", methods=['GET'])
