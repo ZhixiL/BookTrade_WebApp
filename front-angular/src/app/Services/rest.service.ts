@@ -1,7 +1,6 @@
+import { Username, Textbook, Account } from './../model';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Textbook } from '../model';
-import { Account } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +11,20 @@ export class RestService implements OnInit {
 
   ngOnInit(){
   }
-
-  textbookUrl : string = "http://127.0.0.1:5000";
-  userProfileUrl : string = "http://127.0.0.1:5000/profile"
+  baseUrl : string = "http://127.0.0.1:5000";
 
   readTextbook()
   {
-    return this.http.get<Textbook[]>(this.textbookUrl);
+    return this.http.get<Textbook[]>(this.baseUrl + "/booklistbrief");
   }
 
   readUserData()
   {
-    return this.http.get<Account[]>(this.userProfileUrl);
+    return this.http.get<Account[]>(this.baseUrl + "/profile");
+  }
+
+  readUsernameData()
+  {
+    return this.http.get<Username[]>(this.baseUrl + "/usernamedata");
   }
 }

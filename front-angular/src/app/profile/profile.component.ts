@@ -1,8 +1,7 @@
-import { Textbook } from './../model';
+import { Textbook, Account } from './../model';
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../Services/rest.service';
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
-import { Account } from '../model';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +10,7 @@ import { Account } from '../model';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private rs : RestService) {}
+  constructor(private rs : RestService, private rs2 : RestService) {}
 
   headers = ["avatar", "email", "firstname", "fsuid", "lastname", 
               "num_of_posts", "password", "username"]
@@ -34,19 +33,19 @@ export class ProfileComponent implements OnInit {
 
         )
 
-      // this.rs2.readTextbook()
-      // .subscribe
-      //   (
-      //     (response2) => 
-      //     {
-      //       this.textbook = response2[0]["bookdata"];
-      //     },
-      //     (error) =>
-      //     {
-      //       console.log("No Data Found" + error);
-      //     }
+      this.rs2.readTextbook()
+      .subscribe
+        (
+          (response2) => 
+          {
+            this.textbook = response2[0]["bookdata"];
+          },
+          (error) =>
+          {
+            console.log("No Data Found" + error);
+          }
 
-      //   )
+        )
   }
 
 }

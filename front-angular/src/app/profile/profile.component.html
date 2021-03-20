@@ -10,11 +10,11 @@
         </div>
 
         <div class="booksection">
-            <div class="onebook">
+            <div class="onebook" *ngFor="let book of textbook">
                 <div class="bookpic">
                 </div>
                 <a href="#" ><h4>{{book["bookname"]}}</h4></a>
-                <h5>${{book["price"]}}   Posted By: {{book["by"]}}</h5>
+                <h5>${{book["price"]}}</h5>
             </div>
         </div>
     </div>

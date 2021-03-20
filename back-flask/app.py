@@ -126,6 +126,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
 
+
 @app.route("/signout")
 def signout():
     session.pop('user', None)
@@ -164,6 +165,20 @@ def login():
 def msg():
     return render_template("message.html", msg="placeholder")
 
+@app.route('/usernamedata', methods = ['GET'])
+def usernamedata():
+    username = str()
+    if 'user' in session:  # Ensure the user's full name is send to post.html
+        username = Account.query.filter_by(username=session['user']).first(
+        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+    else:
+        username = 'offline'
+    jsUser = {
+        "usernamedata":[{
+            "username" : username
+        }]
+    }
+    return jsonify([jsUser])
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -172,7 +187,9 @@ def profile():
     tbooklist = Post.query.filter_by(
         by="zacklin").order_by(Post.time).limit(8).all()
     jsonDataUser = {
-        "userdata": userlist
+        "userdata": [
+            userlist
+        ]
     }
 
     jsonDataBook = {
@@ -180,7 +197,7 @@ def profile():
     }
 
     print(type(tbooklist))
-    return jsonify(jsonDataUser, jsonDataBook)
+    return jsonify([jsonDataUser, jsonDataBook])
     # else:
     #     return "not found"
 
@@ -221,10 +238,29 @@ def bookdetail():
         # return redirect(url_for('index')) #This page is not allowed to be accessed directly
     else:  # post request
         pass
-# End Zack， Yukiaa
 
 
-# following are the code by Hanyan Zhang (Yuki), Zhixi Lin (Zack)
+@app.route('/booklistbrief', methods=['GET'])
+def booklistbrief():
+    bklist = Post.query.order_by(Post.time).limit(
+        12).all()  # 12 most recently posted books
+    jsonData = {
+        "bookdata": bklist
+    }
+    return jsonify([jsonData])
+
+@app.route('/booklistall', methods=['GET'])
+def booklistall():
+    bklist = Post.query.order_by(Post.time).all()
+    #get all books
+    jsonData = {
+        "bookdata": bklist
+    }
+    return jsonify([jsonData])
+
+
+
+#removing this route later
 @app.route("/", methods=['GET'])
 @app.route("/index", methods=['GET'])
 def index():

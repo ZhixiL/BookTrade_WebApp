@@ -1,5 +1,4 @@
 import { Textbook } from './../model';
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../Services/rest.service';
 @Component({

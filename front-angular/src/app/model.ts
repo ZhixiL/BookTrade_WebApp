@@ -55,16 +55,12 @@ export class Account
 
 }
 
-export class username
+export class Username
 {
-    firstname:string;
-    lastname:string;
     username:string;
 
-    constructor(fname,lname,username)
+    constructor(username)
     {
-        this.firstname = fname;
-        this.lastname = lname;
         this.username = username;
     }
 }
