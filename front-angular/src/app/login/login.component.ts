@@ -14,8 +14,9 @@ export class LoginComponent implements OnInit {
   headers = ["username", "password"]
 
   user : Account[] = [];
-
+  */
   ngOnInit(): void {
+    /**
     this.rs.readInputData()
     .subscribe
     (
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
       {
 
       }
-    )
+    )*/
   }
-  */
+  
 } 
