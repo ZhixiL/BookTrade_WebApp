@@ -1,1 +1,25 @@
-<p>login works!</p>
+<div class="bg" style="margin: 0px; padding: 0px;">
+    <div class="title">
+        <div class="loginlogo"></div>
+    </div>
+    <div class="loginsection">
+        <div class="logintitle">
+            <h3>Login to FSU Book Trade</h3>
+            <form action="" method = "POST">
+                <!--This section is for printing feedback to the user-->
+                <!-- {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <center><h4>{{ message }}</h4></center>
+                {% endfor %}{% endif %}{% endwith %} -->
+                <input type="text" name = "User" placeholder=" Enter Username" class="user" required>
+                <input type="password" name = "Pass" placeholder=" Enter Password" class="pass" required>
+                <input type="checkbox" class="check" id="check"><label for="check">Keep me login for 30 days</label>
+                <a href="#" class="forgot">Forgot Password</a>
+                <input type="submit" value="Login" class="submit">
+
+            </form>
+            <h3 class="newuser">New to our website? <a href="createAccPage">Signup</a></h3>
+        </div>
+    </div>
+</div>
