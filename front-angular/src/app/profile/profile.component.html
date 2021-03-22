@@ -13,7 +13,7 @@
             <div class="onebook" *ngFor="let book of textbook">
                 <div class="bookpic">
                 </div>
-                <a href="#" ><h4>{{book["bookname"]}}</h4></a>
+                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
                 <h5>${{book["price"]}}</h5>
             </div>
         </div>

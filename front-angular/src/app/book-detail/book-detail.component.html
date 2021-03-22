@@ -1,0 +1,33 @@
+<div class="mainsectionbd">
+    <div class="mainsection">
+        <div class="for" *ngFor="let book of textbook">
+            <div class="booksection"*ngIf="tbook===book.bookname">
+                <div class="bookdetail">
+                    <div class="bookpic"></div>
+                    <div class="bookinfo">
+                        <div class="booktitle">
+                            <h4>{{book["bookname"] | uppercase}}</h4>
+                        </div>
+                        <div class="authorandpost">
+                            <h6>By: {{book["author"]}} &nbsp; &nbsp; | &nbsp; &nbsp; Posted By: {{book["by"]}}</h6>
+                        </div>
+                        <div class="college">
+                            <p>College: {{book["college"]}}</p>
+                        </div>
+                        <div class="status">
+                            <p>Status: {{book["stat"]}}</p>
+                        </div>
+                        <div class="price">
+                            Price: <p>${{book["price"]}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bookdescription">
+                    <div class="desbox">
+                        Description: <p>{{book["description"]}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

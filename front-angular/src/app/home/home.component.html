@@ -23,7 +23,7 @@
                     <li>
                         <!-- {% if user == "offline" %}-->
                         <a href="/login" class="a1">Login</a>
-                        <a href="createAccPage" class="a2">Signup</a>
+                        <a href="/register" class="a2">Signup</a>
                         <!--{% else %}
                         <a href="signout" class="a2">Sign Out</a>
                         {% endif %} -->
@@ -59,7 +59,7 @@
             <div class="onebook" *ngFor="let book of textbook">
                 <div class="bookpic">
                 </div>
-                <a href="#" ><h4>{{book["bookname"]}}</h4></a>
+                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
                 <h5>${{book["price"]}}   Posted By: {{book["by"]}}</h5>
             </div>
         </div>

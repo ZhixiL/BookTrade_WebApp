@@ -31,6 +31,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 # Following are the code by Wesley, Yuki, Zhixi Lin (Zack)
 
+
 @dataclass
 class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
     id: int
@@ -123,7 +124,6 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
 
-
 @app.route("/signout")
 def signout():
     session.pop('user', None)
@@ -162,7 +162,8 @@ def login():
 def msg():
     return render_template("message.html", msg="placeholder")
 
-@app.route('/usernamedata', methods = ['GET'])
+
+@app.route('/usernamedata', methods=['GET'])
 def usernamedata():
     username = str()
     if 'user' in session:  # Ensure the user's full name is send to post.html
@@ -171,34 +172,38 @@ def usernamedata():
     else:
         username = 'offline'
     jsUser = {
-        "usernamedata":[{
-            "username" : username
+        "usernamedata": [{
+            "username": username
         }]
     }
     return jsonify([jsUser])
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     # if 'user' in session:
     userlist = Account.query.filter_by(username="zacklin").first()
-    tbooklist = Post.query.filter_by(
-        by="zacklin").order_by(Post.time).limit(8).all()
     jsonDataUser = {
         "userdata": [
             userlist
         ]
     }
 
-    jsonDataBook = {
-        "bookdata": tbooklist
-    }
-
-    print(type(tbooklist))
-    return jsonify([jsonDataUser, jsonDataBook])
+    return jsonify([jsonDataUser])
     # else:
     #     return "not found"
 
-#removing later
+
+@app.route('/profilebook', methods=['GET', 'POST'])
+def profileBook():
+    tbooklist = Post.query.filter_by(
+        by="zacklin").order_by(Post.time).limit(8).all()
+    jsonDataBook = {
+        "bookdata": tbooklist
+    }
+    return jsonify([jsonDataBook])
+
+# removing later
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
     if 'user' in session:
@@ -222,6 +227,26 @@ def booklist():
         else:
             return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
 
+
+@app.route('/booklistbrief', methods=['GET'])
+def booklistbrief():
+    bklist = Post.query.order_by(Post.time.desc()).limit(
+        12).all()  # 12 most recently posted books
+    jsonData = {
+        "bookdata": bklist
+    }
+    return jsonify([jsonData])
+
+
+@app.route('/booklistall', methods=['GET'])
+def booklistall():
+    bklist = Post.query.order_by(Post.time.desc()).all()
+    # get all books
+    jsonData = {
+        "bookdata": bklist
+    }
+    return jsonify([jsonData])
+
 # removing later
 @app.route('/bookdetail', methods=['POST', 'GET'])
 def bookdetail():
@@ -236,26 +261,7 @@ def bookdetail():
     else:  # post request
         pass
 
-
-@app.route('/booklistbrief', methods=['GET'])
-def booklistbrief():
-    bklist = Post.query.order_by(Post.time).limit(
-        12).all()  # 12 most recently posted books
-    jsonData = {
-        "bookdata": bklist
-    }
-    return jsonify([jsonData])
-
-@app.route('/booklistall', methods=['GET'])
-def booklistall():
-    bklist = Post.query.order_by(Post.time).all()
-    #get all books
-    jsonData = {
-        "bookdata": bklist
-    }
-    return jsonify([jsonData])
-
-#removing this route later
+# removing this route later
 @app.route("/", methods=['GET'])
 @app.route("/index", methods=['GET'])
 def index():

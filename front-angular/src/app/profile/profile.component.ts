@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
 
         )
 
-      this.rs2.readTextbook()
+      this.rs2.readTextbookProfile()
       .subscribe
         (
           (response2) => 

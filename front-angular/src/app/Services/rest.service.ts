@@ -6,10 +6,6 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RestService implements OnInit {
-  
-  readAccData() {
-    return this.http.get<Account[]>(this.baseUrl + "/login");
-  }
 
   constructor(private http : HttpClient) { }
 
@@ -20,6 +16,11 @@ export class RestService implements OnInit {
   readTextbook()
   {
     return this.http.get<Textbook[]>(this.baseUrl + "/booklistbrief");
+  }
+
+  readTextbookProfile()
+  {
+    return this.http.get<Textbook[]>(this.baseUrl + "/profilebook");
   }
 
   readTextbookAll()

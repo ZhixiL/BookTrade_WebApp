@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.banner{
+    width: 1400px;
+    height: 800px;
+    margin: auto;
+    background-color: #e7dddb;
+}
+
+.banner .book img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+  }
+
+.banner .Warning{
+    height: 100px;
+    margin:auto;
+    background-color: rgb(245, 239, 205);
+    width: 1000px;
+}
+
+.banner .inputs{
+    height: 500px;
+    margin:auto;
+    width: 1000px;
+}
+
+p{
+    color: red
+}
+
+button{
+    color: seagreen;
+}
