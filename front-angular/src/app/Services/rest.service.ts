@@ -6,6 +6,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RestService implements OnInit {
+  
+  readAccData() {
+    return this.http.get<Account[]>(this.baseUrl + "/login");
+  }
 
   constructor(private http : HttpClient) { }
 
