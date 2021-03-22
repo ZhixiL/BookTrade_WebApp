@@ -342,81 +342,43 @@ def post():
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 def createAcc():
-    if request.method == 'GET':
-        return render_template("createAccount.html")
-    if request.method == 'POST':
-        # this variable determines if we can update the database or recollect
-        # data
-        updateDatabase = False
+    form_data = request.get_json()
+    user = form_data["user"]
+    mail = form_data["mail"]
+    FSUid = form_data["FSUid"]
+    firstName = form_data["firstName"]
+    lastName = form_data["lastName"]
+    pwd = form_data["pwd"]
 
-        # getting info from webpage for creating an account
-        user = str(request.form['username'])
-        pwd = str(request.form['pwd1'])
-        conf_pwd = str(request.form['pwd2'])
-        firstName = str(request.form['firstName'])
-        lastName = str(request.form['lastName'])
-        mail = str(request.form['emailAddress'])
-        FSUid = str(request.form['fsuId'])
+    #Types of errors that can occur
+    error1 ="Username already exsists"
+    error2 ="Email already exsists"
+    error3 ="FSUID already exsists"
+    error4 ="Failed to register data, please try again"
 
-        updateDatabase = True
+    # Validation of the user input:
+    # If filter returns a result, it means the user or email already exsist
+    if bool(Account.query.filter_by(username=user).all()):
+        return jsonify(error1)
+    if bool(Account.query.filter_by(email=mail).all()):
+        return jsonify(error2)
+    if bool(Account.query.filter_by(fsuid=fSUid).all())
+        return jsonify(error3) 
 
-        # Validation of the user input:
-        # If filter returns a result, it means the user or email already exist
-        if bool(Account.query.filter_by(username=user).all()):
-            flash("Username already exsists")
-            updateDatabase = False
-        if bool(Account.query.filter_by(email=mail).all()):
-            flash("Email already exsists")
-            updateDatabase = False
-        if pwd != conf_pwd:
-            flash("Password and confirm password doesn't match!")
-            updateDatabase = False
-
-        if (len(firstName) > 30 or len(firstName) == 0):
-            flash("FirstName must be between 1 and 30 characters long")
-            updateDatabase = False
-        if (len(lastName) > 30 or len(lastName) == 0):
-            flash("LastName must be between 1 and 30 characters long")
-            updateDatabase = False
-        if (len(user) > 30 or len(user) == 0):
-            flash("Username must be between 1 and 30 characters long")
-            updateDatabase = False
-        if (len(pwd) > 15 or len(pwd) == 0):
-            flash("Password must be between 1 and 15 characters long")
-            updateDatabase = False
-        if (len(mail) > 100 or len(mail) == 0):
-            flash("Email must be between 1 and 100 characters long")
-            updateDatabase = False
-        if (len(FSUid) > 10 or len(FSUid) == 0):
-            flash("Fsuid must be between 1 and 10 characters long")
-            updateDatabase = False
-
-        userInput = (firstName, lastName, user, pwd, mail, FSUid)
-        if updateDatabase == True:
-            try:
-                # add variable input into the database
-                # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
-                userinfo = Account(firstname=firstName, lastname=lastName, username=user,
-                                   password=pwd, email=mail, fsuid=FSUid)
-                wadb.session.add(userinfo)
-                wadb.session.commit()
-                # Ensure the account can be found on database, so there's nothing wrong with input to database.
-                session['user'] = str(Account.query.filter_by(
-                    username=user).first().username)
-                return redirect("/")
-            except:
-                # flash alert message and stay on register page
-                flash("An Exception has occurred!")
-                return render_template("createAccount.html", inp=userInput)
-            # finally:
-            #     if updateDatabase == True:
-            #         return redirect("/")
-            #     elif updateDatabase == False:
-            #         return render_template("createAccount.html", inp = userInput)
-        else:  # if invalid data is entered, allow users to enter again
-            return render_template("createAccount.html", inp=userInput)
-# End Dennis, Yuki, Zack
-
+    try:
+        # add variable input into the database
+        # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
+        userinfo = Account(firstname=firstName, lastname=lastName, username=user, password=pwd, email=mail, fsuid=FSUid)
+        wadb.session.add(userinfo)
+        wadb.session.commit()
+        # Ensure the account can be found on database, so there's nothing wrong with input to database.
+        session['user'] = str(Account.query.filter_by(
+            username=user).first().username)
+        return jsonify("sucessful")
+    except:
+        return jsonify(errror4)
+        
+    # End Dennis, Yuki, Zack
 
 if __name__ == '__main__':
     app.run(debug=True)
