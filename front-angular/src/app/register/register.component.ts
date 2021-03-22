@@ -2,7 +2,6 @@ import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({

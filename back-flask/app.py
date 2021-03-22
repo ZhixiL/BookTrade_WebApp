@@ -338,7 +338,6 @@ def post():
         return render_template('post.html', user=user)
 # End Zhixi Lin, Yuanyuan, Wesley
 
-
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 def createAcc():
@@ -358,12 +357,12 @@ def createAcc():
 
     # Validation of the user input:
     # If filter returns a result, it means the user or email already exsist
-    if bool(Account.query.filter_by(username=user).all()):
-        return jsonify(error1)
-    if bool(Account.query.filter_by(email=mail).all()):
-        return jsonify(error2)
-    if bool(Account.query.filter_by(fsuid=fSUid).all())
-        return jsonify(error3) 
+    # if bool(Account.query.filter_by(username=user).all()):
+    #     return jsonify(error1)
+    # if bool(Account.query.filter_by(email=mail).all()):
+    #     return jsonify(error2)
+    # if bool(Account.query.filter_by(fsuid=fSUid).all())
+    #     return jsonify(error3) 
 
     try:
         # add variable input into the database
