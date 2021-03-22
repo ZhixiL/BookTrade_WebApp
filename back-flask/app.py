@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
 # from marshmallow import Schema, fields
 import datetime
@@ -23,7 +23,9 @@ More Reference avaliable on above link.
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
-CORS(app)  # Allowing access from angular
+# Allowing access from angular
+CORS(app)
+cors = CORS(app, resources={"/login": {"origins": "http://localhost:4200"}})
 wadb = SQLAlchemy(app)  # Web app database, referencing
 
 SECRET_KEY = os.urandom(32)
@@ -132,30 +134,34 @@ def signout():
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':  # Here's the POST request part
-        try:  # this will make sure all the extraneous situation gets reported as failed
-            usr = str(request.form['User'])
-            pas = str(request.form['Pass'])
-            temp = Account.query.filter_by(
-                username=usr).first()  # search for user info
-            if temp == None:  # this is the case where temp matches with no account
-                flash('Username does not exist!')
-            elif temp.password == pas:  # temp has matched an account, veryfing the password
-                session['user'] = usr  # set up the session, keep track of user
-            else:  # This is the case where password doesnt match the account
-                flash('Wrong Password!')
-        except:
-            flash('Failed to sign in due to some errors')
-        finally:
-            if 'user' in session:  # This is the case where user successfully signed in.
-                return redirect("/")
-            else:  # This is the case where user failed to sign in
-                return render_template('login.html')
-    else:  # here's the GET request part
-        if 'user' in session:  # user already signed in
-            return redirect(url_for('index'))
-        else:  # user didn't signed in
-            return render_template('login.html')
+    form_data = request.get_json()
+    userName = form_data["usern"]
+    # passWord = form_data["pass"]
+    return "userName+passWord"
+    # if request.method == 'POST':  # Here's the POST request part
+    #     try:  # this will make sure all the extraneous situation gets reported as failed
+    #         usr = str(request.form['User'])
+    #         pas = str(request.form['Pass'])
+    #         temp = Account.query.filter_by(
+    #             username=usr).first()  # search for user info
+    #         if temp == None:  # this is the case where temp matches with no account
+    #             flash('Username does not exist!')
+    #         elif temp.password == pas:  # temp has matched an account, veryfing the password
+    #             session['user'] = usr  # set up the session, keep track of user
+    #         else:  # This is the case where password doesnt match the account
+    #             flash('Wrong Password!')
+    #     except:
+    #         flash('Failed to sign in due to some errors')
+    #     finally:
+    #         if 'user' in session:  # This is the case where user successfully signed in.
+    #             return redirect("/")
+    #         else:  # This is the case where user failed to sign in
+    #             return render_template('login.html')
+    # else:  # here's the GET request part
+    #     if 'user' in session:  # user already signed in
+    #         return redirect(url_for('index'))
+    #     else:  # user didn't signed in
+    #         return render_template('login.html')
 
 
 @app.route('/msg', methods=['POST', 'GET'])
