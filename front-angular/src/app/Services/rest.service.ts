@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RestService implements OnInit {
-
+  
+  
   constructor(private http : HttpClient) { }
 
   ngOnInit(){
@@ -36,5 +37,10 @@ export class RestService implements OnInit {
   readUsernameData()
   {
     return this.http.get<Username[]>(this.baseUrl + "/usernamedata");
+  }
+
+  readAccData() 
+  {
+    return this.http.get<Account[]>(this.baseUrl + "/login");
   }
 }
