@@ -13,7 +13,6 @@ export class RestService implements OnInit {
   ngOnInit(){
   }
   baseUrl : string = "http://127.0.0.1:5000";
-
   readTextbook()
   {
     return this.http.get<Textbook[]>(this.baseUrl + "/booklistbrief");
@@ -43,4 +42,15 @@ export class RestService implements OnInit {
   {
     return this.http.get<Account[]>(this.baseUrl + "/login");
   }
+
+  // getUserAndPass(username, password)
+  // {
+  //   let request = this.http.get("/login", {
+  //     "user": username,
+  //     "pass": password
+  //   });
+  //   request.subscribe(data => {
+  //     console.log(data, "This is the data")
+  //   });
+  // }
 }

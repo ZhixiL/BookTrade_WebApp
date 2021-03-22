@@ -20,6 +20,7 @@ body {
 
 .bg {
   height: 1000px;
+  width: 1400px;
   background: url(../../assets/images/loginbackground.jpg);
   background-repeat: no-repeat;
   background-position: center;
