@@ -7,6 +7,7 @@ import datetime
 import time
 import os
 import re
+import sys
 '''
 --- DATABASE EXPLAIN ---
 The models below will be declared using SQLAlchemy ORM
@@ -137,42 +138,26 @@ def signout():
 @cross_origin()
 def login():
     form_data = request.get_json(force=True)
-    return form_data
+    print(form_data['pass'], file=sys.stderr)
 
-    # form_data = request.get_json()
-    # session['user'] = form_data["usern"]
-    #userName = form_data["usern"]
-    # passWord = form_data["pass"]
-    #return jsonify(result = "hello")
-    # if request.method == 'POST':  # Here's the POST request part
-    #     try:  # this will make sure all the extraneous situation gets reported as failed
-    #         usr = str(request.form['User'])
-    #         pas = str(request.form['Pass'])
-    #         temp = Account.query.filter_by(
-    #             username=usr).first()  # search for user info
-    #         if temp == None:  # this is the case where temp matches with no account
-    #             flash('Username does not exist!')
-    #         elif temp.password == pas:  # temp has matched an account, veryfing the password
-    #             session['user'] = usr  # set up the session, keep track of user
-    #         else:  # This is the case where password doesnt match the account
-    #             flash('Wrong Password!')
-    #     except:
-    #         flash('Failed to sign in due to some errors')
-    #     finally:
-    #         if 'user' in session:  # This is the case where user successfully signed in.
-    #             return redirect("/")
-    #         else:  # This is the case where user failed to sign in
-    #             return render_template('login.html')
-    # else:  # here's the GET request part
-    #     if 'user' in session:  # user already signed in
-    #         return redirect(url_for('index'))
-    #     else:  # user didn't signed in
-    #         return render_template('login.html')
+    msg = ""
+    usr = str(form_data['usern'])
+    pas = str(form_data['pass'])
+    temp = Account.query.filter_by(username=usr).first()  # search for user info
+    if temp == None:  # this is the case where temp matches with no account
+        msg = msg + 'Username does not exist!'
+    elif temp.password == pas:  # temp has matched an account, veryfing the password
+        msg = "success!"
+        session['user'] = usr  # set up the session, keep track of user
+    else:  # This is the case where password doesnt match the account
+        msg = msg + 'Wrong Password!'
+    return jsonify(msg = msg)
 
 
 @app.route('/msg', methods=['POST', 'GET'])
 def msg():
-    return render_template("message.html", msg="placeholder")
+    msg = "hello"
+    return jsonify(msg = msg)
 
 
 @app.route('/usernamedata', methods=['GET'])
@@ -183,12 +168,7 @@ def usernamedata():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         username = 'offline'
-    jsUser = {
-        "usernamedata": [{
-            "username": username
-        }]
-    }
-    return jsonify([jsUser])
+    return jsonify(username = username)
 
 
 @app.route('/profile', methods=['GET', 'POST'])

@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   headers = [ "username", "password"]
   user : Account[] = [];
+  returnMsg: string;
   
   ngOnInit() {
     
@@ -41,10 +42,10 @@ export class LoginComponent implements OnInit {
     };
     console.log(info);
     // this.us.getUserAndPass(username, password);
-    this.http.post('http://127.0.0.1:5000/login', { usern: 'ping' })
+    this.http.post('http://127.0.0.1:5000/login', info)
         .subscribe((response)=>{
-      let result=response["usern"];
-      console.log(result);
+      this.returnMsg=response["msg"];
+      console.log(this.returnMsg);
     });
   }
   

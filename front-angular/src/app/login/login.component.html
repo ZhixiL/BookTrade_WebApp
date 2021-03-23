@@ -6,12 +6,9 @@
         <div class="logintitle">
             <h3>Login to FSU Book Trade</h3>
             <form (submit)="userLogin($event)">
-                <!--This section is for printing feedback to the user-->
-                <!-- {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for message in messages %}
-                <center><h4>{{ message }}</h4></center>
-                {% endfor %}{% endif %}{% endwith %} -->
+                <div style="text-align: center;" *ngIf="returnMsg!==''">
+                    <h4>{{returnMsg}}</h4>
+                </div>
                 <input type="text" name = "User" placeholder=" Enter Username" id="username" class="user" required>
                 <input type="password" name = "Pass" placeholder=" Enter Password" id="password" class="pass" required>
                 <input type="checkbox" class="check" id="check"><label for="check">Keep me login for 30 days</label>

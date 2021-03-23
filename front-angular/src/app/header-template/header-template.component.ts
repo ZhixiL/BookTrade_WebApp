@@ -11,8 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderTemplateComponent implements OnInit {
 
   constructor(private rs : RestService) {}
-
-  username : Username[] = [];
+  username : string;
 
   ngOnInit()
   {
@@ -21,7 +20,7 @@ export class HeaderTemplateComponent implements OnInit {
       (
         (response) => 
         {
-          this.username = response[0]["usernamedata"];
+          this.username = response["username"];
         },
         (error) =>
         {
