@@ -134,24 +134,28 @@ def signout():
     return redirect("/")
 
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['POST', 'GET'])
 @cross_origin()
 def login():
-    form_data = request.get_json(force=True)
-    print(form_data['pass'], file=sys.stderr)
-
-    msg = ""
-    usr = str(form_data['usern'])
-    pas = str(form_data['pass'])
-    temp = Account.query.filter_by(username=usr).first()  # search for user info
-    if temp == None:  # this is the case where temp matches with no account
-        msg = msg + 'Username does not exist!'
-    elif temp.password == pas:  # temp has matched an account, veryfing the password
-        msg = "success!"
-        session['user'] = usr  # set up the session, keep track of user
-    else:  # This is the case where password doesnt match the account
-        msg = msg + 'Wrong Password!'
-    return jsonify(msg = msg)
+    if request.method == 'POST':
+        form_data = request.get_json(force=True)
+        print(form_data['pass'], file=sys.stderr)
+        msg = ""
+        usr = str(form_data['usern'])
+        pas = str(form_data['pass'])
+        temp = Account.query.filter_by(username=usr).first()  # search for user info
+        if temp == None:  # this is the case where temp matches with no account
+            msg = 'Username does not exist!'
+        elif temp.password == pas:  # temp has matched an account, veryfing the password
+            session['user'] = usr  # set up the session, keep track of user
+            msg = session['user'] + " logged on successfully!"
+        else:  # This is the case where password doesnt match the account
+            msg = 'Wrong Password!'
+        response = jsonify(msg=msg)
+        response.headers.add('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response
+    else:
+        return "Place holder"
 
 
 @app.route('/msg', methods=['POST', 'GET'])
@@ -168,7 +172,8 @@ def usernamedata():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         username = 'offline'
-    return jsonify(username = username)
+    response = jsonify(username = username)
+    return response
 
 
 @app.route('/profile', methods=['GET', 'POST'])
