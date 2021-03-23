@@ -16,12 +16,14 @@
 
     <div class="inputs">
 
-    <form>    
-            <br>Book Name: <input type="text" name = "BookName" required="required"/><br>
-            <br>Author: <input type="text" name = "Author" required="required"/><br>
-            <br>Price: $ <input type="number" name = "Price" min="0.00" max="500.00" step="0.01" required="required"/><br>
+<!--           <form (submit)="postService($event)">   --> 
+            <form #form="ngForm" (ngSubmit)="logForm(form.value)">           
+            <br/> <br/>
+            <br>Book Name: <input type="text" name = "BookName" ngModel><br>
+            <br>Author: <input type="text" name = "Author" ngModel><br>
+            <br>Price: $ <input type="number" name = "Price" min="0.00" max="500.00" step="0.01" ngModel><br>
             <br><label for="status">Choose Condition:</label>
-            <select name="status" id="status" required="required">
+            <select name="status" id="status" ngModel>
                 <option value="New">New</option>
                 <option value="LikeNew">Like new</option>
                 <option value="Good">Good</option>
@@ -29,7 +31,7 @@
                 <option value="Poor">Poor</option>
             </select><br>
             <br><label for="category">Choose College Belong To:</label>
-            <select name="college" id="college" required="required">
+            <select name="college" id="college" ngModel>
                 <option value="College of Arts and Sciences">College of Arts and Sciences</option>
                 <option value="College of Business">College of Business</option>
                 <option value="College of Communication & Information">College of Communication & Information</option>
@@ -49,13 +51,13 @@
                 <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
             </select><br>
             <!-- <br>Avatar upload will be implemented in the future<br>  -->
-            <br>Picture: <input type="file" name="files[]" multiple="true" autocomplete="off" required/><br>
+            <br>Picture: <input type="file" name="files[]" multiple="true" autocomplete="off" ngModel><br>
             <br/>
             <label for="description">Description:</label>
             <br/>
             <textarea id="description" name="description" rows="8" cols="100"></textarea>                    
-            <br/>
-            <center><button>Submit</button></center>                   
+            <br/> <br/>
+            <center><input type="submit" value="Submit" class="submit"></center>                   
         </form>
     </div>            
 </div>
