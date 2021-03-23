@@ -28,6 +28,7 @@ CORS(app)
 cors = CORS(app, resources={"/login": {"origins": "http://localhost:4200"}})
 wadb = SQLAlchemy(app)  # Web app database, referencing
 
+
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
@@ -132,12 +133,17 @@ def signout():
     return redirect("/")
 
 
-@app.route("/login", methods=['POST', 'GET'])
+@app.route("/login", methods=['POST'])
+@cross_origin()
 def login():
-    form_data = request.get_json()
-    userName = form_data["usern"]
+    form_data = request.get_json(force=True)
+    return form_data
+
+    # form_data = request.get_json()
+    # session['user'] = form_data["usern"]
+    #userName = form_data["usern"]
     # passWord = form_data["pass"]
-    return "userName+passWord"
+    #return jsonify(result = "hello")
     # if request.method == 'POST':  # Here's the POST request part
     #     try:  # this will make sure all the extraneous situation gets reported as failed
     #         usr = str(request.form['User'])

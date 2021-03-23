@@ -41,9 +41,9 @@ export class LoginComponent implements OnInit {
     };
     console.log(info);
     // this.us.getUserAndPass(username, password);
-    this.http.post('http://127.0.0.1:5000/login', JSON.stringify(info))
+    this.http.post('http://127.0.0.1:5000/login', { usern: 'ping' })
         .subscribe((response)=>{
-      let result=response["response"];
+      let result=response["usern"];
       console.log(result);
     });
   }
