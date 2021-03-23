@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Username } from './../model';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
@@ -30,4 +31,7 @@ export class HeaderTemplateComponent implements OnInit {
       )
   }
 
+  gotoList()
+  {
+  }
 }
