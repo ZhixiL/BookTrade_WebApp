@@ -8,9 +8,12 @@
         </div>
 
         <!-- search box -->
-        <div class="search">
-            <input type="text" name = "keywords" placeholder=" Search for a textbook">
-            <button routerLink="/booklist" onclick=""></button>
+        <div class="search" >
+            <form (submit)="listSearch($event)" id="searchForm">
+                <input type="text" name = "key" id="key" placeholder=" Search for a textbook">
+                <!--routerLink="/booklist" (click)="listSearch()"-->
+            </form>
+            <button type="submit" form="searchForm" routerLink="/booklist"></button>
         </div>
 
         <!-- profile photo and name -->

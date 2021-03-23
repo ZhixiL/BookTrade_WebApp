@@ -1,3 +1,4 @@
+import { EventEmitterService } from './../Services/event-emitter.service';
 import { Textbook } from './../model';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BooklistComponent implements OnInit {
 
-  constructor(private rs : RestService) { }
+  constructor(
+    private rs : RestService,
+    private ees : EventEmitterService,
+    ) { }
 
   textbooks : Textbook[] = [];
+  searchFilteredTXBK : Textbook[] = [];
   constTXBK : Textbook[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
   initial : number = 0;
   final : number = 16;
@@ -33,16 +38,36 @@ export class BooklistComponent implements OnInit {
         }
       )
     
+    if (this.ees.subsVar==undefined) {    
+      this.ees.subsVar = this.ees.
+      invokeSearch.subscribe((name:string) => {    
+        this.searchFor(this.ees.key);
+      }); 
+    }
   }
   
+  searchFor(key)
+  {
+    this.textbooks=this.constTXBK;
+    if(key!="")
+    {
+      this.textbooks = this.textbooks.filter((a) => a.bookname.includes(key));
+      this.searchFilteredTXBK=this.textbooks;
+    }
+    this.pageNums = Array(Math.ceil(this.textbooks.length/16)).fill(0).map((x,i)=>i);
+  }
+
   pageChange(pgNum)
   {
     this.initial = pgNum*16;
-    this.final = (pgNum+1)*16
+    this.final = (pgNum+1)*16;
   }
 
   selectChangeHandler (event: any) {
-    this.textbooks=this.constTXBK; //repair the textbook, then filter.
+    if(this.searchFilteredTXBK.length==0)
+      this.textbooks=this.constTXBK; //repair the textbook, then filter.
+    else
+      this.textbooks=this.searchFilteredTXBK;
     if(event.target.value != "All")//only filter when user selected specific college.
       this.textbooks = this.textbooks.filter((a) => a.college == event.target.value)
     this.pageNums = Array(Math.ceil(this.textbooks.length/16)).fill(0).map((x,i)=>i);

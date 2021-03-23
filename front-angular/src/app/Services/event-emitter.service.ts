@@ -7,10 +7,11 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class EventEmitterService {
   invokeSearch = new EventEmitter();    
   subsVar: Subscription;    
-    
+  key;
   constructor() { }    
     
-  searchButtonClick() {    
+  searchButtonClick(key) {  
+    this.key = key;  
     this.invokeSearch.emit();    
   }    
 }
