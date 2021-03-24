@@ -25,7 +25,7 @@ More Reference avaliable on above link.
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
-CORS(app)# Allowing access from angular
+CORS(app)  # Allowing access from angular
 cors = CORS(app, resources={"/login": {"origins": "http://localhost:4200"}})
 wadb = SQLAlchemy(app)  # Web app database, referencing
 wadb.init_app(app)
@@ -38,13 +38,14 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 @login_manager.user_loader
 def load_user(usr):
-    return Account.query.filter_by(username=usr).first() 
+    return Account.query.filter_by(username=usr).first()
 
 # Following are the code by Yuki, Wesley, Zhixi Lin (Zack)
 
 
 @dataclass
-class Post(wadb.Model, UserMixin):  # relation model with the model/table Account to let the user post listing on the site
+# relation model with the model/table Account to let the user post listing on the site
+class Post(wadb.Model, UserMixin):
     id: int
     time: str
     by: int
@@ -137,7 +138,8 @@ def login():
         msg = ""
         usr = str(form_data['usern'])
         pas = str(form_data['pass'])
-        temp = Account.query.filter_by(username=usr).first()  # search for user info
+        temp = Account.query.filter_by(
+            username=usr).first()  # search for user info
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
@@ -146,7 +148,8 @@ def login():
         else:  # This is the case where password doesnt match the account
             msg = 'Wrong Password!'
         response = jsonify(msg=msg)
-        response.headers.add('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        response.headers.add('Access-Control-Allow-Headers',
+                             "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
     else:
         return "Place holder"
@@ -155,7 +158,7 @@ def login():
 @app.route('/msg', methods=['POST', 'GET'])
 def msg():
     msg = "hello"
-    return jsonify(msg = msg)
+    return jsonify(msg=msg)
 
 
 @app.route('/usernamedata', methods=['GET'])
@@ -166,7 +169,7 @@ def usernamedata():
         ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
     else:
         username = 'offline'
-    response = jsonify(username = username)
+    response = jsonify(username=username)
     return response
 
 
@@ -274,7 +277,7 @@ def index():
 # End Yuki & Zack
 
 
-# 
+#
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     form_data = request.get_json(force=True)  # pass data from angular to flask
@@ -288,19 +291,20 @@ def post():
     coll = str(form_data['college'])
     #ava = str(form_data['file'])
     #descrip = str(form_data['description'])
-    #return(jsonify (response = form_data['BookName'])) # send data from flask to angular
+    # return(jsonify (response = form_data['BookName'])) # send data from flask to angular
 
     post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                            college=coll, time=datetime.datetime.now())
+                college=coll, time=datetime.datetime.now())
     wadb.session.add(post)
     wadb.session.commit()
     response = ""
-    if post == None:    
+    if post == None:
         response = response + 'Successfully uploaded!'
-    else:  
+    else:
         response = response + 'An Exception has occured!'
-    return jsonify(response = response)
-    
+    return jsonify(response=response)
+
+
 ''' 
    if request.method == 'GET':
         return render_template('post.html', user=user)
@@ -340,7 +344,7 @@ def post():
         return render_template('post.html', user=user)
 '''
 
-# Following are the code by Hanyan Zhang (Yuki), Dennis Majanos,  Zhixi Lin (Zack)
+# Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 @cross_origin()
 def createAcc():
@@ -379,9 +383,9 @@ def createAcc():
         pwd2 = str(form_data["pass2"])
 
         # Types of errors that can occur
-        error1 = "Username already exsists. "
-        error2 = "Email already exsists. "
-        error3 = "FSUID already exsists. "
+        error1 = "Username already exists. "
+        error2 = "Email already exists. "
+        error3 = "FSUID already exists. "
         error4 = "Failed to register data, please try again. "
 
         # Validation of the user input:
@@ -395,26 +399,28 @@ def createAcc():
         if pwd1 != pwd2:
             msg += "Password does not match. "
 
-        try:
-            # add variable input into the database
-            # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
-            userinfo = Account(firstname=firstName, lastname=lastName,
-                               username=user, password=pwd1, email=mail, fsuid=FSUid)
-            wadb.session.add(userinfo)
-            wadb.session.commit()
-            # Ensure the account can be found on database, so there's nothing wrong with input to database.
-            # session['user'] = str(Account.query.filter_by(
-            #     username=user).first().username)
-            msg = "You have successfully registered!"
-        except:
-            return "Error adding to the database!"
+        if msg == "":
+            try:
+                # add variable input into the database
+                # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
+                userinfo = Account(firstname=firstName, lastname=lastName,
+                                   username=user, password=pwd1, email=mail, fsuid=FSUid)
+                wadb.session.add(userinfo)
+                wadb.session.commit()
+                # Ensure the account can be found on database, so there's nothing wrong with input to database.
+                # session['user'] = str(Account.query.filter_by(
+                #     username=user).first().username)
+                msg = "You have successfully registered!"
+            except:
+                return "Error adding to the database!"
         response = jsonify(msg=msg)
         response.headers.add('Access-Control-Allow-Headers',
                              "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
     else:
         return "Place holder"
-    # End Yuki, Dennis, Zack
+    # End Dennis, Yuki, Zack
+
 
 if __name__ == '__main__':
     app.run(debug=True)
