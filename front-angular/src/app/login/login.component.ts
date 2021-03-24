@@ -1,7 +1,8 @@
+import { AuthenticateService } from './../Services/authenticate.service';
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../Services/rest.service';
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
-import { Account, Username } from './../model';
+import { Account } from './../model';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,12 @@ import { Account, Username } from './../model';
 })
 export class LoginComponent implements OnInit {
   
-  constructor(private rs : RestService, private us: RestService, private http : HttpClient) {}
+  constructor(
+    private rs : RestService, 
+    private us: RestService, 
+    private http : HttpClient,
+    private auth : AuthenticateService,
+    ) {}
 
   headers = [ "username", "password"]
   user : Account[] = [];
