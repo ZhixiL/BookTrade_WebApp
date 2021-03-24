@@ -280,18 +280,35 @@ def index():
 # End Yuki & Zack
 
 
-# Following are the code by Zhixi Lin, Wesley White, Yuanyuan Bao
+# 
 @app.route("/post", methods=['POST', 'GET'])
 def post():
-    if 'user' in session:
-        user = Account.query.filter_by(username=session['user']).first(
-        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
-    else:
-        flash('Please Sign in Before Posting!')
-        return redirect(url_for('login'))
-        # User are not allowed to enter new post without signed in.
+    form_data = request.get_json(force=True)  # pass data from angular to flask
+    #print(form_data['BookName'], file=sys.stderr)
 
-    if request.method == 'GET':
+    post_by = "zacklin"
+    bkname = str(form_data['BookName'])
+    aut = str(form_data['Author'])
+    post_price = float(form_data['Price'])
+    stat = str(form_data['status'])
+    coll = str(form_data['college'])
+    #ava = str(form_data['file'])
+    #descrip = str(form_data['description'])
+    #return(jsonify (response = form_data['BookName'])) # send data from flask to angular
+
+    post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+                            college=coll, time=datetime.datetime.now())
+    wadb.session.add(post)
+    wadb.session.commit()
+    response = ""
+    if post == None:    
+        response = response + 'Successfully uploaded!'
+    else:  
+        response = response + 'An Exception has occured!'
+    return jsonify(response = response)
+    
+''' 
+   if request.method == 'GET':
         return render_template('post.html', user=user)
     else:  # Separation of post & get
         post_by = session['user']
@@ -327,7 +344,7 @@ def post():
             except:
                 flash("An Exception has occured!")
         return render_template('post.html', user=user)
-# End Zhixi Lin, Yuanyuan, Wesley
+'''
 
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
