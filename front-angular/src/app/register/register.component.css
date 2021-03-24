@@ -1,0 +1,25 @@
+.box1 {
+  width: 500px;
+  padding: 10px;
+  border: 5px solid gray;
+  margin: auto;
+  text-align: center;
+  background-color: white;
+}
+.mainsectionbg {
+  width: auto;
+  height: 450px;
+  background-color: #e7dddb;
+}
+
+/* main profile section */
+.mainsection {
+  width: 1400px;
+  height: 450px;
+  margin: auto;
+  background-color: #e7dddb;
+}
+
+.message {
+  text-align: center;
+}

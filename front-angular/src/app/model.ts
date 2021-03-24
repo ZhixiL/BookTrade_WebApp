@@ -55,6 +55,30 @@ export class Account
 
 }
 
+export class AccountResgister
+{
+    firstname:string;
+    lastname:string;
+    username:string;
+    password1:string;
+    password2:string;
+    email:string;
+    fsuid:string;
+
+
+    constructor(email, firstname, fsuid, lastname, password1, password2, username)
+    {
+        this.email = email;
+        this.firstname = firstname;
+        this.fsuid = fsuid;
+        this.lastname = lastname;
+        this.password2 = password2;
+        this.password1 = password1;
+        this.username = username;
+    }
+
+}
+
 export class Username
 {
     username:string;

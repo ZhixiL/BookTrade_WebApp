@@ -1,28 +1,26 @@
-<br><br><br>
-<form [formGroup] ="formdata" (ngSubmit) = "onClickSubmit(formdata.value)">
-    <div class="box1">	
-        <h3>Create Your Book Trade Account<h3>
-        <br><br>
-        <input type="text" name="firstName" id="firstName" placeholder="First Name"
-            formControlName="firstname">
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name"
-            formControlName="lastname">
-        <br><br>
-        <input type="text" name="username" id="username" placeholder="Username"
-            formControlName="username">
-        <br><br>
-        <input type="password" name="pwd1" id="pwd1" placeholder="Password"
-            formControlName="password1">
-        <input type="password" name="pwd2" id="pwd2" placeholder="ConfirmPassword"
-            formControlName="password2">
-        <br><br>
-        <input type="email" name="emailAddress" id="emailAddress" placeholder="emailAddress"
-            formControlName="email">
-        <br><br>	
-        <input type="text" name="fsuId" id="fsuId" placeholder="fsuId"
-            formControlName="fsuid">
-        <br><br>
-        <input type="submit" value="Submit">
+<div class="mainsectionbg">
+    <div class="mainsection">
+        <br><br><br>
+        <div class="box1">
+            <h3>Create Your Book Trade Account</h3>
+            <form (submit) = "onClickSubmit($event)">
+                <br><br>
+                <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
+                <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+                <br><br>
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                <br><br>
+                <input type="password" name="pwd1" id="pwd1" placeholder="Password" required>
+                <input type="password" name="pwd2" id="pwd2" placeholder="ConfirmPassword" required>
+                <br><br>
+                <input type="email" name="emailAddress" id="emailAddress" placeholder="emailAddress" required>
+                <br><br>	
+                <input type="text" name="fsuId" id="fsuId" placeholder="fsuId" required>
+                <br><br>
+                <input type="submit" value="Sign Up">
+            </form>
+        </div>
+        <h4 class="message">{{returnMsg}}</h4>
+        <br><br><br>
     </div>
-</form>
-<br><br><br>
+</div>
