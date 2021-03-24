@@ -15,7 +15,6 @@
     </div>
 
     <div class="inputs">
-
 <!--           <form (submit)="postService($event)">   --> 
             <form #form="ngForm" (ngSubmit)="logForm(form.value)">           
             <br/> <br/>
@@ -51,11 +50,12 @@
                 <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
             </select><br>
             <!-- <br>Avatar upload will be implemented in the future<br>  -->
-            <br>Picture: <input type="file" name="files[]" multiple="true" autocomplete="off" ngModel><br>
+            <br>Picture: <input type="file" ()change)="onFileSelected($event)"> 
+                <button type="button" (click)="onUpload()">Upload</button><br>
             <br/>
             <label for="description">Description:</label>
             <br/>
-            <textarea id="description" name="description" rows="8" cols="100"></textarea>                    
+            <textarea matInput placeholder=" Enter note here..." rows="8" cols="100"></textarea>                    
             <br/> <br/>
             <center><input type="submit" value="Submit" class="submit"></center>                   
         </form>

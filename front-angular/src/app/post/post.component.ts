@@ -1,10 +1,9 @@
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-//import { RestService } from '../Services/rest.service';
 import { Username, Textbook, Account } from './../model';
-//import { Textbook } from './../model';
 import { RestService } from './../Services/rest.service';
 import {NgForm} from '@angular/forms';
+import { flushMicrotasks } from '@angular/core/testing';
 
 @Component({
   selector: 'app-post',
@@ -13,12 +12,14 @@ import {NgForm} from '@angular/forms';
 })
 
 export class PostComponent implements OnInit {
-  
-  constructor(private rs : RestService) { }
+
+  selectedFile: File = null;
+  constructor(private http : HttpClient, private rs : RestService) { }
 
   textbooks : Textbook[] = [];
   constTXBK : Textbook[] = [];
   accounts : Account[] = [];
+  returnMsg : string;
   ngOnInit()
   {
     this.rs.readTextbookAll()
@@ -36,100 +37,32 @@ export class PostComponent implements OnInit {
       )
   }
 
-  ngForm(value) {
-    console.log(value);
-  }
-
   logForm(value) {
     console.log(value);
+    this.http.post('http://127.0.0.1:5000/post', value)
+        .subscribe((response)=>{
+      this.returnMsg=response["response"];
+      console.log(this.returnMsg);
+    });
+  }
+
+  onFileSelected(event) {
+    this.selectedFile = event.target.files[0];
+  }
+  onUpload() {
+    const fd = new FormData();
+    fd.append('image', this.selectedFile)
+    this.http.post('http://127.0.0.1:5000/post', fd, {
+      reportProgress: true,
+      observe: 'events'      
+    })
+      .subscribe(event => {
+        console.log(event);
+      });
   }
 
   postService (event: any) {
-    this.textbooks = this.constTXBK; //repair the textbook, then filter.
+    this.textbooks = this.constTXBK; 
   }
   
-/*
-  postService(event) {
-    posted.preventDefault();
-    const target = posted.target;
-    const BookName = target.querySelector('#BookName').value;
-    const Author = target.querySelector('#Author').value;
-    const Price = target.querySelector('#Price').value;
-    const status = target.querySelector('#status').value;
-    const college = target.querySelector('#college').value;
-    const file = target.querySelector('#file').value;
-
-    var info = {
-      bkname: BookName, aut: Author, post_price: Price, stat: status, coll: college, ava: file
-    };
-  
-  constructor(private http : HttpClient) { }
-  ngOnInit(){
-  }
-  baseUrl : string = "http://127.0.0.1:5000";
-  readTextbook()
-  {
-    return this.http.get<Textbook[]>(this.baseUrl + "/booklistbrief");
-  }
-
-  readTextbookProfile()
-  {
-    return this.http.get<Textbook[]>(this.baseUrl + "/profilebook");
-  }
-
-  readTextbookAll()
-  {
-    return this.http.get<Textbook[]>(this.baseUrl + "/booklistall");
-  }
-
-  readUserData()
-  {
-    return this.http.get<Account[]>(this.baseUrl + "/profile");
-  }
-
-  readUsernameData()
-  {
-    return this.http.get<Username[]>(this.baseUrl + "/usernamedata");
-  }
-
-  readAccData() 
-  {
-    return this.http.get<Account[]>(this.baseUrl + "/login");
-  }
-
-/*
-export class PostComponent implements OnInit {
-
-  constructor(private rs : RestService){}
-
-  headers = ["title", "author", "date", "price"]
-
-  textbook : Textbook[] = [];
-
-  ngOnInit()
-  {
-      this.rs.readTextbook()
-      .subscribe
-        (
-          (response) => 
-          {
-            this.textbook = response[0]["data"];
-          },
-          (error) =>
-          {
-            console.log("No Data Found" + error);
-          }
-
-        )
-  }
-  
-    /*console.log(info);
-    // this.us.getUserAndPass(username, password);
-    this.http.post('http://127.0.0.1:5000/login', JSON.stringify(info))
-        .subscribe((response)=>{
-      let result=response["response"];
-      console.log(result);
-    });
-  } */
-
 }
