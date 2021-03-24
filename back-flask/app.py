@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, flash, redirect, request, ses
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
+from flask_login import login_user, UserMixin, LoginManager, current_user, logout_user, login_required
 # from marshmallow import Schema, fields
 import datetime
 import time
@@ -24,20 +25,26 @@ More Reference avaliable on above link.
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
-# Allowing access from angular
-CORS(app)
+CORS(app)# Allowing access from angular
 cors = CORS(app, resources={"/login": {"origins": "http://localhost:4200"}})
 wadb = SQLAlchemy(app)  # Web app database, referencing
-
-
+wadb.init_app(app)
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-# Following are the code by Wesley, Yuki, Zhixi Lin (Zack)
+
+@login_manager.user_loader
+def load_user(usr):
+    return Account.query.filter_by(username=usr).first() 
+
+# Following are the code by Yuki, Wesley, Zhixi Lin (Zack)
 
 
 @dataclass
-class Post(wadb.Model):  # relation model with the model/table Account to let the user post listing on the site
+class Post(wadb.Model, UserMixin):  # relation model with the model/table Account to let the user post listing on the site
     id: int
     time: str
     by: int
@@ -76,20 +83,7 @@ class Post(wadb.Model):  # relation model with the model/table Account to let th
         return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
             time=self.time, by=self.by, bookname=self.bookname, price=self.price, stat=self.stat, college=self.college,
             picture=self.picture, description=self.description)
-# End Wesley, Yuki, Zack
-
-
-# class PostSchema(Schema):
-#     author = fields.Str()
-#     bookname = fields.Str()
-#     by = fields.Str()
-#     college = fields.Str()
-#     description = fields.Str()
-#     id = fields.Int()
-#     picture = fields.Str()
-#     price = fields.Int()
-#     stat = fields.Str()
-#     time = fields.Str()
+# End Yuki, Wesley, Zack
 
 # Following are the code by Zhixi Lin (Zack), Hanyan Zhang (Yuki)
 @dataclass
@@ -346,46 +340,81 @@ def post():
         return render_template('post.html', user=user)
 '''
 
-# Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
+# Following are the code by Hanyan Zhang (Yuki), Dennis Majanos,  Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
+@cross_origin()
 def createAcc():
-    form_data = request.get_json()
-    user = form_data["user"]
-    mail = form_data["mail"]
-    FSUid = form_data["FSUid"]
-    firstName = form_data["firstName"]
-    lastName = form_data["lastName"]
-    pwd = form_data["pwd"]
+    #  if request.method == 'POST':
+    #     form_data = request.get_json(force=True)
+    #     print(form_data['pass'], file=sys.stderr)
+    #     msg = ""
+    #     usr = str(form_data['usern'])
+    #     pas = str(form_data['pass'])
+    #     # remember = False
+    #     temp = Account.query.filter_by(
+    #         username=usr).first()  # search for user info
+    #     if temp == None:  # this is the case where temp matches with no account
+    #         msg = 'Username does not exist!'
+    #     elif temp.password == pas:  # temp has matched an account, veryfing the password
+    #         # session['user'] = usr  # set up the session, keep track of user
+    #         msg = session['user'] + " logged on successfully!"
+    #     else:  # This is the case where password doesnt match the account
+    #         msg = 'Wrong Password!'
+    #     response = jsonify(msg=msg)
+    #     response.headers.add('Access-Control-Allow-Headers',
+    #                          "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+    #     return response
+    # else:
+    #     return "Place holder"
+    if request.method == 'POST':
+        form_data = request.get_json(force=True)
+        print(form_data['usern'], file=sys.stderr)
+        msg = ""
+        user = str(form_data["usern"])
+        mail = str(form_data["emaila"])
+        FSUid = str(form_data["fsu"])
+        firstName = str(form_data["firstn"])
+        lastName = str(form_data["lastn"])
+        pwd1 = str(form_data["pass1"])
+        pwd2 = str(form_data["pass2"])
 
-    #Types of errors that can occur
-    error1 ="Username already exsists"
-    error2 ="Email already exsists"
-    error3 ="FSUID already exsists"
-    error4 ="Failed to register data, please try again"
+        # Types of errors that can occur
+        error1 = "Username already exsists. "
+        error2 = "Email already exsists. "
+        error3 = "FSUID already exsists. "
+        error4 = "Failed to register data, please try again. "
 
-    # Validation of the user input:
-    # If filter returns a result, it means the user or email already exsist
-    # if bool(Account.query.filter_by(username=user).all()):
-    #     return jsonify(error1)
-    # if bool(Account.query.filter_by(email=mail).all()):
-    #     return jsonify(error2)
-    # if bool(Account.query.filter_by(fsuid=fSUid).all())
-    #     return jsonify(error3) 
+        # Validation of the user input:
+        # If filter returns a result, it means the user or email already exsist
+        if bool(Account.query.filter_by(username=user).all()):
+            msg += error1
+        if bool(Account.query.filter_by(email=mail).all()):
+            msg += error2
+        if bool(Account.query.filter_by(fsuid=FSUid).all()):
+            msg += error3
+        if pwd1 != pwd2:
+            msg += "Password does not match. "
 
-    try:
-        # add variable input into the database
-        # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
-        userinfo = Account(firstname=firstName, lastname=lastName, username=user, password=pwd, email=mail, fsuid=FSUid)
-        wadb.session.add(userinfo)
-        wadb.session.commit()
-        # Ensure the account can be found on database, so there's nothing wrong with input to database.
-        session['user'] = str(Account.query.filter_by(
-            username=user).first().username)
-        return jsonify("sucessful")
-    except:
-        return jsonify(errror4)
-        
-    # End Dennis, Yuki, Zack
+        try:
+            # add variable input into the database
+            # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
+            userinfo = Account(firstname=firstName, lastname=lastName,
+                               username=user, password=pwd1, email=mail, fsuid=FSUid)
+            wadb.session.add(userinfo)
+            wadb.session.commit()
+            # Ensure the account can be found on database, so there's nothing wrong with input to database.
+            # session['user'] = str(Account.query.filter_by(
+            #     username=user).first().username)
+            msg = "You have successfully registered!"
+        except:
+            return "Error adding to the database!"
+        response = jsonify(msg=msg)
+        response.headers.add('Access-Control-Allow-Headers',
+                             "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response
+    else:
+        return "Place holder"
+    # End Yuki, Dennis, Zack
 
 if __name__ == '__main__':
     app.run(debug=True)
