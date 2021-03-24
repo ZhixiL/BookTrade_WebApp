@@ -32,16 +32,16 @@ wadb.session.add(test4)
 wadb.session.commit() 
 
 post2 = Post(by = "zacklin", bookname = "Textbook2", author = "name1",
-    price = 10.25, college = "CEN", description = "This is a sample book", time = datetime.datetime.now())
+    price = 10.25, college = "College of Arts and Sciences", description = "This is a sample book", time = datetime.datetime.now())
 time.sleep(3)
 post1 = Post(by = "zacklin", bookname = "Textbook1", author = "name2",
-    price = 11.25, college = "COP", description = "This is a sample book", time = datetime.datetime.now())
+    price = 11.25, college = "College of Arts and Sciences", description = "This is a sample book", time = datetime.datetime.now())
 time.sleep(3)
-post4 = Post(by = "zacklin", bookname = "Textbook4", author = "name1", 
-    price = 17.50, college = "ENC", description = "This is a sample book", time = datetime.datetime.now())
+post4 = Post(by = "test1", bookname = "Textbook4", author = "name1", 
+    price = 17.50, college = "College of Arts and Sciences", description = "This is a sample book", time = datetime.datetime.now())
 time.sleep(3)
 post3 = Post(by = "zacklin", bookname = "Textbook3", author = "name3", 
-    price = 8.25, college = "PHY", description = "This is a sample book", time = datetime.datetime.now())
+    price = 8.25, college = "College of Business", description = "This is a sample book", time = datetime.datetime.now())
 
 wadb.session.add(post1)
 wadb.session.add(post2)

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect, request, session, jsonify
+from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
@@ -29,23 +29,22 @@ CORS(app)  # Allowing access from angular
 cors = CORS(app, resources={"/login": {"origins": "http://localhost:4200"}})
 wadb = SQLAlchemy(app)  # Web app database, referencing
 wadb.init_app(app)
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
-login_manager.init_app(app)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(usr):
-    return Account.query.filter_by(username=usr).first()
+    return Account.query.get(str(usr))
 
 # Following are the code by Yuki, Wesley, Zhixi Lin (Zack)
 
 
 @dataclass
 # relation model with the model/table Account to let the user post listing on the site
-class Post(wadb.Model, UserMixin):
+class Post(wadb.Model):
     id: int
     time: str
     by: int
@@ -88,7 +87,7 @@ class Post(wadb.Model, UserMixin):
 
 # Following are the code by Zhixi Lin (Zack), Hanyan Zhang (Yuki)
 @dataclass
-class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
+class Account(UserMixin,wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
     firstname: str
     lastname: str
     username: str
@@ -102,11 +101,12 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     __tablename__ = 'account'  # table name will generally be lower case
     # When Refer back to this table, use the lower case table name
     # (!nullable)name can't be empty
+    id = wadb.Column(wadb.Integer, primary_key=True)
     firstname = wadb.Column(wadb.String(30), nullable=False)
     lastname = wadb.Column(wadb.String(30), nullable=False)
     # unique because every user need their own username to login
     username = wadb.Column(wadb.String(30), nullable=False,
-                           unique=True, primary_key=True)
+                           unique=True)
     # The username will also served as the primary key for other table to reference back.
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
@@ -123,9 +123,11 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
 
+
+
 @app.route("/signout")
 def signout():
-    session.pop('user', None)
+    logout_user()
     return redirect("/")
 
 
@@ -134,7 +136,7 @@ def signout():
 def login():
     if request.method == 'POST':
         form_data = request.get_json(force=True)
-        print(form_data['pass'], file=sys.stderr)
+        print(current_user.is_authenticated, file=sys.stderr)
         msg = ""
         usr = str(form_data['usern'])
         pas = str(form_data['pass'])
@@ -143,8 +145,8 @@ def login():
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
-            session['user'] = usr  # set up the session, keep track of user
-            msg = session['user'] + " logged on successfully!"
+            login_user(temp) # set up the session, keep track of user
+            msg = current_user.username + " logged on successfully!"
         else:  # This is the case where password doesnt match the account
             msg = 'Wrong Password!'
         response = jsonify(msg=msg)
@@ -152,21 +154,21 @@ def login():
                              "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
     else:
-        return "Place holder"
+        return print(current_user.username, file=sys.stderr)
 
 
-@app.route('/msg', methods=['POST', 'GET'])
-def msg():
-    msg = "hello"
-    return jsonify(msg=msg)
+# @app.route('/msg', methods=['POST', 'GET'])
+# def msg():
+#     msg = "hello"
+#     return jsonify(msg=msg)
 
 
 @app.route('/usernamedata', methods=['GET'])
 def usernamedata():
     username = str()
-    if 'user' in session:  # Ensure the user's full name is send to post.html
-        username = Account.query.filter_by(username=session['user']).first(
-        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+    if current_user.is_authenticated:  # Ensure the user's full name is send to post.html
+        username = Account.query.filter_by(username=current_user.username).first(
+        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
     else:
         username = 'offline'
     response = jsonify(username=username)
@@ -200,9 +202,9 @@ def profileBook():
 # removing later
 @app.route('/booklist', methods=['GET', 'POST'])
 def booklist():
-    if 'user' in session:
-        user = Account.query.filter_by(username=session['user']).first(
-        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+    if current_user.is_authenticated:
+        user = Account.query.filter_by(username=current_user.username).first(
+        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
     else:
         user = 'offline'
 
@@ -244,9 +246,9 @@ def booklistall():
 # removing later
 @app.route('/bookdetail', methods=['POST', 'GET'])
 def bookdetail():
-    if 'user' in session:
-        user = Account.query.filter_by(username=session['user']).first(
-        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+    if current_user.is_authenticated:
+        user = Account.query.filter_by(username=current_user.username).first(
+        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
     else:
         user = 'offline'
     if request.method == 'GET':
@@ -259,9 +261,9 @@ def bookdetail():
 @app.route("/", methods=['GET'])
 @app.route("/index", methods=['GET'])
 def index():
-    if 'user' in session:  # Ensure the user's full name is send to post.html
-        user = Account.query.filter_by(username=session['user']).first(
-        ).firstname + ' ' + Account.query.filter_by(username=session['user']).first().lastname
+    if current_user.is_authenticated:  # Ensure the user's full name is send to post.html
+        user = Account.query.filter_by(username=current_user.username).first(
+        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
     else:
         user = 'offline'
 
