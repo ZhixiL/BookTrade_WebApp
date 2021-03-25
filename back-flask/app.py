@@ -4,11 +4,7 @@ from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
 from flask_login import login_user, UserMixin, LoginManager, current_user, logout_user, login_required
 # from marshmallow import Schema, fields
-import datetime
-import time
-import os
-import re
-import sys
+import datetime, time, os, re, sys, jwt
 '''
 --- DATABASE EXPLAIN ---
 The models below will be declared using SQLAlchemy ORM
@@ -33,7 +29,7 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'login'
 login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(usr):
@@ -42,8 +38,10 @@ def load_user(usr):
 # Following are the code by Yuki, Wesley, Zhixi Lin (Zack)
 
 
-@dataclass
+
 # relation model with the model/table Account to let the user post listing on the site
+### MODELS ###
+@dataclass
 class Post(wadb.Model):
     id: int
     time: str
@@ -104,25 +102,73 @@ class Account(UserMixin,wadb.Model):  # This will be a model/table mappping with
     id = wadb.Column(wadb.Integer, primary_key=True)
     firstname = wadb.Column(wadb.String(30), nullable=False)
     lastname = wadb.Column(wadb.String(30), nullable=False)
-    # unique because every user need their own username to login
-    username = wadb.Column(wadb.String(30), nullable=False,
-                           unique=True)
-    # The username will also served as the primary key for other table to reference back.
+    username = wadb.Column(wadb.String(30), nullable=False,unique=True)
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
     email = wadb.Column(wadb.String(100), nullable=False, unique=True)
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
-    # number of posts by the unique user
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
-    # book = wadb.relationship(Post)
 
-    def __repr__(self):  # Important, for when you cann the object, it returns tuple
+    def encode_auth_token(self, user_id):
+        try:
+            payload = {
+                #expiration date of the token
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=10),
+                #when is token generated
+                'iat': datetime.datetime.utcnow(),
+                #the user that token identifies
+                'sub': user_id
+            }
+            return jwt.encode(
+                payload,
+                app.config.get('SECRET_KEY'),
+                algorithm='HS256'
+            )
+        except Exception as e:
+            return e
+
+    @staticmethod
+    def decode_auth_token(auth_token):
+        try:
+            payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'),algorithms=['HS256'])
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'
+
+    def __repr__(self):  # Important, for when you cann the object, it returns tupleap
         return 'Account({firstname},{lastname},{username},{avatar},{email},{fsuid})'.format(
             firstname=self.firstname, lastname=self.lastname, username=self.username,
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
+class BlacklistToken(wadb.Model): #Stores JWT tokens
+    __tablename__ = 'blacklist_tokens'
 
+    id = wadb.Column(wadb.Integer, primary_key=True, autoincrement=True)
+    token = wadb.Column(wadb.String(500), unique=True, nullable=False)
+    blacklisted_on = wadb.Column(wadb.DateTime, nullable=False)
+
+    def __init__(self, token):
+        self.token = token
+        self.blacklisted_on = datetime.datetime.now()
+
+    def __repr__(self):
+        return '<id: token: {}'.format(self.token)
+
+    @staticmethod
+    def check_blacklist(auth_token):
+        # check whether auth token has been blacklisted
+        res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
+        if res:
+            return True
+        else:
+            return False
+
+
+
+### ROUTE CONTROLLERS ###
 @app.route("/signout")
 @login_required
 def signout():
@@ -135,20 +181,32 @@ def signout():
 def login():
     if request.method == 'POST':
         form_data = request.get_json(force=True)
-        print(current_user.is_authenticated, file=sys.stderr)
         msg = ""
         usr = str(form_data['usern'])
         pas = str(form_data['pass'])
-        temp = Account.query.filter_by(
-            username=usr).first()  # search for user info
+        temp = Account.query.filter_by(username=usr).first()
+        print(Account.decode_auth_token(temp.encode_auth_token(temp.id)), file=sys.stderr)
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
+            authToken = temp.encode_auth_token(temp.id)
+            if authToken: #ensure authentication token is correctly generated
+                response = jsonify({
+                    'status': 'success',
+                    'msg': 'Successfully logged in.',
+                    'auth_token': authToken
+                })
+                response.headers.add('Access-Control-Allow-Headers',
+                        "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+                return response #can switch over to make response later
             login_user(temp) # set up the session, keep track of user
             msg = current_user.username + " logged on successfully!"
         else:  # This is the case where password doesnt match the account
             msg = 'Wrong Password!'
-        response = jsonify(msg=msg)
+        response = jsonify({
+            'status' : 'fail',
+            'msg' : msg
+        })
         response.headers.add('Access-Control-Allow-Headers',
                              "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
@@ -217,30 +275,29 @@ def booklistall():
 #Yuanyuan Bao, Zack, Dennis
 @app.route("/post", methods=['POST', 'GET'])
 def post():
-    form_data = request.get_json(force=True)  # pass data from angular to flask
-    #print(form_data['BookName'], file=sys.stderr)
+    if request.method=='POST':
+        form_data = request.get_json(force=True)  # pass data from angular to flask
+        #print(form_data['BookName'], file=sys.stderr)
 
-    post_by = "zacklin"
-    bkname = str(form_data['BookName'])
-    aut = str(form_data['Author'])
-    post_price = float(form_data['Price'])
-    stat = str(form_data['status'])
-    coll = str(form_data['college'])
-    #ava = str(form_data['file'])
-    #descrip = str(form_data['description'])
-    # return(jsonify (response = form_data['BookName'])) # send data from flask to angular
+        post_by = "zacklin"
+        bkname = str(form_data['BookName'])
+        aut = str(form_data['Author'])
+        post_price = float(form_data['Price'])
+        stat = str(form_data['status'])
+        coll = str(form_data['college'])
 
-    post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                college=coll, time=datetime.datetime.now())
-    wadb.session.add(post)
-    wadb.session.commit()
-    
-    response = ""
-    if post == None:
-        response = response + 'Successfully uploaded!'
-    else:
-        response = response + 'An Exception has occured!'
-    return jsonify(response=response)
+        post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+                                college=coll, time=datetime.datetime.now())
+        wadb.session.add(post)
+        wadb.session.commit()
+        response = ""
+        if post != None:
+            response = 'Successfully uploaded!'
+        else:  
+            response = 'An Exception has occured!'
+        return jsonify(response = response)
+    if request.method=='GET':
+        return "placeholder"
 #end of Yuanyuan, Zack, Dennis
 
 #    if request.method == 'GET':
