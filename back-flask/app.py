@@ -123,12 +123,11 @@ class Account(UserMixin,wadb.Model):  # This will be a model/table mappping with
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
 
-
-
 @app.route("/signout")
+@login_required
 def signout():
     logout_user()
-    return redirect("/")
+    return jsonify(response="Signout successful!")
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -154,13 +153,8 @@ def login():
                              "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
     else:
-        return print(current_user.username, file=sys.stderr)
+        return "hello"
 
-
-# @app.route('/msg', methods=['POST', 'GET'])
-# def msg():
-#     msg = "hello"
-#     return jsonify(msg=msg)
 
 
 @app.route('/usernamedata', methods=['GET'])
@@ -199,31 +193,6 @@ def profileBook():
     }
     return jsonify([jsonDataBook])
 
-# removing later
-@app.route('/booklist', methods=['GET', 'POST'])
-def booklist():
-    if current_user.is_authenticated:
-        user = Account.query.filter_by(username=current_user.username).first(
-        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
-    else:
-        user = 'offline'
-
-    if request.method == 'GET':
-        # in default order by post time
-        bklist = Post.query.order_by(Post.time).all()
-        return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
-
-    else:  # This is the case for search
-        key = str(request.form['keywords'])
-        bklist = list(Post.query.filter(
-            Post.bookname.contains(key)).order_by(Post.time).limit(12))
-        if not bklist:  # This is the case for nothing found
-            flash('Nothing was found!')
-            return render_template('booklist.html', user=user, booktitle="none", bklist=bklist)
-        else:
-            return render_template("booklist.html", user=user, booktitle="none", bklist=bklist)
-
-
 @app.route('/booklistbrief', methods=['GET'])
 def booklistbrief():
     bklist = Post.query.order_by(Post.time.desc()).limit(
@@ -242,44 +211,10 @@ def booklistall():
         "bookdata": bklist
     }
     return jsonify([jsonData])
-
-# removing later
-@app.route('/bookdetail', methods=['POST', 'GET'])
-def bookdetail():
-    if current_user.is_authenticated:
-        user = Account.query.filter_by(username=current_user.username).first(
-        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
-    else:
-        user = 'offline'
-    if request.method == 'GET':
-        return render_template(listdetail.html, user=user)
-        # return redirect(url_for('index')) #This page is not allowed to be accessed directly
-    else:  # post request
-        pass
-
-# removing this route later
-@app.route("/", methods=['GET'])
-@app.route("/index", methods=['GET'])
-def index():
-    if current_user.is_authenticated:  # Ensure the user's full name is send to post.html
-        user = Account.query.filter_by(username=current_user.username).first(
-        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
-    else:
-        user = 'offline'
-
-    bklist = Post.query.order_by(Post.time).limit(
-        12).all()  # 12 most recently posted books
-    # post_schema = PostSchema()
-    # post_schema.dump(bklist)
-    jsonData = {
-        "bookdata": bklist
-    }
-    # return render_template("index.html", user=user, booktitle="none", bklist=bklist)
-    return jsonify([jsonData])
-# End Yuki & Zack
+# End Zack & Yuki
 
 
-#
+#Yuanyuan Bao, Zack, Dennis
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     form_data = request.get_json(force=True)  # pass data from angular to flask
@@ -299,79 +234,58 @@ def post():
                 college=coll, time=datetime.datetime.now())
     wadb.session.add(post)
     wadb.session.commit()
+    
     response = ""
     if post == None:
         response = response + 'Successfully uploaded!'
     else:
         response = response + 'An Exception has occured!'
     return jsonify(response=response)
+#end of Yuanyuan, Zack, Dennis
+
+#    if request.method == 'GET':
+#         return render_template('post.html', user=user)
+#     else:  # Separation of post & get
+#         post_by = session['user']
+#         bkname = request.form.get('BookName')
+#         aut = request.form.get('Author')
+#         # ensure pricing is precisely round to 2 decimal place.
+#         post_price = round(float(request.form.get('Price')), 2)
+#         stat = request.form.get('status')
+#         coll = request.form.get('college')
+#         ava = request.form.get('file')
+#         descrip = request.form.get('description')
+
+#         flag = True  # Simple validation mechanism
+
+#         # Basically loop every single char in book title to check if character is contained
+#         if not any(namechar.isalpha() for namechar in bkname):
+#             flash("Book title with no letter is not allowed!")
+#             flag = False
+#         if not any(autchar.isalpha() for autchar in aut):
+#             flash("Author name with no letter is not allowed!")
+#             flag = False
+#         if flag == True:
+#             try:
+#                 post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+#                             college=coll, description=descrip, time=datetime.datetime.now())
+#                 if ava != None:  # We haven't developed picture uploading function
+#                     post.avatar = ava
+#                 if descrip != None:
+#                     post.description = descrip
+#                 wadb.session.add(post)
+#                 wadb.session.commit()
+#                 flash("Successfully uploaded!")
+#             except:
+#                 flash("An Exception has occured!")
+#         return render_template('post.html', user=user)
 
 
-''' 
-   if request.method == 'GET':
-        return render_template('post.html', user=user)
-    else:  # Separation of post & get
-        post_by = session['user']
-        bkname = request.form.get('BookName')
-        aut = request.form.get('Author')
-        # ensure pricing is precisely round to 2 decimal place.
-        post_price = round(float(request.form.get('Price')), 2)
-        stat = request.form.get('status')
-        coll = request.form.get('college')
-        ava = request.form.get('file')
-        descrip = request.form.get('description')
-
-        flag = True  # Simple validation mechanism
-
-        # Basically loop every single char in book title to check if character is contained
-        if not any(namechar.isalpha() for namechar in bkname):
-            flash("Book title with no letter is not allowed!")
-            flag = False
-        if not any(autchar.isalpha() for autchar in aut):
-            flash("Author name with no letter is not allowed!")
-            flag = False
-        if flag == True:
-            try:
-                post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                            college=coll, description=descrip, time=datetime.datetime.now())
-                if ava != None:  # We haven't developed picture uploading function
-                    post.avatar = ava
-                if descrip != None:
-                    post.description = descrip
-                wadb.session.add(post)
-                wadb.session.commit()
-                flash("Successfully uploaded!")
-            except:
-                flash("An Exception has occured!")
-        return render_template('post.html', user=user)
-'''
 
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 @cross_origin()
 def createAcc():
-    #  if request.method == 'POST':
-    #     form_data = request.get_json(force=True)
-    #     print(form_data['pass'], file=sys.stderr)
-    #     msg = ""
-    #     usr = str(form_data['usern'])
-    #     pas = str(form_data['pass'])
-    #     # remember = False
-    #     temp = Account.query.filter_by(
-    #         username=usr).first()  # search for user info
-    #     if temp == None:  # this is the case where temp matches with no account
-    #         msg = 'Username does not exist!'
-    #     elif temp.password == pas:  # temp has matched an account, veryfing the password
-    #         # session['user'] = usr  # set up the session, keep track of user
-    #         msg = session['user'] + " logged on successfully!"
-    #     else:  # This is the case where password doesnt match the account
-    #         msg = 'Wrong Password!'
-    #     response = jsonify(msg=msg)
-    #     response.headers.add('Access-Control-Allow-Headers',
-    #                          "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    #     return response
-    # else:
-    #     return "Place holder"
     if request.method == 'POST':
         form_data = request.get_json(force=True)
         print(form_data['usern'], file=sys.stderr)
