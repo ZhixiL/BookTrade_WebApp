@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-//import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './register/register.component';
 import { BooklistComponent } from './booklist/booklist.component';
 import { PostComponent } from './post/post.component';
 import { NotfoundComponent } from './notfound/notfound.component';
@@ -27,7 +27,7 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
     HeaderTemplateComponent,
     FooterTemplateComponent,
     LoginComponent,
-//    RegisterComponent,
+    RegisterComponent,
     BooklistComponent,
     PostComponent,
     NotfoundComponent,
@@ -66,10 +66,10 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
         path: 'booklist', 
         component: BooklistComponent 
       },
-      // {
-      //   path: 'register',
-      //   component: RegisterComponent
-      // },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
       {
         path: '**',
         component: NotfoundComponent

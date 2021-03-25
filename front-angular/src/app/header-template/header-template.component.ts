@@ -1,6 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { EventEmitterService } from './../Services/event-emitter.service';
-import { Router } from '@angular/router';
-import { Username } from './../model';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -12,24 +11,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderTemplateComponent implements OnInit {
 
-  constructor(private rs : RestService, private ees : EventEmitterService) {}
+  constructor(
+    private ees : EventEmitterService,
+    private http : HttpClient,
+    ) {}
   username : string;
 
   ngOnInit()
   {
-    this.rs.readUsernameData()
-    .subscribe
-      (
-        (response) => 
-        {
-          this.username = response["username"];
-        },
-        (error) =>
-        {
-          console.log("No Data Found" + error);
-        }
+    // this.rs.readUsernameData()
+    // .subscribe
+    //   (
+    //     (response) => 
+    //     {
+    //       this.username = response["username"];
+    //     },
+    //     (error) =>
+    //     {
+    //       console.log("No Data Found" + error);
+    //     }
 
-      )
+    //   )
+
+    this.http.post('http://127.0.0.1:5000/getAccount',
+     {token:localStorage.getItem('authToken')})
+    .subscribe((response)=>{
+    console.log(response['status']);
+    this.username=response['username'];
+  });
   }
 
   listSearch(event)

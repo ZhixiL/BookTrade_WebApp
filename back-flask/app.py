@@ -114,7 +114,7 @@ class Account(UserMixin,wadb.Model):  # This will be a model/table mappping with
         try:
             payload = {
                 #expiration date of the token
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=10),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=60,seconds=0),
                 #when is token generated
                 'iat': datetime.datetime.utcnow(),
                 #the user that token identifies
@@ -145,7 +145,6 @@ class Account(UserMixin,wadb.Model):  # This will be a model/table mappping with
 
 class BlacklistToken(wadb.Model): #Stores JWT tokens
     __tablename__ = 'blacklist_tokens'
-
     id = wadb.Column(wadb.Integer, primary_key=True, autoincrement=True)
     token = wadb.Column(wadb.String(500), unique=True, nullable=False)
     blacklisted_on = wadb.Column(wadb.DateTime, nullable=False)
@@ -159,7 +158,6 @@ class BlacklistToken(wadb.Model): #Stores JWT tokens
 
     @staticmethod
     def check_blacklist(auth_token):
-        # check whether auth token has been blacklisted
         res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
         if res:
             return True
@@ -169,12 +167,70 @@ class BlacklistToken(wadb.Model): #Stores JWT tokens
 
 
 ### ROUTE CONTROLLERS ###
-@app.route("/signout")
+@app.route("/getAccount", methods=['POST'])
+def getAccount():
+    form_data = request.get_json(force=True)
+    if not form_data['token']: #clientside doesn't have a token
+        response={
+            'status':'fail',
+            'username':'offline'
+        }
+        return response
+    accID = Account.decode_auth_token(form_data['token'])
+    print(accID,file=sys.stderr)
+    if str(type(accID)) == "<class 'int'>": #successful retrived id
+        user = Account.query.filter_by(id=accID).first()
+        response={
+            'status':'success',
+            'username':user.firstname + " " + user.lastname
+        }
+        return response
+    else:
+        response={
+            'status':'expired',
+            'username':'offline'
+        }
+        return response
+
+@app.route("/signout", methods=['POST'])
 @login_required
 def signout():
-    logout_user()
-    return jsonify(response="Signout successful!")
-
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        resp = Account.decode_auth_token(auth_token)
+        if not isinstance(resp, str):
+            blacklist_token = BlacklistToken(token=auth_token)
+            try:
+                # insert the token
+                wadb.session.add(blacklist_token)
+                wadb.session.commit()
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Successfully logged out.'
+                }
+                return jsonify(responseObject)
+            except Exception as e:
+                responseObject = {
+                    'status': 'fail',
+                    'message': e
+                }
+                return jsonify(responseObject)
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': resp
+            }
+            return jsonify(responseObject)
+    else:
+        responseObject = {
+            'status': 'fail',
+            'message': 'Provide a valid auth token.'
+        }
+        return jsonify(responseObject)
 
 @app.route("/login", methods=['POST', 'GET'])
 @cross_origin()
@@ -185,7 +241,8 @@ def login():
         usr = str(form_data['usern'])
         pas = str(form_data['pass'])
         temp = Account.query.filter_by(username=usr).first()
-        print(Account.decode_auth_token(temp.encode_auth_token(temp.id)), file=sys.stderr)
+        # if form_data['token'] != "nodata":
+        #     print(Account.decode_auth_token(form_data['token']), file=sys.stderr)
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password

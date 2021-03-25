@@ -21,9 +21,8 @@ export class LoginComponent implements OnInit {
   headers = [ "username", "password"]
   user : Account[] = [];
   returnMsg: string;
-  
+
   ngOnInit() {
-    
     this.rs.readAccData()
     .subscribe
     (
@@ -37,14 +36,14 @@ export class LoginComponent implements OnInit {
       }
     )
   }
-
   userLogin(event) {
     event.preventDefault();
     const target = event.target;
     const username = target.querySelector('#username').value;
     const password = target.querySelector('#password').value;
+    console.log(localStorage.getItem('authToken') + 'log')
     var info = {
-      usern: username, pass: password
+      usern: username, pass: password, token: localStorage.getItem('authToken'),
     };
     console.log(info);
     // this.us.getUserAndPass(username, password);
@@ -52,6 +51,11 @@ export class LoginComponent implements OnInit {
         .subscribe((response)=>{
       this.returnMsg=response["msg"];
       console.log(this.returnMsg);
+      if(response["status"]=="success")
+      {
+        localStorage.setItem('authToken', response["auth_token"]);
+        console.log(localStorage.getItem('authToken'))
+      }
     });
   }
   
