@@ -24,6 +24,12 @@ export class BooklistComponent implements OnInit {
 
   ngOnInit()
   {
+    if (this.ees.searchSubsVar==undefined) {    
+      this.ees.searchSubsVar = this.ees.
+      invokeSearch.subscribe((name:string) => {    
+        this.searchFor(this.ees.key);
+      }); 
+    }
     this.rs.readTextbookAll()
     .subscribe
       (
@@ -37,13 +43,6 @@ export class BooklistComponent implements OnInit {
           console.log("No Data Found" + error);
         }
       )
-    
-    if (this.ees.subsVar==undefined) {    
-      this.ees.subsVar = this.ees.
-      invokeSearch.subscribe((name:string) => {    
-        this.searchFor(this.ees.key);
-      }); 
-    }
   }
   
   searchFor(key)
