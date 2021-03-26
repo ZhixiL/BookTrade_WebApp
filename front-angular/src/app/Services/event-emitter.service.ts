@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
   providedIn: 'root'
 })
 export class EventEmitterService {
-  invokeSearch = new EventEmitter();    
+  invokeSearch = new EventEmitter(); 
+  invokeHeaderRefresh = new EventEmitter();   
   subsVar: Subscription;    
   key;
   constructor() { }    
@@ -13,5 +14,9 @@ export class EventEmitterService {
   searchButtonClick(key) {  
     this.key = key;  
     this.invokeSearch.emit();    
-  }    
+  }
+
+  refreshName(){
+    this.invokeHeaderRefresh.emit();
+  }
 }

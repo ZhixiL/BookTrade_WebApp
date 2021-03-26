@@ -1,5 +1,4 @@
 import { EventEmitterService } from './Services/event-emitter.service';
-import { AuthenticateService } from './Services/authenticate.service';
 import { RestService } from './Services/rest.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderTemplateComponent } from './header-template/header-template.component';
@@ -79,7 +78,6 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     RestService,
-    AuthenticateService,
     EventEmitterService,
   ],
   bootstrap: [AppComponent]

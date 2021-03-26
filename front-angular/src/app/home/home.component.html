@@ -21,12 +21,13 @@
                 <!-- login and signup -->
                 <ul class="ul2">
                     <li>
-                        <!-- {% if user == "offline" %}-->
+                        <div *ngIf="login === false;else elseBlock;">
                         <a href="/login" class="a1">Login</a>
                         <a href="/register" class="a2">Signup</a>
-                        <!--{% else %}
-                        <a href="signout" class="a2">Sign Out</a>
-                        {% endif %} -->
+                        </div>
+                        <div #elseBlock>
+                        <a class="a2" (click)="logout()">Sign Out</a>
+                        </div>
                     </li>
                 </ul>
             </div>

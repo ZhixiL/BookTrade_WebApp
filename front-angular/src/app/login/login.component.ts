@@ -1,4 +1,5 @@
-import { AuthenticateService } from './../Services/authenticate.service';
+import { EventEmitterService } from './../Services/event-emitter.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../Services/rest.service';
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
@@ -13,9 +14,9 @@ export class LoginComponent implements OnInit {
   
   constructor(
     private rs : RestService, 
-    private us: RestService, 
+    private router : Router,
     private http : HttpClient,
-    private auth : AuthenticateService,
+    private ees : EventEmitterService,
     ) {}
 
   headers = [ "username", "password"]
@@ -23,6 +24,19 @@ export class LoginComponent implements OnInit {
   returnMsg: string;
 
   ngOnInit() {
+  //verify if user has logged on or not.
+  this.http.post('http://127.0.0.1:5000/getAccount',
+  {token:localStorage.getItem('authToken')})
+  .subscribe((response)=>{
+    console.log(response['status']);
+    if(response['status']=='success')
+    {
+      this.router.navigate(['/']);
+      this.ees.refreshName();
+      alert("You've already logged on!")
+    }
+  });
+
     this.rs.readAccData()
     .subscribe
     (
@@ -54,7 +68,9 @@ export class LoginComponent implements OnInit {
       if(response["status"]=="success")
       {
         localStorage.setItem('authToken', response["auth_token"]);
-        console.log(localStorage.getItem('authToken'))
+        console.log(localStorage.getItem('authToken'));
+        this.router.navigate(['/']);
+        this.ees.refreshName();
       }
     });
   }

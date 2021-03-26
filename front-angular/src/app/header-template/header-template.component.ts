@@ -19,20 +19,23 @@ export class HeaderTemplateComponent implements OnInit {
 
   ngOnInit()
   {
-    // this.rs.readUsernameData()
-    // .subscribe
-    //   (
-    //     (response) => 
-    //     {
-    //       this.username = response["username"];
-    //     },
-    //     (error) =>
-    //     {
-    //       console.log("No Data Found" + error);
-    //     }
+    this.http.post('http://127.0.0.1:5000/getAccount',
+     {token:localStorage.getItem('authToken')})
+    .subscribe((response)=>{
+    console.log(response['status']);
+    this.username=response['username'];
+  });
 
-    //   )
+    if (this.ees.subsVar==undefined) {    
+      this.ees.subsVar = this.ees.
+      invokeHeaderRefresh.subscribe((name:string) => {    
+        this.refreshUser();
+      }); 
+    }
+  }
 
+  refreshUser()
+  {
     this.http.post('http://127.0.0.1:5000/getAccount',
      {token:localStorage.getItem('authToken')})
     .subscribe((response)=>{
@@ -40,7 +43,6 @@ export class HeaderTemplateComponent implements OnInit {
     this.username=response['username'];
   });
   }
-
   listSearch(event)
   {
     const target = event.target;

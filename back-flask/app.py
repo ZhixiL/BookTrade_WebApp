@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, flash, redirect, request, jso
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
-from flask_login import login_user, UserMixin, LoginManager, current_user, logout_user, login_required
 # from marshmallow import Schema, fields
 import datetime, time, os, re, sys, jwt
 '''
@@ -28,17 +27,8 @@ wadb.init_app(app)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-login_manager = LoginManager()
-login_manager.login_view = 'login'
-login_manager.init_app(app)
-@login_manager.user_loader
-def load_user(usr):
-    return Account.query.get(str(usr))
 
 # Following are the code by Yuki, Wesley, Zhixi Lin (Zack)
-
-
-
 # relation model with the model/table Account to let the user post listing on the site
 ### MODELS ###
 @dataclass
@@ -85,7 +75,7 @@ class Post(wadb.Model):
 
 # Following are the code by Zhixi Lin (Zack), Hanyan Zhang (Yuki)
 @dataclass
-class Account(UserMixin,wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
+class Account(wadb.Model):  # This will be a model/table mappping within our wadb(web app database)
     firstname: str
     lastname: str
     username: str
@@ -94,7 +84,6 @@ class Account(UserMixin,wadb.Model):  # This will be a model/table mappping with
     email: str
     fsuid: str
     num_of_posts: int
-    # book: Post
 
     __tablename__ = 'account'  # table name will generally be lower case
     # When Refer back to this table, use the lower case table name
@@ -154,11 +143,11 @@ class BlacklistToken(wadb.Model): #Stores JWT tokens
         self.blacklisted_on = datetime.datetime.now()
 
     def __repr__(self):
-        return '<id: token: {}'.format(self.token)
+        return 'BlacklistToken({token})'.format(token=self.token)
 
     @staticmethod
-    def check_blacklist(auth_token):
-        res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
+    def check_blacklist(token):
+        res = BlacklistToken.query.filter_by(token=str(token)).first()
         if res:
             return True
         else:
@@ -170,7 +159,8 @@ class BlacklistToken(wadb.Model): #Stores JWT tokens
 @app.route("/getAccount", methods=['POST'])
 def getAccount():
     form_data = request.get_json(force=True)
-    if not form_data['token']: #clientside doesn't have a token
+    if not form_data['token'] or BlacklistToken.check_blacklist(form_data['token']):
+        #clientside doesn't have a token or token is blacklisted
         response={
             'status':'fail',
             'username':'offline'
@@ -193,44 +183,31 @@ def getAccount():
         return response
 
 @app.route("/signout", methods=['POST'])
-@login_required
 def signout():
-    auth_header = request.headers.get('Authorization')
-    if auth_header:
-        auth_token = auth_header.split(" ")[1]
-    else:
-        auth_token = ''
-    if auth_token:
-        resp = Account.decode_auth_token(auth_token)
-        if not isinstance(resp, str):
-            blacklist_token = BlacklistToken(token=auth_token)
-            try:
-                # insert the token
-                wadb.session.add(blacklist_token)
-                wadb.session.commit()
-                responseObject = {
-                    'status': 'success',
-                    'message': 'Successfully logged out.'
-                }
-                return jsonify(responseObject)
-            except Exception as e:
-                responseObject = {
-                    'status': 'fail',
-                    'message': e
-                }
-                return jsonify(responseObject)
-        else:
-            responseObject = {
-                'status': 'fail',
-                'message': resp
+    form_data = request.get_json(force=True)
+    userID = Account.decode_auth_token(form_data['token'])
+    if str(type(userID)) == "<class 'int'>":
+        blacklist_token = BlacklistToken(token=form_data['token'])
+        try:
+            wadb.session.add(blacklist_token)
+            wadb.session.commit()
+            response = {
+                'status': 'success',
+                'msg': 'Successfully logged out!'
             }
-            return jsonify(responseObject)
+            return jsonify(response)
+        except Exception as e:
+            response = {
+                'status': 'fail',
+                'msg': e
+            }
+            return jsonify(response)
     else:
-        responseObject = {
+        response = {
             'status': 'fail',
-            'message': 'Provide a valid auth token.'
+            'msg': "Session expired, you're not logged in."
         }
-        return jsonify(responseObject)
+        return jsonify(response)
 
 @app.route("/login", methods=['POST', 'GET'])
 @cross_origin()
@@ -253,48 +230,36 @@ def login():
                     'msg': 'Successfully logged in.',
                     'auth_token': authToken
                 })
-                response.headers.add('Access-Control-Allow-Headers',
-                        "Origin, X-Requested-With, Content-Type, Accept, x-auth")
                 return response #can switch over to make response later
-            login_user(temp) # set up the session, keep track of user
-            msg = current_user.username + " logged on successfully!"
         else:  # This is the case where password doesnt match the account
             msg = 'Wrong Password!'
         response = jsonify({
             'status' : 'fail',
             'msg' : msg
         })
-        response.headers.add('Access-Control-Allow-Headers',
-                             "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
     else:
         return "hello"
 
 
-
+#remove later
 @app.route('/usernamedata', methods=['GET'])
 def usernamedata():
-    username = str()
-    if current_user.is_authenticated:  # Ensure the user's full name is send to post.html
-        username = Account.query.filter_by(username=current_user.username).first(
-        ).firstname + ' ' + Account.query.filter_by(username=current_user.username).first().lastname
-    else:
-        username = 'offline'
+    username = 'offline'
     response = jsonify(username=username)
     return response
 
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    # if 'user' in session:
-    userlist = Account.query.filter_by(username="zacklin").first()
-    jsonDataUser = {
-        "userdata": [
-            userlist
-        ]
-    }
-
-    return jsonify([jsonDataUser])
+    if request.method == 'POST':
+        userlist = Account.query.filter_by(username="zacklin").first()
+        jsonDataUser = {
+            "userdata": [
+                userlist
+            ]
+        }
+        return jsonify([jsonDataUser])
     # else:
     #     return "not found"
 
@@ -333,10 +298,18 @@ def booklistall():
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     if request.method=='POST':
-        form_data = request.get_json(force=True)  # pass data from angular to flask
+        response = ""
+        username = ""
+        form_data_all = request.get_json(force=True)  # pass data from angular to flask
+        form_data = form_data_all['bookdata']
+        userID = Account.decode_auth_token(form_data_all['token'])
+        if str(type(userID)) == "<class 'int'>":
+            username = Account.query.filter_by(id = userID).first().username
+            print(username, file=sys.stderr)
+        else:
+            return jsonify(response = "Token Error")
         #print(form_data['BookName'], file=sys.stderr)
-
-        post_by = "zacklin"
+        post_by = username
         bkname = str(form_data['BookName'])
         aut = str(form_data['Author'])
         post_price = float(form_data['Price'])
@@ -347,7 +320,6 @@ def post():
                                 college=coll, time=datetime.datetime.now())
         wadb.session.add(post)
         wadb.session.commit()
-        response = ""
         if post != None:
             response = 'Successfully uploaded!'
         else:  
@@ -356,44 +328,6 @@ def post():
     if request.method=='GET':
         return "placeholder"
 #end of Yuanyuan, Zack, Dennis
-
-#    if request.method == 'GET':
-#         return render_template('post.html', user=user)
-#     else:  # Separation of post & get
-#         post_by = session['user']
-#         bkname = request.form.get('BookName')
-#         aut = request.form.get('Author')
-#         # ensure pricing is precisely round to 2 decimal place.
-#         post_price = round(float(request.form.get('Price')), 2)
-#         stat = request.form.get('status')
-#         coll = request.form.get('college')
-#         ava = request.form.get('file')
-#         descrip = request.form.get('description')
-
-#         flag = True  # Simple validation mechanism
-
-#         # Basically loop every single char in book title to check if character is contained
-#         if not any(namechar.isalpha() for namechar in bkname):
-#             flash("Book title with no letter is not allowed!")
-#             flag = False
-#         if not any(autchar.isalpha() for autchar in aut):
-#             flash("Author name with no letter is not allowed!")
-#             flag = False
-#         if flag == True:
-#             try:
-#                 post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-#                             college=coll, description=descrip, time=datetime.datetime.now())
-#                 if ava != None:  # We haven't developed picture uploading function
-#                     post.avatar = ava
-#                 if descrip != None:
-#                     post.description = descrip
-#                 wadb.session.add(post)
-#                 wadb.session.commit()
-#                 flash("Successfully uploaded!")
-#             except:
-#                 flash("An Exception has occured!")
-#         return render_template('post.html', user=user)
-
 
 
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
