@@ -3,6 +3,8 @@ The requirement for the server to operate:
 - python 2.7.18 and up
 - flask
 - flask-SQLAlchemy
+- CORS
+- jwt
 
 Execute with following command:
 - python app.py
