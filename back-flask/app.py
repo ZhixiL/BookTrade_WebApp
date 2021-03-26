@@ -3,7 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
 # from marshmallow import Schema, fields
-import datetime, time, os, re, sys, jwt
+import datetime
+import time
+import os
+import re
+import sys
+import jwt
 '''
 --- DATABASE EXPLAIN ---
 The models below will be declared using SQLAlchemy ORM
@@ -91,7 +96,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     id = wadb.Column(wadb.Integer, primary_key=True)
     firstname = wadb.Column(wadb.String(30), nullable=False)
     lastname = wadb.Column(wadb.String(30), nullable=False)
-    username = wadb.Column(wadb.String(30), nullable=False,unique=True)
+    username = wadb.Column(wadb.String(30), nullable=False, unique=True)
     avatar = wadb.Column(wadb.String(
         30), default='///templates/images/default_avatar.jpg', nullable=False)
     password = wadb.Column(wadb.String(15), nullable=False)
@@ -102,11 +107,11 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     def encode_auth_token(self, user_id):
         try:
             payload = {
-                #expiration date of the token
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=60,seconds=0),
-                #when is token generated
+                # expiration date of the token
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=720, seconds=0),
+                # when is token generated
                 'iat': datetime.datetime.utcnow(),
-                #the user that token identifies
+                # the user that token identifies
                 'sub': user_id
             }
             return jwt.encode(
@@ -120,7 +125,8 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     @staticmethod
     def decode_auth_token(auth_token):
         try:
-            payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'),algorithms=['HS256'])
+            payload = jwt.decode(auth_token, app.config.get(
+                'SECRET_KEY'), algorithms=['HS256'])
             return payload['sub']
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
@@ -132,7 +138,8 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             firstname=self.firstname, lastname=self.lastname, username=self.username,
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
-class BlacklistToken(wadb.Model): #Stores JWT tokens
+
+class BlacklistToken(wadb.Model):  # Stores JWT tokens
     __tablename__ = 'blacklist_tokens'
     id = wadb.Column(wadb.Integer, primary_key=True, autoincrement=True)
     token = wadb.Column(wadb.String(500), unique=True, nullable=False)
@@ -154,33 +161,33 @@ class BlacklistToken(wadb.Model): #Stores JWT tokens
             return False
 
 
-
 ### ROUTE CONTROLLERS ###
 @app.route("/getAccount", methods=['POST'])
 def getAccount():
     form_data = request.get_json(force=True)
     if form_data['token'] is None or BlacklistToken.check_blacklist(form_data['token']):
-        #clientside doesn't have a token or token is blacklisted
-        response={
-            'status':'fail',
-            'username':'offline'
+        # clientside doesn't have a token or token is blacklisted
+        response = {
+            'status': 'fail',
+            'username': 'offline'
         }
         return response
     accID = Account.decode_auth_token(form_data['token'])
-    print(accID,file=sys.stderr)
-    if str(type(accID)) == "<class 'int'>": #successful retrived id
+    print(accID, file=sys.stderr)
+    if str(type(accID)) == "<class 'int'>":  # successful retrived id
         user = Account.query.filter_by(id=accID).first()
-        response={
-            'status':'success',
-            'username':user.firstname + " " + user.lastname
+        response = {
+            'status': 'success',
+            'username': user.firstname + " " + user.lastname
         }
         return response
     else:
-        response={
-            'status':'expired',
-            'username':'offline'
+        response = {
+            'status': 'expired',
+            'username': 'offline'
         }
         return response
+
 
 @app.route("/signout", methods=['POST'])
 def signout():
@@ -209,6 +216,7 @@ def signout():
         }
         return jsonify(response)
 
+
 @app.route("/login", methods=['POST', 'GET'])
 @cross_origin()
 def login():
@@ -224,25 +232,25 @@ def login():
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
             authToken = temp.encode_auth_token(temp.id)
-            if authToken: #ensure authentication token is correctly generated
+            if authToken:  # ensure authentication token is correctly generated
                 response = jsonify({
                     'status': 'success',
                     'msg': 'Successfully logged in.',
                     'auth_token': authToken
                 })
-                return response #can switch over to make response later
+                return response  # can switch over to make response later
         else:  # This is the case where password doesnt match the account
             msg = 'Wrong Password!'
         response = jsonify({
-            'status' : 'fail',
-            'msg' : msg
+            'status': 'fail',
+            'msg': msg
         })
         return response
     else:
         return "hello"
 
 
-#remove later
+# remove later
 @app.route('/usernamedata', methods=['GET'])
 def usernamedata():
     username = 'offline'
@@ -252,16 +260,20 @@ def usernamedata():
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    usrn = ""
     if request.method == 'POST':
-        userlist = Account.query.filter_by(username="zacklin").first()
-        jsonDataUser = {
-            "userdata": [
-                userlist
-            ]
-        }
-        return jsonify([jsonDataUser])
+        form_data = request.get_json(force=True)
+        usrn = str(form_data["usr"])
+    print(usrn)
+    userlist = Account.query.filter_by(username=usrn).first()
+    jsonDataUser = {
+        "userdata": [
+            userlist
+        ]
+    }
+    return jsonify([jsonDataUser])
     # else:
-    #     return "not found"
+    #     return "placeholder"
 
 
 @app.route('/profilebook', methods=['GET', 'POST'])
@@ -273,12 +285,23 @@ def profileBook():
     }
     return jsonify([jsonDataBook])
 
+
 @app.route('/booklistbrief', methods=['GET'])
 def booklistbrief():
     bklist = Post.query.order_by(Post.time.desc()).limit(
         12).all()  # 12 most recently posted books
     jsonData = {
         "bookdata": bklist
+    }
+    return jsonify([jsonData])
+
+
+@app.route('/userdataall', methods=['GET'])
+def userlistall():
+    bklist = Account.query.all()
+    # get all users
+    jsonData = {
+        "userdata": bklist
     }
     return jsonify([jsonData])
 
@@ -294,20 +317,21 @@ def booklistall():
 # End Zack & Yuki
 
 
-#Yuanyuan Bao, Zack, Dennis
+# Yuanyuan Bao, Zack, Dennis
 @app.route("/post", methods=['POST', 'GET'])
 def post():
-    if request.method=='POST':
+    if request.method == 'POST':
         response = ""
         username = ""
-        form_data_all = request.get_json(force=True)  # pass data from angular to flask
+        # pass data from angular to flask
+        form_data_all = request.get_json(force=True)
         form_data = form_data_all['bookdata']
         userID = Account.decode_auth_token(form_data_all['token'])
         if str(type(userID)) == "<class 'int'>":
-            username = Account.query.filter_by(id = userID).first().username
+            username = Account.query.filter_by(id=userID).first().username
             print(username, file=sys.stderr)
         else:
-            return jsonify(response = "Token Error")
+            return jsonify(response="Token Error")
         #print(form_data['BookName'], file=sys.stderr)
         post_by = username
         bkname = str(form_data['BookName'])
@@ -317,17 +341,17 @@ def post():
         coll = str(form_data['college'])
 
         post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                                college=coll, time=datetime.datetime.now())
+                    college=coll, time=datetime.datetime.now())
         wadb.session.add(post)
         wadb.session.commit()
         if post != None:
             response = 'Successfully uploaded!'
-        else:  
+        else:
             response = 'An Exception has occured!'
-        return jsonify(response = response)
-    if request.method=='GET':
+        return jsonify(response=response)
+    if request.method == 'GET':
         return "placeholder"
-#end of Yuanyuan, Zack, Dennis
+# end of Yuanyuan, Zack, Dennis
 
 
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
@@ -374,10 +398,22 @@ def createAcc():
                 # Ensure the account can be found on database, so there's nothing wrong with input to database.
                 # session['user'] = str(Account.query.filter_by(
                 #     username=user).first().username)
-                msg = "You have successfully registered!"
+                # msg = "You have successfully registered!"
+                temp = Account.query.filter_by(username=user).first()
+                authToken = temp.encode_auth_token(temp.id)
+                if authToken:  # ensure authentication token is correctly generated
+                    response = jsonify({
+                        'status': 'success',
+                        'msg': 'Successfully logged in.',
+                        'auth_token': authToken
+                    })
+                return response
             except:
                 return "Error adding to the database!"
-        response = jsonify(msg=msg)
+        response = jsonify({
+            'status': 'fail',
+            'msg': msg
+        })
         response.headers.add('Access-Control-Allow-Headers',
                              "Origin, X-Requested-With, Content-Type, Accept, x-auth")
         return response
