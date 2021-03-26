@@ -1,6 +1,7 @@
 # CEN4090L-Team5
 The requirement for flask server (backend) to operate:
 - python 2.7.18 and up
+
 Use pip to install following:
 - flask
 - flask-SQLAlchemy
