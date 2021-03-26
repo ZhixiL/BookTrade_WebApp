@@ -159,7 +159,7 @@ class BlacklistToken(wadb.Model): #Stores JWT tokens
 @app.route("/getAccount", methods=['POST'])
 def getAccount():
     form_data = request.get_json(force=True)
-    if not form_data['token'] or BlacklistToken.check_blacklist(form_data['token']):
+    if form_data['token'] is None or BlacklistToken.check_blacklist(form_data['token']):
         #clientside doesn't have a token or token is blacklisted
         response={
             'status':'fail',
