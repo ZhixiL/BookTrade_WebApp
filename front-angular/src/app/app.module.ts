@@ -50,7 +50,7 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
         component: LoginComponent 
       },
      { 
-       path: 'profile', 
+       path: 'profile/:user', 
        component: ProfileComponent 
      },
       { 

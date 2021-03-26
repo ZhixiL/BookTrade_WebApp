@@ -9,7 +9,7 @@
                             <h4>{{book["bookname"] | uppercase}}</h4>
                         </div>
                         <div class="authorandpost">
-                            <h6>By: {{book["author"]}} &nbsp; &nbsp; | &nbsp; &nbsp; Posted By: {{book["by"]}}</h6>
+                            <h6>By: {{book["author"]}} &nbsp; &nbsp; | &nbsp; &nbsp; Posted By: <a [routerLink]="['/profile', book.by]"> {{book["by"]}} </a></h6>
                         </div>
                         <div class="college">
                             <p>College: {{book["college"]}}</p>

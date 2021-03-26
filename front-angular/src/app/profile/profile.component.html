@@ -2,19 +2,23 @@
     <div class="mainsection">
         <div class="profilesection">
             <div class="profilepic"></div>
-            <div class="profileinfo" *ngFor="let u of user">
-                <h2 class="fullname">{{u["firstname"]}} {{u["lastname"]}}</h2>
-                <h5 class="fsuid">fsuid: {{u["fsuid"]}}</h5>
-                <h3 class="email">Email: {{u["email"]}}</h3>
+            <div class="for" *ngFor="let u of user">
+                <div class="profileinfo" *ngIf="usern===u.username">
+                    <h2 class="fullname">{{u["firstname"]}} {{u["lastname"]}}</h2>
+                    <h5 class="fsuid">fsuid: {{u["fsuid"]}}</h5>
+                    <h3 class="email">Email: {{u["email"]}}</h3>
+                </div>
             </div>
         </div>
 
         <div class="booksection">
-            <div class="onebook" *ngFor="let book of textbook">
-                <div class="bookpic">
+            <div class="for2" *ngFor="let book of textbook2">
+                <div class="onebook" *ngIf="usern===book.by">
+                    <div class="bookpic">
+                    </div>
+                    <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
+                    <h5>${{book["price"]}}</h5>
                 </div>
-                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
-                <h5>${{book["price"]}}</h5>
             </div>
         </div>
     </div>

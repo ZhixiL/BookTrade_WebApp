@@ -33,6 +33,11 @@ export class RestService implements OnInit {
     return this.http.get<Account[]>(this.baseUrl + "/profile");
   }
 
+  readUserDataAll()
+  {
+    return this.http.get<Account[]>(this.baseUrl + "/userdataall");
+  }
+
   readUsernameData()
   {
     return this.http.get<Username[]>(this.baseUrl + "/usernamedata");

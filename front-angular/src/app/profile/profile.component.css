@@ -25,7 +25,7 @@
   background: url(../../assets/images/tempbook.jpg);
 }
 
-.mainsectionbg .mainsection .profilesection .profileinfo {
+.mainsectionbg .mainsection .profilesection .for .profileinfo {
   float: left;
   width: 500px;
   height: 300px;
@@ -33,19 +33,19 @@
   margin-top: 50px;
 }
 
-.mainsectionbg .mainsection .profilesection .profileinfo .fullname {
+.mainsectionbg .mainsection .profilesection .for .profileinfo .fullname {
   display: inline;
   margin-left: 10px;
   font-weight: 500;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-.mainsectionbg .mainsection .profilesection .profileinfo .fsuid {
+.mainsectionbg .mainsection .profilesection .for .profileinfo .fsuid {
   display: inline;
   margin-left: 200px;
 }
 
-.mainsectionbg .mainsection .profilesection .profileinfo .email {
+.mainsectionbg .mainsection .profilesection .for .profileinfo .email {
   margin-left: 10px;
   font-weight: 500;
 }
@@ -59,20 +59,20 @@
   border-color: #000000;
 }
 
-.mainsectionbg .mainsection .booksection .onebook {
+.mainsectionbg .mainsection .booksection .for2 .onebook {
   float: left;
   height: 215px;
   width: 213.5px;
   padding: 15px 17.51px;
 }
 
-.mainsectionbg .mainsection .booksection .onebook .bookpic {
+.mainsectionbg .mainsection .booksection .for2 .onebook .bookpic {
   height: 125px;
   width: 214px;
   background: url(../../assets/images/tempbook.jpg);
 }
 
-.mainsectionbg .mainsection .booksection .onebook a h4 {
+.mainsectionbg .mainsection .booksection .for2 .onebook a h4 {
   margin: 20px 0;
   color: #000000;
 }
