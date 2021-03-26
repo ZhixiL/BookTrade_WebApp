@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitterService } from './../Services/event-emitter.service';
 import { RestService } from './../Services/rest.service';
@@ -14,6 +15,7 @@ export class HeaderTemplateComponent implements OnInit {
   constructor(
     private ees : EventEmitterService,
     private http : HttpClient,
+    private router : Router
     ) {}
   username : string;
 
@@ -26,8 +28,8 @@ export class HeaderTemplateComponent implements OnInit {
     this.username=response['username'];
   });
 
-    if (this.ees.subsVar==undefined) {    
-      this.ees.subsVar = this.ees.
+    if (this.ees.refreshSubVar==undefined) {    
+      this.ees.refreshSubVar = this.ees.
       invokeHeaderRefresh.subscribe((name:string) => {    
         this.refreshUser();
       }); 
@@ -47,7 +49,12 @@ export class HeaderTemplateComponent implements OnInit {
   {
     const target = event.target;
     const key = target.querySelector('#key').value;
-    this.ees.searchButtonClick(key);
+    this.router.navigate(['/booklist']);
+    setTimeout(() => 
+    {
+      this.ees.searchButtonClick(key);
+    }, //avoid function conflict
+    200);
   }
   
 }
