@@ -18,6 +18,7 @@ import { PostComponent } from './post/post.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
+import { PersonalProfileComponent } from './personal-profile/personal-profile.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
     NotfoundComponent,
     ProfileComponent,
     BookDetailComponent,
+    PersonalProfileComponent,
   ],
   imports: [
     FormsModule,
@@ -53,6 +55,10 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
        path: 'profile/:user', 
        component: ProfileComponent 
      },
+     { 
+      path: 'personal/:user', 
+      component: PersonalProfileComponent 
+      },
       { 
         path: 'post', 
         component: PostComponent 

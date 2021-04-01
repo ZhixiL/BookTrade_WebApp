@@ -25,9 +25,9 @@
                         <a href="/login" class="a1">Login</a>
                         <a href="/register" class="a2">Signup</a>
                         </div>
-                        <div #elseBlock>
-                        <a class="a2" (click)="logout()">Sign Out</a>
-                        </div>
+                        <ng-template #elseBlock>
+                            <a class="a2" (click)="logout()">Sign Out</a>
+                        </ng-template>
                     </li>
                 </ul>
             </div>

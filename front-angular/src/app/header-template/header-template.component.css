@@ -97,11 +97,15 @@ li {
 }
 
 /* username */
-.profile h5 {
+.profile a {
   float: left;
   font-size: 14px;
   font-weight: 400;
   line-height: 42px;
   color: #666666;
   height: 42px;
+}
+
+.profile a:hover {
+  color: blue;
 }
