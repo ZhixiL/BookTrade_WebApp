@@ -178,7 +178,8 @@ def getAccount():
         user = Account.query.filter_by(id=accID).first()
         response = {
             'status': 'success',
-            'username': user.firstname + " " + user.lastname
+            'username': user.firstname + " " + user.lastname,
+            'usern': user.username
         }
         return response
     else:
@@ -249,6 +250,20 @@ def login():
     else:
         return "hello"
 
+
+@app.route("/changepass", methods=['POST', 'GET'])
+@cross_origin()
+def changepass():
+    if request.method == 'POST':
+        form_data = request.get_json(force=True)
+        msg = ""
+        oldpass = str(form_data['oldp'])
+        pass1 = str(form_data['p1'])
+        pass2 = str(form_data['p2'])
+        usern = str(form_data['user'])
+        print(oldpass, pass1, pass2, usern)
+    else:
+        return "placeholder"
 
 # remove later
 @app.route('/usernamedata', methods=['GET'])
