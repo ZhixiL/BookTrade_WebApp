@@ -55,9 +55,12 @@ export class LoginComponent implements OnInit {
     const target = event.target;
     const username = target.querySelector('#username').value;
     const password = target.querySelector('#password').value;
+    const keeplogin = target.querySelector('#keeplogin').checked;
     console.log(localStorage.getItem('authToken') + 'log')
     var info = {
-      usern: username, pass: password, token: localStorage.getItem('authToken'),
+      usern: username, pass: password,
+      token: localStorage.getItem('authToken'),
+      keeplog: keeplogin
     };
     console.log(info);
     // this.us.getUserAndPass(username, password);

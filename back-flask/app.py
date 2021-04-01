@@ -33,7 +33,7 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 
-# Following are the code by Yuki, Wesley, Zhixi Lin (Zack)
+# Following are the code by Yuki, Wesley, Zhixi Lin (Zack)~``
 # relation model with the model/table Account to let the user post listing on the site
 ### MODELS ###
 @dataclass
@@ -104,11 +104,18 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
 
-    def encode_auth_token(self, user_id):
+    def encode_auth_token(self, user_id, keeplog = False):
         try:
+            hour = int()
+            if keeplog is True:
+                hour = 360
+            else: #if the user explicitly said want to stay logged on,
+                  #token will last for 30 days or 360 hours
+                hour = 12  #else only 12 hours for the current session.
+            print(hour,file=sys.stderr)
             payload = {
                 # expiration date of the token
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=720, seconds=0),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, hours=hour, seconds=5),
                 # when is token generated
                 'iat': datetime.datetime.utcnow(),
                 # the user that token identifies
@@ -226,13 +233,14 @@ def login():
         msg = ""
         usr = str(form_data['usern'])
         pas = str(form_data['pass'])
+        keeplog = form_data['keeplog']
         temp = Account.query.filter_by(username=usr).first()
         # if form_data['token'] != "nodata":
         #     print(Account.decode_auth_token(form_data['token']), file=sys.stderr)
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
-            authToken = temp.encode_auth_token(temp.id)
+            authToken = temp.encode_auth_token(temp.id,keeplog)
             if authToken:  # ensure authentication token is correctly generated
                 response = jsonify({
                     'status': 'success',
