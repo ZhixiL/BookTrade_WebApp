@@ -1,14 +1,15 @@
 
 <!-- This is the header section -->
+<style>::placeholder {color: bfbfbf;opacity: 1;}</style>
 <div class="mainheader">
     <div class="header w">
         <!-- logo -->
         <div class="logo">
             <a href="/"><img src="../../assets/images/logo2.png" alt=""></a>
         </div>
-
         <!-- search box -->
         <div class="search" >
+            
             <form (submit)="listSearch($event)" id="searchForm">
                 <input type="text" name = "key" id="key" placeholder=" Search for a textbook">
                 <!--routerLink="/booklist" (click)="listSearch()"-->
