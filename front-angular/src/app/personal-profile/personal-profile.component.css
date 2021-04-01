@@ -1,0 +1,101 @@
+.mainsectionbg {
+  width: auto;
+  height: 500px;
+  background-color: #e7dddb;
+}
+
+/* main profile section */
+.mainsection {
+  width: 1400px;
+  height: 500px;
+  margin: auto;
+  background-color: #e7dddb;
+}
+.mainsectionbg .mainsection .profilesection {
+  display: block;
+  height: 400px;
+}
+
+.mainsectionbg .mainsection .profilesection .profilepic {
+  float: left;
+  width: 200px;
+  height: 300px;
+  margin-left: 200px;
+  margin-top: 50px;
+  background: url(../../assets/images/tempbook.jpg);
+}
+
+.mainsectionbg .mainsection .profilesection .for .profileinfo {
+  float: left;
+  width: 500px;
+  height: 300px;
+  margin-left: 100px;
+  margin-top: 50px;
+}
+
+.mainsectionbg .mainsection .profilesection .for .profileinfo .fullname {
+  display: inline;
+  margin-left: 10px;
+  font-weight: 500;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.mainsectionbg .mainsection .profilesection .for .profileinfo .fsuid {
+  display: inline;
+  margin-left: 200px;
+}
+
+.mainsectionbg .mainsection .profilesection .for .profileinfo .email {
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+.mainsectionbg .mainsection .profilesection .for .profileinfo .passsection {
+  display: block;
+  height: 200px;
+  margin-left: 10px;
+}
+
+.mainsectionbg
+  .mainsection
+  .profilesection
+  .for
+  .profileinfo
+  .passsection
+  .showchange {
+  height: 190px;
+  width: 400px;
+  background-color: #fff;
+}
+
+.mainsectionbg
+  .mainsection
+  .profilesection
+  .for
+  .profileinfo
+  .passsection
+  .showchange
+  form
+  .oldpass,
+.mainsectionbg
+  .mainsection
+  .profilesection
+  .for
+  .profileinfo
+  .passsection
+  .showchange
+  form
+  .pass1,
+.mainsectionbg
+  .mainsection
+  .profilesection
+  .for
+  .profileinfo
+  .passsection
+  .showchange
+  form
+  .pass2 {
+  width: 350px;
+  height: 30px;
+  margin: 10px 0;
+}

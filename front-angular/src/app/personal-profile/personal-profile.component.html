@@ -1,2 +1,31 @@
-<p>personal-profile works!</p>
-<div>{{username}}</div>
+<div class="mainsectionbg">
+    <div class="mainsection">
+        <div *ngIf="login === false;else elseBlock;">
+            <h1>Please Login First!</h1>
+        </div>
+        <ng-template #elseBlock>
+            <div class="profilesection">
+                <div class="profilepic"></div>
+                <div class="for" *ngFor="let u of user">
+                    <div class="profileinfo" *ngIf="usern===u.username">
+                        <h2 class="fullname">{{u["firstname"]}} {{u["lastname"]}}</h2>
+                        <h5 class="fsuid">fsuid: {{u["fsuid"]}}</h5>
+                        <h3 class="email">Email: {{u["email"]}}</h3>
+                        <div class="passsection">
+                            <button (click)="changePassword()">Change Password</button>
+                            <div class="showchange" *ngIf="showpass===true">
+                                <form (submit)="userChangePass($event)">
+                                    <input type="password" name = "oldPass" placeholder=" Enter Old Password" id="oldpassword" class="oldpass" required>
+                                    <input type="password" name = "Pass1" placeholder=" Enter Password" id="password1" class="pass1" required>
+                                    <input type="password" name = "Pass2" placeholder=" Confirm Password" id="password2" class="pass2" required>
+                                    <input type="submit" value="Submit" class="submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </ng-template>
+    </div>
+</div>

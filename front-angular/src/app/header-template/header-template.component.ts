@@ -18,6 +18,7 @@ export class HeaderTemplateComponent implements OnInit {
     private router : Router
     ) {}
   username : string;
+  usern : string;
 
   ngOnInit()
   {
@@ -26,6 +27,7 @@ export class HeaderTemplateComponent implements OnInit {
     .subscribe((response)=>{
     console.log(response['status']);
     this.username=response['username'];
+    this.usern = response['usern'];
   });
 
     if (this.ees.refreshSubVar==undefined) {    
@@ -43,6 +45,7 @@ export class HeaderTemplateComponent implements OnInit {
     .subscribe((response)=>{
     console.log(response['status']);
     this.username=response['username'];
+    this.usern = response['usern'];
   });
   }
   listSearch(event)
