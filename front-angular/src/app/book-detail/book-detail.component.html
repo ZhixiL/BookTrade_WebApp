@@ -2,7 +2,7 @@
     <div class="mainsection">
         <div class="for" *ngFor="let book of textbook">
             <div class="booksection"*ngIf="tbook===book.bookname">
-                <div class="bookdetail">
+                <div class="bookdetail" *ngIf="currentUsername===book.by;else elseBlock;">
                     <div class="bookpic"></div>
                     <div class="bookinfo">
                         <div class="booktitle">
@@ -18,15 +18,45 @@
                             <p>Status: {{book["stat"]}}</p>
                         </div>
                         <div class="price">
-                            Price: <p>${{book["price"]}}</p>
+                            Price: <p class="pricep">${{book["price"]}} &nbsp; &nbsp; </p>
+                            <button (click)="changePrice()">Change Price</button>
+                        </div>
+                        <button (click)="deletePost()">Delete Post</button>
+                    </div>
+                </div>
+                <ng-template #elseBlock>
+                    <div class="bookdetail">
+                        <div class="bookpic"></div>
+                    <div class="bookinfo">
+                        <div class="booktitle">
+                            <h4>{{book["bookname"] | uppercase}}</h4>
+                        </div>
+                        <div class="authorandpost">
+                            <h6>By: {{book["author"]}} &nbsp; &nbsp; | &nbsp; &nbsp; Posted By: <a [routerLink]="['/profile', book.by]"> {{book["by"]}} </a></h6>
+                        </div>
+                        <div class="college">
+                            <p>College: {{book["college"]}}</p>
+                        </div>
+                        <div class="status">
+                            <p>Status: {{book["stat"]}}</p>
+                        </div>
+                        <div class="price">
+                            Price: <p class="pricep">${{book["price"]}}</p>
                         </div>
                     </div>
-                </div>
-                <div class="bookdescription">
-                    <div class="desbox">
-                        Description: <p>{{book["description"]}}</p>
                     </div>
-                </div>
+                </ng-template>
+                    <div class="desbox" *ngIf="currentUsername===book.by;else elseBlock2;">
+                        Description: <p class="desboxp">{{book["description"]}}</p>
+                        <button (click)="editDes()">Edit Description</button>
+                    </div>
+                
+                    <ng-template #elseBlock2>
+                        <div class="desbox">
+                            Description: <p class="desboxp">{{book["description"]}}</p>
+                        </div>
+                    </ng-template>
+                
             </div>
         </div>
     </div>

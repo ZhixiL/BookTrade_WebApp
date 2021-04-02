@@ -52,4 +52,16 @@ export class BookDetailComponent implements OnInit {
         })
   }
 
+  changePrice() {
+
+  }
+
+  deletePost() {
+
+  }
+
+  editDes() {
+    
+  }
+
 }

@@ -95,7 +95,7 @@ li {
 
 .mainsectionbd .mainsection .for .booksection .bookdetail .bookinfo .price {
   width: 800px;
-  height: 150px;
+  height: 50px;
   margin: 50px 0;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -109,16 +109,17 @@ li {
   font-size: larger;
 }
 
-.mainsectionbd .mainsection .for .booksection .bookdescription .desbox {
+.mainsectionbd .mainsection .for .booksection .desbox {
   width: 800px;
   height: 300px;
   margin: 25px 0;
+  margin-left: 225px;
   border-style: dotted;
   border-radius: 2px;
   border-color: #7e3644;
 }
 
-.mainsectionbd .mainsection .for .booksection .bookdescription .desbox p {
+.mainsectionbd .mainsection .for .booksection .desbox p {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 20px;
