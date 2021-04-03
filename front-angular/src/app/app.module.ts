@@ -20,6 +20,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { PersonalProfileComponent } from './personal-profile/personal-profile.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { BuyOrderComponent } from './buy-order/buy-order.component';
+import { BuyListComponent } from './buy-list/buy-list.component';
 import { CommonQuestionsComponent } from './common-questions/common-questions.component';
 
 @NgModule({
@@ -87,6 +89,14 @@ import { CommonQuestionsComponent } from './common-questions/common-questions.co
         path: 'aboutus',
         component: AboutUsComponent
       },
+      {
+	path: 'buyorder',
+        component: BuyOrderComponent
+      },
+      {
+	path: 'buylist',
+        component: BuyListComponent
+      },	
       {
         path: '**',
         component: NotfoundComponent

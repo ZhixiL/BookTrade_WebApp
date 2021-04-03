@@ -1,0 +1,80 @@
+
+<div class="mainbooks">
+    <div class="books">
+        <div class="heading">
+            <div class="btn">
+                <div class="tag">Sort By</div>
+                <div class="tag">College</div>
+            </div>
+            <div class="btn2">
+                <div class="sort">
+                    <button type="button" class="sortbutton" (click)="sort(0)">Time Posted</button>
+                    <button type="button" class="sortbutton" (click)="sort(1)">Alphabetical</button>
+                    <button type="button" class="sortbutton" (click)="sort(2)">Price</button>
+                </div>
+                <select (change)="selectChangeHandler($event)" class="subject">
+                    <option value="All" selected>All</option>
+                    <option value="College of Arts and Sciences">College of Arts and Sciences</option>
+                    <option value="College of Business">College of Business</option>
+                    <option value="College of Communication & Information">College of Communication & Information</option>
+                    <option value="College of Criminology and Criminal Justice">College of Criminology and Criminal Justice</option>
+                    <option value="College of Education">College of Education</option>
+                    <option value="College of Engineering">College of Engineering</option>
+                    <option value="College of Fine Arts">College of Fine Arts</option>
+                    <option value="College of Human Sciences">College of Human Sciences</option>
+                    <option value="College of Law">College of Law</option>
+                    <option value="College of Medicine">College of Medicine</option>
+                    <option value="College of Motion Picture Arts">College of Motion Picture Arts</option>
+                    <option value="College of Music">College of Music</option>
+                    <option value="College of Nursing">College of Nursing</option>
+                    <option value="College of Social Sciences and Public Policy">College of Social Sciences and Public Policy</option>
+                    <option value="College of Social Work">College of Social Work</option>
+                    <option value="Dedman College of Hospitality">Dedman College of Hospitality</option>
+                    <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
+                </select>
+            </div>
+        </div>
+
+    <!-- This should be put into a for loop to display all books -->
+    <div class="listingbooks">
+        <div class="postedbooks">
+            <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
+                <div class="bookpic">
+                </div>
+                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
+                <h5>${{book["price"]}}   Posted By: {{book["by"]}} </h5>
+            </div>
+        </div>
+        <!-- these will be handled by the backend
+        <div class="postedbooks" *ngIf="selectedCollege==='' || selectedCollege==='All'; else elseBlock;filter_book">
+            <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
+                <div class="bookpic">
+                </div>
+                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
+                <h5>${{book["price"]}}   Posted By: {{book["by"]}} </h5>
+            </div>
+        </div>
+        <ng-template #elseBlock> 
+            <div #filter_book class="postedbooks">
+                <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
+                    <div class="bookpic" *ngIf="selectedCollege===book.college">
+                    </div>
+                    <a [routerLink]="['/booklist', book.bookname]" *ngIf="selectedCollege===book.college"><h4>{{book["bookname"]}}</h4></a>
+                    <h5 *ngIf="selectedCollege===book.college">${{book["price"]}}   Posted By: {{book["by"]}}</h5>
+                </div>
+            </div>
+        </ng-template>
+        -->
+    </div>
+    
+    <div class="mainpagination">
+        <div class="pagination">
+            <a>&laquo;</a>
+            
+            <a *ngFor="let pg of pageNums" (click)="pageChange(pg)">
+                {{pg+1}}
+            </a>
+            <a>&raquo;</a>
+        </div>
+    </div>
+</div>
