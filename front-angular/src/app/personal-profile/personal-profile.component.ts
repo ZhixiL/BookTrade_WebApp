@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitterService } from './../Services/event-emitter.service';
 import { RestService } from './../Services/rest.service';
-
+import { Textbook, Account } from './../model';
 @Component({
   selector: 'app-personal-profile',
   templateUrl: './personal-profile.component.html',
@@ -13,17 +13,26 @@ export class PersonalProfileComponent implements OnInit {
 
   constructor(
     private rs : RestService,
+    private rs2 : RestService,
     private http : HttpClient, 
     private ees : EventEmitterService, 
     private router : Router,
     private route: ActivatedRoute) { }
 
   user : Account[] = [];
+  textbook : Textbook[] = [];
+  textbook2 : Textbook[] = [];
+  constTXBK : Textbook[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
   username : string;
   usern : string;
   returnMsg: string;
   login = false;
   showpass = false;
+  showbooklist = true;
+  showbuyorder = false;
+  initial : number = 0;
+  final : number = 8;
+  pageNums;
   ngOnInit() {
     //only logged on user are allowed
     this.http.post('http://127.0.0.1:5000/getAccount',
@@ -68,10 +77,43 @@ export class PersonalProfileComponent implements OnInit {
           }
 
         )
+
+        this.rs.readTextbookAll()
+        .subscribe
+          (
+            (response2) => 
+            {
+              this.textbook = response2[0]["bookdata"];
+            for (var tb of this.textbook)
+            {
+              if (tb.by==this.usern)
+              {
+                (this.textbook2).push(tb);
+                console.log(tb);
+              }
+            }
+            this.pageNums = Array(Math.ceil(this.textbook2.length/8)).fill(0).map((x,i)=>i);
+            },
+            (error) =>
+            {
+              console.log("No Data Found" + error);
+            }
+          )
+  }
+
+  pageChange(pgNum)
+  {
+    this.initial = pgNum*8;
+    this.final = (pgNum+1)*8;
   }
 
   changePassword() {
     this.showpass = !this.showpass;
+  }
+
+  postedBooks() {
+    this.showbooklist = !this.showbooklist;
+    this.showbuyorder = !this.showbuyorder;
   }
 
   userChangePass(event) {
