@@ -72,6 +72,16 @@ export class BooklistComponent implements OnInit {
     this.pageNums = Array(Math.ceil(this.textbooks.length/16)).fill(0).map((x,i)=>i);
   }
 
+  selectStatus (event: any) {
+    if(this.searchFilteredTXBK.length==0)
+      this.textbooks=this.constTXBK; //repair the textbook, then filter.
+    else
+      this.textbooks=this.searchFilteredTXBK;
+    if(event.target.value != "All")//only filter when user selected specific college.
+      this.textbooks = this.textbooks.filter((a) => a.stat == event.target.value)
+    this.pageNums = Array(Math.ceil(this.textbooks.length/16)).fill(0).map((x,i)=>i);
+  }
+
   //these variables used to keep track wether or not reverse sort.
   tmCount:number = 0; nmCount:number =0; prCount:number =0;
   sort(choice : number)
