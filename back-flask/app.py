@@ -104,15 +104,15 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
     fsuid = wadb.Column(wadb.String(10), default='None', nullable=False)
     num_of_posts = wadb.Column(wadb.Integer, default=0, nullable=True)
 
-    def encode_auth_token(self, user_id, keeplog = False):
+    def encode_auth_token(self, user_id, keeplog=False):
         try:
             hour = int()
             if keeplog is True:
                 hour = 360
-            else: #if the user explicitly said want to stay logged on,
-                  #token will last for 30 days or 360 hours
-                hour = 12  #else only 12 hours for the current session.
-            print(hour,file=sys.stderr)
+            else:  # if the user explicitly said want to stay logged on,
+                # token will last for 30 days or 360 hours
+                hour = 12  # else only 12 hours for the current session.
+            print(hour, file=sys.stderr)
             payload = {
                 # expiration date of the token
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, hours=hour, seconds=5),
@@ -240,7 +240,7 @@ def login():
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
-            authToken = temp.encode_auth_token(temp.id,keeplog)
+            authToken = temp.encode_auth_token(temp.id, keeplog)
             if authToken:  # ensure authentication token is correctly generated
                 response = jsonify({
                     'status': 'success',
@@ -266,10 +266,30 @@ def changepass():
         form_data = request.get_json(force=True)
         msg = ""
         oldpass = str(form_data['oldp'])
+        usern = str(form_data['user'])
+        correct = Account.query.filter_by(username=usern).first()
         pass1 = str(form_data['p1'])
         pass2 = str(form_data['p2'])
-        usern = str(form_data['user'])
         print(oldpass, pass1, pass2, usern)
+
+        if correct == None:
+            msg = "Your session ended. Please login again."
+        elif correct.password != oldpass:
+            msg = "Wrong Password. Try Again."
+        else:
+            if pass1 != pass2:
+                msg = "Passwords you entered does not match!"
+            else:
+                try:
+                    correct.password = pass1
+                    wadb.session.commit()
+                    msg = "Your password is changed!"
+                except:
+                    msg = "Error changing password!"
+        response = jsonify({
+            'msg': msg
+        })
+        return response
     else:
         return "placeholder"
 
@@ -338,33 +358,33 @@ def booklistall():
 
 
 # POST MODIFICATION ROUTES
-@app.route('/deletePost',methods=['POST'])
+@app.route('/deletePost', methods=['POST'])
 def deletePost():
     form_data = request.get_json(force=True)
     accID = Account.decode_auth_token(form_data['token'])
     bkID = form_data['id']
     bk = Post.query.filter_by(id=bkID).first()
     if(bk.by != Account.query.filter_by(id=accID).first().username):
-        response = {'status':'fail','msg':'Unauthorized user!'} #Current username != book poster, reject request.
-        return response #However this shouldn't happen, since user has to be authorized before delete.
+        # Current username != book poster, reject request.
+        response = {'status': 'fail', 'msg': 'Unauthorized user!'}
+        # However this shouldn't happen, since user has to be authorized before delete.
+        return response
     try:
         wadb.session.delete(bk)
         wadb.session.commit()
         msg = bk.bookname+" has been deleted successfully!"
         return {
-            'msg':msg,
-            'stat':"success"
+            'msg': msg,
+            'stat': "success"
         }
     except:
-        return {'msg':"Failed to remove from database!", 'stat':"fail"}
+        return {'msg': "Failed to remove from database!", 'stat': "fail"}
     return {
         'status': "fail",
-        'msg' : "unknown error"
+        'msg': "unknown error"
     }
 
 # End Zack & Yuki
-
-
 
 
 # Yuanyuan Bao, Zack, Dennis
@@ -428,7 +448,7 @@ def buyorder():
 
         # need buy_post database~~
         buy_post = BuyPost(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                    college=coll, time=datetime.datetime.now())
+                           college=coll, time=datetime.datetime.now())
         wadb.session.add(buy_post)
         wadb.session.commit()
         if buy_post != None:
