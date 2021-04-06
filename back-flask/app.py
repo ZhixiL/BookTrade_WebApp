@@ -358,30 +358,83 @@ def booklistall():
 
 
 # POST MODIFICATION ROUTES
-@app.route('/deletePost', methods=['POST'])
+@app.route('/deletePost',methods=['POST'])
 def deletePost():
     form_data = request.get_json(force=True)
     accID = Account.decode_auth_token(form_data['token'])
     bkID = form_data['id']
     bk = Post.query.filter_by(id=bkID).first()
     if(bk.by != Account.query.filter_by(id=accID).first().username):
-        # Current username != book poster, reject request.
-        response = {'status': 'fail', 'msg': 'Unauthorized user!'}
-        # However this shouldn't happen, since user has to be authorized before delete.
-        return response
+        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
+        return response #However this shouldn't happen, since user has to be authorized before delete.
     try:
         wadb.session.delete(bk)
         wadb.session.commit()
         msg = bk.bookname+" has been deleted successfully!"
         return {
-            'msg': msg,
-            'stat': "success"
+            'msg':msg,
+            'stat':"success"
         }
     except:
-        return {'msg': "Failed to remove from database!", 'stat': "fail"}
+        return {'msg':"Failed to remove from database!", 'stat':"fail"}
     return {
         'status': "fail",
-        'msg': "unknown error"
+        'msg' : "unknown error"
+    }
+
+@app.route('/priceChange',methods=['POST'])
+def priceChange():
+    form_data = request.get_json(force=True)
+    accID = Account.decode_auth_token(form_data['token'])
+    bkID = form_data['id']
+    bk = Post.query.filter_by(id=bkID).first()
+    oldPrice = bk.price
+    updatedBK = bk
+    updatedBK.price = form_data['newP']
+    if(bk.by != Account.query.filter_by(id=accID).first().username):
+        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
+        return response #However this shouldn't happen, since user has to be authorized before delete.
+    try:
+        wadb.session.delete(bk)
+        wadb.session.add(updatedBK)
+        wadb.session.commit()
+        msg = bk.bookname+"'s price has been updated from $"+str(oldPrice)+" to $"+str(updatedBK.price)
+        return {
+            'msg':msg,
+            'stat':"success"
+        }
+    except:
+        return {'msg':"Failed to update post!", 'stat':"fail"}
+    return {
+        'status': "fail",
+        'msg' : "unknown error"
+    }
+
+@app.route('/descriptionChange',methods=['POST'])
+def descriptionChange():
+    form_data = request.get_json(force=True)
+    accID = Account.decode_auth_token(form_data['token'])
+    bkID = form_data['id']
+    bk = Post.query.filter_by(id=bkID).first()
+    updatedBK = bk
+    updatedBK.description = form_data['newD']
+    if(bk.by != Account.query.filter_by(id=accID).first().username):
+        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
+        return response #However this shouldn't happen, since user has to be authorized before delete.
+    try:
+        wadb.session.delete(bk)
+        wadb.session.add(updatedBK)
+        wadb.session.commit()
+        msg = bk.bookname+"'s description has been updated!"
+        return {
+            'msg':msg,
+            'stat':"success"
+        }
+    except:
+        return {'msg':"Failed to update post!", 'stat':"fail"}
+    return {
+        'status': "fail",
+        'msg' : "unknown error"
     }
 
 # End Zack & Yuki

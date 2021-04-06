@@ -8,7 +8,7 @@
                     <div class="bookinfo">
                         <form action="">
                         <div class="booktitle">
-                            <h4>{{book["bookname"] | uppercase}}</h4>
+                            <h4>{{book["bookname"]}}</h4>
                         </div>
                         <div class="authorandpost">
                             <h6>By: {{book["author"]}} &nbsp; &nbsp; | &nbsp; &nbsp; Posted By: <a [routerLink]="['/profile', book.by]"> {{book["by"]}} </a></h6>
@@ -20,8 +20,8 @@
                             <p>Status: {{book["stat"]}}</p>
                         </div>
                         <div class="price">
-                            Price: <p class="pricep">${{book["price"]}} &nbsp; &nbsp; </p>
-                            <button (click)="changePrice(book.by)">Change Price</button>
+                            Price: $<p contenteditable="true" id="priceUpdate">{{book["price"]}}</p><br>
+                            <button (click)="changePrice(book.id)">Change Price</button>
                         </div>
                         <button (click)="deletePost(book.id)">Delete Post</button>
                     </form>
@@ -32,7 +32,7 @@
                         <div class="bookpic"></div>
                     <div class="bookinfo">
                         <div class="booktitle">
-                            <h4>{{book["bookname"] | uppercase}}</h4>
+                            <h4>{{book["bookname"]}}</h4>
                         </div>
                         <div class="authorandpost">
                             <h6>By: {{book["author"]}} &nbsp; &nbsp; | &nbsp; &nbsp; Posted By: <a [routerLink]="['/profile', book.by]"> {{book["by"]}} </a></h6>
@@ -50,8 +50,8 @@
                     </div>
                 </ng-template>
                     <div class="desbox" *ngIf="currentUsername===book.by;else elseBlock2;">
-                        Description: <p class="desboxp">{{book["description"]}}</p>
-                        <button (click)="editDes()">Edit Description</button>
+                        Description: <p class="desboxp" contenteditable="true" id="desUpdate">{{book["description"]}}</p>
+                        <button (click)="editDes(book.id)">Edit Description</button>
                     </div>
                 
                     <ng-template #elseBlock2>

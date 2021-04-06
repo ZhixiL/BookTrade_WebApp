@@ -53,8 +53,20 @@ export class BookDetailComponent implements OnInit {
         })
   }
 
-  changePrice(by) {
-    
+  changePrice(id) {
+    const np = document.getElementById("priceUpdate");
+    var newPrice = Number(np.innerHTML)
+    if(Number.isNaN(newPrice)){
+      alert("Please enter number or decimal number only!")
+    }else{
+      this.http.post('http://127.0.0.1:5000/priceChange',
+      {token:localStorage.getItem('authToken'),
+      id:id,
+      newP:newPrice})
+        .subscribe((response)=>{
+          alert(response['msg'])
+        })
+    }
   }
 
   deletePost(id) {
@@ -66,8 +78,16 @@ export class BookDetailComponent implements OnInit {
       })
   }
 
-  editDes(by) {
-    
+  editDes(id) {
+    const nd = document.getElementById("desUpdate");
+    var newDes = String(nd.innerHTML)
+    this.http.post('http://127.0.0.1:5000/descriptionChange',
+    {token:localStorage.getItem('authToken'),
+    id:id,
+    newD:newDes})
+      .subscribe((response)=>{
+        alert(response['msg'])
+      })
   }
 
 }
