@@ -377,6 +377,41 @@ def post():
 # end of Yuanyuan, Zack, Dennis
 
 
+@app.route("/buyorder", methods=['POST', 'GET'])
+def buyorder():
+    if request.method == 'POST':
+        response = ""
+        username = ""
+        # pass data from angular to flask
+        form_data_all = request.get_json(force=True)
+        form_data = form_data_all['bookdata']
+        userID = Account.decode_auth_token(form_data_all['token'])
+        if str(type(userID)) == "<class 'int'>":
+            username = Account.query.filter_by(id=userID).first().username
+            print(username, file=sys.stderr)
+        else:
+            return jsonify(responses="Token Error")
+        #print(form_data['BookName'], file=sys.stderr)
+        post_by = username
+        bkname = str(form_data['BookName'])
+        aut = str(form_data['Author'])
+        post_price = float(form_data['Price'])
+        stat = str(form_data['status'])
+        coll = str(form_data['college'])
+
+        # need buy_post database~~
+        buy_post = BuyPost(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+                    college=coll, time=datetime.datetime.now())
+        wadb.session.add(buy_post)
+        wadb.session.commit()
+        if buy_post != None:
+            response = 'Successfully uploaded!'
+        else:
+            response = 'An Exception has occured!'
+        return jsonify(responses=responses)
+    if request.method == 'GET':
+        return "placeholder"
+
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 @cross_origin()

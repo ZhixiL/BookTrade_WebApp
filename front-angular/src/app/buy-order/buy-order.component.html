@@ -1,22 +1,17 @@
 <div class="banner">
-    <div class="book">
-        <img src="../../assets/images/books2.jpg" alt=" " style="width:71.5%"/>
+    <div class="books">
+        <img src="../../assets/images/buy_book.jpeg" alt=" " style="width:71.5%"/>
     </div>
  
     <div class="Warning">
-        <p><br/><b>Warning: </b>This website does not guarantee the accuracy, 
-            completeness, validity, timeliness, and legality of articles, 
-            information, pictures, materials, etc. posted by all users on 
-            this website. Please make your own judgment based on the situation. 
-            The user is responsible for the losses caused by misleading reading 
-            of the contents of this edition and other factors. This site has no 
-            responsibility.</p>
+        <center><p><br/><b>What kind of book do you want to buy?</b><br/> 
+            Please fill in the basic information about the book you want 
+            to buy into the information column below.</p></center>
         <br/>
     </div>
 
     <div class="inputs">
-<!--           <form (submit)="postService($event)">   --> 
-            <form #form="ngForm" (ngSubmit)="logForm(form.value)">           
+            <form (ngSubmit)="logForm(form.value)">           
             <br/> <br/>
             <br>Book Name: <input type="text" name = "BookName" ngModel><br>
             <br>Author: <input type="text" name = "Author" ngModel><br>
@@ -49,7 +44,7 @@
                 <option value="Dedman College of Hospitality">Dedman College of Hospitality</option>
                 <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
             </select><br>
-            <!-- <br>Avatar upload will be implemented in the future<br>  -->
+               
             <br>Picture: <input type="file" ()change)="onFileSelected($event)"> 
                 <button type="button" (click)="onUpload()">Upload</button><br>
             <br/>

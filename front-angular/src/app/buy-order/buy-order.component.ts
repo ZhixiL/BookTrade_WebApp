@@ -6,7 +6,7 @@ import { Username, Textbook, Account } from './../model';
 import { RestService } from './../Services/rest.service';
 
 @Component({
-  selector: 'app-buy-order',
+  selector: 'app-buyorder',
   templateUrl: './buy-order.component.html',
   styleUrls: ['./buy-order.component.css']
 })
@@ -30,9 +30,9 @@ export class BuyOrderComponent implements OnInit {
     //only logged on user are allow to use /post
     this.http.post('http://127.0.0.1:5000/getAccount',
     {token:localStorage.getItem('authToken')})
-    .subscribe((response)=>{
-      console.log(response['status']);
-      if(response['status']!='success')
+    .subscribe((responses)=>{
+      console.log(responses['status']);
+      if(responses['status']!='success')
       {
         this.router.navigate(['/login']);
         this.ees.refreshName();
@@ -43,9 +43,9 @@ export class BuyOrderComponent implements OnInit {
     this.rs.readTextbookAll()
     .subscribe
       (
-        (response) => 
+        (responses) => 
         {
-          this.constTXBK = this.textbooks = response[0]["bookdata"];
+          this.constTXBK = this.textbooks = responses[0]["bookdata"];
         },
         (error) =>
         {
@@ -59,12 +59,12 @@ export class BuyOrderComponent implements OnInit {
       token : localStorage.getItem('authToken'),
       bookdata : value,
     }
-    this.http.post('http://127.0.0.1:5000/post', data)
-        .subscribe((response)=>{
-      this.returnMsg=response["response"];
+    this.http.post('http://127.0.0.1:5000/buyorder', data)
+        .subscribe((responses)=>{
+      this.returnMsg=responses["responses"];
       console.log(this.returnMsg);
       alert(this.returnMsg);
-      this.router.navigate(['/post'])
+      this.router.navigate(['/buyorder'])
     });
   }
 
@@ -75,7 +75,7 @@ export class BuyOrderComponent implements OnInit {
   onUpload() {
     const fd = new FormData();
     fd.append('image', this.selectedFile)
-    this.http.post('http://127.0.0.1:5000/post', fd, {
+    this.http.post('http://127.0.0.1:5000/buyorder', fd, {
       reportProgress: true,
       observe: 'events'      
     })
