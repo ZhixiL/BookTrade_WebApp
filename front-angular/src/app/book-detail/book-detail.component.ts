@@ -13,6 +13,7 @@ export class BookDetailComponent implements OnInit {
   constructor(
     private rs : RestService,
     private route: ActivatedRoute,
+    private router:Router,
     private http: HttpClient,
     ) { }
   textbook : Textbook[] = [];
@@ -61,6 +62,7 @@ export class BookDetailComponent implements OnInit {
     {token:localStorage.getItem('authToken'),id:id})
       .subscribe((response)=>{
         alert(response['msg'])
+        this.router.navigate(['/'])
       })
   }
 
