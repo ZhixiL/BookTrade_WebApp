@@ -3,8 +3,10 @@
         <div class="for" *ngFor="let book of textbook">
             <div class="booksection"*ngIf="tbook===book.bookname">
                 <div class="bookdetail" *ngIf="currentUsername===book.by;else elseBlock;">
+                    <!--This is the portion where user has permission to modify the book-->
                     <div class="bookpic"></div>
                     <div class="bookinfo">
+                        <form action="">
                         <div class="booktitle">
                             <h4>{{book["bookname"] | uppercase}}</h4>
                         </div>
@@ -19,9 +21,10 @@
                         </div>
                         <div class="price">
                             Price: <p class="pricep">${{book["price"]}} &nbsp; &nbsp; </p>
-                            <button (click)="changePrice()">Change Price</button>
+                            <button (click)="changePrice(book.by)">Change Price</button>
                         </div>
-                        <button (click)="deletePost()">Delete Post</button>
+                        <button (click)="deletePost(book.id)">Delete Post</button>
+                    </form>
                     </div>
                 </div>
                 <ng-template #elseBlock>

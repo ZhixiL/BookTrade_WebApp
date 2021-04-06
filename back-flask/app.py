@@ -180,7 +180,7 @@ def getAccount():
         }
         return response
     accID = Account.decode_auth_token(form_data['token'])
-    print(accID, file=sys.stderr)
+    # print(accID, file=sys.stderr)
     if str(type(accID)) == "<class 'int'>":  # successful retrived id
         user = Account.query.filter_by(id=accID).first()
         response = {
@@ -295,8 +295,6 @@ def profile():
         ]
     }
     return jsonify([jsonDataUser])
-    # else:
-    #     return "placeholder"
 
 
 @app.route('/profilebook', methods=['GET', 'POST'])
@@ -337,7 +335,36 @@ def booklistall():
         "bookdata": bklist
     }
     return jsonify([jsonData])
+
+
+# POST MODIFICATION ROUTES
+@app.route('/deletePost',methods=['POST'])
+def deletePost():
+    form_data = request.get_json(force=True)
+    accID = Account.decode_auth_token(form_data['token'])
+    bkID = form_data['id']
+    bk = Post.query.filter_by(id=bkID).first()
+    if(bk.by != Account.query.filter_by(id=accID).first().username):
+        response = {'status':'fail','msg':'Unauthorized user!'} #Current username != book poster, reject request.
+        return response #However this shouldn't happen, since user has to be authorized before delete.
+    try:
+        wadb.session.delete(bk)
+        wadb.session.commit()
+        msg = bk.bookname+" has been deleted successfully!"
+        return {
+            'msg':msg,
+            'stat':"success"
+        }
+    except:
+        return {'msg':"Failed to remove from database!", 'stat':"fail"}
+    return {
+        'status': "fail",
+        'msg' : "unknown error"
+    }
+
 # End Zack & Yuki
+
+
 
 
 # Yuanyuan Bao, Zack, Dennis

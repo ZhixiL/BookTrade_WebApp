@@ -52,15 +52,19 @@ export class BookDetailComponent implements OnInit {
         })
   }
 
-  changePrice() {
-
+  changePrice(by) {
+    
   }
 
-  deletePost() {
-
+  deletePost(id) {
+    this.http.post('http://127.0.0.1:5000/deletePost',
+    {token:localStorage.getItem('authToken'),id:id})
+      .subscribe((response)=>{
+        alert(response['msg'])
+      })
   }
 
-  editDes() {
+  editDes(by) {
     
   }
 
