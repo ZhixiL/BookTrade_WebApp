@@ -1,25 +1,33 @@
 <div class="mainsectionbg">
     <div class="mainsection">
         <br><br><br>
-        <div class="box1">
+        <span class="outerbox">
             <h3>Create Your Book Trade Account</h3>
-            <form (submit) = "onClickSubmit($event)">
-                <br><br>
-                <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
-                <br><br>
-                <input type="text" name="username" id="username" placeholder="Username" required>
-                <br><br>
-                <input type="password" name="pwd1" id="pwd1" placeholder="Password" required>
-                <input type="password" name="pwd2" id="pwd2" placeholder="ConfirmPassword" required>
-                <br><br>
-                <input type="email" name="emailAddress" id="emailAddress" placeholder="emailAddress" required>
-                <br><br>	
-                <input type="text" name="fsuId" id="fsuId" placeholder="fsuId" required>
-                <br><br>
-                <input type="submit" value="Sign Up">
+            <form (sumbit) = "onClickSubmit($event)">
+                <div class="box1">
+                    <br><br>
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+                    <br><br>
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                    <br><br>
+                    <input type="password" name="pwd1" id="pwd1" placeholder="Password" required>
+                    <input type="password" name="pwd2" id="pwd2" placeholder="ConfirmPassword" required>
+                    <br><br>
+                    <input type="email" name="emailAddress" id="emailAddress" placeholder="emailAddress" required>
+                    <br><br>	
+                    <input type="text" name="fsuId" id="fsuId" placeholder="fsuId" required>
+                    <br><br>
+                    <input type="submit" value="Sign Up">
+                </div>
+            
+                <div class="profile-pic-div" id="profile-pic-div">
+                    <img src="../../assets/images/blank_profile.png" id="photo">
+                    <input type="file" id="file">
+                    <label for="file" id="uploadBtn">Choose Photo</label>
+                </div>
             </form>
-        </div>
+        </span>
         <h4 class="message">{{returnMsg}}</h4>
         <br><br><br>
     </div>
