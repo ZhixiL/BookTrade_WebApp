@@ -1,13 +1,13 @@
 .mainsectionbg {
   width: auto;
-  height: 500px;
+  height: 1100px;
   background-color: #e7dddb;
 }
 
 /* main profile section */
 .mainsection {
   width: 1400px;
-  height: 500px;
+  height: 1100px;
   margin: auto;
   background-color: #e7dddb;
 }
@@ -65,7 +65,6 @@
   .showchange {
   height: 190px;
   width: 400px;
-  background-color: #fff;
 }
 
 .mainsectionbg
@@ -98,4 +97,85 @@
   width: 350px;
   height: 30px;
   margin: 10px 0;
+}
+
+.mainsectionbg .mainsection .buttons {
+  height: 40px;
+  margin-left: 150px;
+  width: 900px;
+}
+
+.mainsectionbg .mainsection .buttons button {
+  margin-left: 50px;
+  margin-top: 10px;
+}
+.mainsectionbg .mainsection .show .title {
+  height: 35px;
+  margin-left: 200px;
+  width: 900px;
+}
+
+.mainsectionbg .mainsection .show .title {
+  font-family: monospace;
+  font-size: 20px;
+}
+.mainsectionbg .mainsection .show .booksection {
+  display: block;
+  height: 504.7px;
+  margin: 20px 200px;
+  border-style: dotted;
+  border-radius: 2px;
+  border-color: #000000;
+}
+
+.mainsectionbg .mainsection .show .booksection .for2 .onebook {
+  float: left;
+  height: 215px;
+  width: 213.5px;
+  padding: 15px 17.51px;
+}
+
+.mainsectionbg .mainsection .show .booksection .for2 .onebook .bookpic {
+  height: 125px;
+  width: 214px;
+  background: url(../../assets/images/tempbook.jpg);
+}
+
+.mainsectionbg .mainsection .show .booksection .for2 .onebook a h4 {
+  margin: 20px 0;
+  color: #000000;
+}
+
+.mainsectionbg .mainsection .show .mainpagination {
+  height: 34px;
+  margin: 0 50px;
+  margin-right: 200px;
+}
+
+.mainsectionbg .mainsection .show .mainpagination .pagination {
+  display: inline-block;
+  float: right;
+}
+
+.mainsectionbg .mainsection .show .mainpagination .pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.mainsectionbg .mainsection .show .mainpagination .pagination a.active {
+  background-color: #7e3644;
+  color: white;
+  border-radius: 5px;
+}
+
+.mainsectionbg
+  .mainsection
+  .show
+  .mainpagination
+  .pagination
+  a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
 }
