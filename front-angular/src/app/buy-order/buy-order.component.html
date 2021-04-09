@@ -4,7 +4,7 @@
     </div>
  
     <div class="Warning">
-        <center><p><br/><b>What kind of book do you want to buy?</b><br/> 
+        <center><p><br/><br/><b>What kind of book do you want to buy?</b><br/> 
             Please fill in the basic information about the book you want 
             to buy into the information column below.</p></center>
         <br/>
@@ -12,7 +12,7 @@
 
     <div class="inputs">
             <form (ngSubmit)="logForm(form.value)">           
-            <br/> <br/>
+            <br/>
             <br>Book Name: <input type="text" name = "BookName" ngModel><br>
             <br>Author: <input type="text" name = "Author" ngModel><br>
             <br>Price: $ <input type="number" name = "Price" min="0.00" max="500.00" step="0.01" ngModel><br>
@@ -50,8 +50,8 @@
             <br/>
             <label for="description">Description:</label>
             <br/>
-            <textarea matInput placeholder=" Enter note here..." rows="8" cols="100"></textarea>                    
-            <br/> <br/>
+            <textarea matInput placeholder=" Enter note here..." rows="8" cols="100"></textarea>      
+            <br/> 
             <center><input type="submit" value="Submit" class="submit"></center>                   
         </form>
     </div>            

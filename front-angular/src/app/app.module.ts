@@ -34,6 +34,8 @@ import { CommonQuestionsComponent } from './common-questions/common-questions.co
     RegisterComponent,
     BooklistComponent,
     PostComponent,
+    BuyOrderComponent,
+    BuyListComponent,
     NotfoundComponent,
     ProfileComponent,
     BookDetailComponent,
@@ -90,11 +92,11 @@ import { CommonQuestionsComponent } from './common-questions/common-questions.co
         component: AboutUsComponent
       },
       {
-	path: 'buyorder',
+	      path: 'buyorder',
         component: BuyOrderComponent
       },
       {
-	path: 'buylist',
+	      path: 'buylist',
         component: BuyListComponent
       },	
       {
