@@ -1,4 +1,4 @@
-.outerbox{
+.outerbox {
   width: 700px;
   padding: 10px;
   border: 5px solid gray;
@@ -7,7 +7,7 @@
 }
 .box1 {
   width: 500px;
-  padding: 10px;  
+  padding: 10px;
   margin: auto;
   text-align: center;
   background-color: white;
@@ -15,14 +15,14 @@
 
 .mainsectionbg {
   width: auto;
-  height: 450px;
+  height: 600px;
   background-color: #e7dddb;
 }
 
 /* main profile section */
 .mainsection {
   width: 1400px;
-  height: 450px;
+  height: 600px;
   margin: auto;
   background-color: #e7dddb;
 }
@@ -32,7 +32,7 @@
 }
 
 /* Profile Pic upload */
-.profilePicDiv{
+.profilePicDiv {
   height: 200px;
   width: 200px;
   position: absolute;
@@ -41,32 +41,31 @@
   transform: translate(-50%, -50%);
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid grey
+  border: 1px solid grey;
 }
 
-#photo{
+#photo {
   height: 100px;
   width: 100px;
   margin: 0;
 }
 
-#file{
-  display:none;
+#file {
+  display: none;
 }
 
-#uploadBtn{
-  height:40px;
-  width:100%;
+#uploadBtn {
+  height: 40px;
+  width: 100%;
   bottom: 0;
-  left:50%;
-  
+  left: 50%;
+
   transform: translateX(-50%);
   text-align: center;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   color: wheat;
   line-height: 30px;
-  font-family:sans-serif;
+  font-family: sans-serif;
   font-size: 15px;
   cursor: pointer;
-  
 }
