@@ -145,7 +145,51 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             firstname=self.firstname, lastname=self.lastname, username=self.username,
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
+#The following is a test model based off post class
+#We want to differentiate the Buy Order List data 
+#by each unique user on the instead of just one user 
+@dataclass
+class Order_List(wadb.Model):
+    id: int
+    time: str
+    by: int
+    bookname: str
+    author: str
+    price: float
+    stat: str
+    college: str
+    picture: str
+    description: str
 
+    __tablename__ = 'order_list'
+    id = wadb.Column(wadb.Integer, primary_key=True)
+    time = wadb.Column(wadb.DateTime, nullable=False)
+    # Keep track of time when listing are posted ^^
+    by = wadb.Column(wadb.Integer, wadb.ForeignKey('account.username'))
+    # this will connect back to the account through account's ^^
+    bookname = wadb.Column(wadb.String(30), nullable=False)
+    # User must input a Title of their post^^
+    author = wadb.Column(wadb.String(30), nullable=False,
+                         default="Author Not Specified")
+    # Storing the author of the textbook^
+    price = wadb.Column(wadb.Float, nullable=False, default=0)
+    # User has to input the price of their listing with up to 2 decimals ^^
+    stat = wadb.Column(wadb.String(30), nullable=False, default="New")
+    # Status example: "New", "Some wear", "Teared pages", etc.^^
+    college = wadb.Column(wadb.String(30), nullable=False)
+    # User must state what college the book is belong to ^^
+    picture = wadb.Column(wadb.String(
+        30), default='../../assets/images/default_book.jpg', nullable=False)
+    # Allows user to input an image, and has a default in case user does not input a picture ^^
+    description = wadb.Column(wadb.String(100), nullable=True)
+    # User is able to put a body to their post^^
+
+    def __repr__(self):
+        return 'Account({time},{by},{bookname},{price},{stat},{college},{picture},{description})'.format(
+            time=self.time, by=self.by, bookname=self.bookname, price=self.price, stat=self.stat, college=self.college,
+            picture=self.picture, description=self.description)
+    
+    
 class BlacklistToken(wadb.Model):  # Stores JWT tokens
     __tablename__ = 'blacklist_tokens'
     id = wadb.Column(wadb.Integer, primary_key=True, autoincrement=True)
@@ -500,7 +544,7 @@ def buyorder():
         coll = str(form_data['college'])
 
         # need buy_post database~~
-        buy_post = BuyPost(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+        buy_post = Order_List(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
                            college=coll, time=datetime.datetime.now())
         wadb.session.add(buy_post)
         wadb.session.commit()
