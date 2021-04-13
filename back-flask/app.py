@@ -552,9 +552,20 @@ def buyorder():
             response = 'Successfully uploaded!'
         else:
             response = 'An Exception has occured!'
-        return jsonify(responses=responses)
+        return jsonify(responses=response)
     if request.method == 'GET':
         return "placeholder"
+
+
+@app.route('/buylist', methods=['GET'])
+def buylist():
+    bulist = Order_List.query.order_by(Order_List.time.desc()).all()
+    # get all books
+    jsonBData = {
+        "bookdatas": bulist
+    }
+    return jsonify([jsonBData])
+
 
 # Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])

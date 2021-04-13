@@ -1,10 +1,10 @@
 import { EventEmitterService } from './../Services/event-emitter.service';
-import { Textbook } from './../model';
+import { Textbooks } from './../model';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-buy-list',
+  selector: 'app-buylist',
   templateUrl: './buy-list.component.html',
   styleUrls: ['./buy-list.component.css']
 })
@@ -15,9 +15,9 @@ export class BuyListComponent implements OnInit {
     private ees : EventEmitterService,
     ) { }
 
-  textbooks : Textbook[] = [];
-  searchFilteredTXBK : Textbook[] = [];
-  constTXBK : Textbook[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
+  textbooks : Textbooks[] = [];
+  searchFilteredTXBK : Textbooks[] = [];
+  constTXBK : Textbooks[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
   initial : number = 0;
   final : number = 16;
   pageNums;
@@ -30,13 +30,14 @@ export class BuyListComponent implements OnInit {
         this.searchFor(this.ees.key);
       }); 
     }
-    this.rs.readTextbookAll()
+    this.rs.readBuyOrderAll()
     .subscribe
       (
         (response) => 
         {
-          this.constTXBK = this.textbooks = response[0]["bookdata"];
-          this.pageNums = Array(Math.ceil(response[0]["bookdata"].length/16)).fill(0).map((x,i)=>i);
+          this.constTXBK = this.textbooks = response[0]["bookdatas"];
+          console.log(this.constTXBK);
+          this.pageNums = Array(Math.ceil(response[0]["bookdatas"].length/16)).fill(0).map((x,i)=>i);
         },
         (error) =>
         {
@@ -69,6 +70,16 @@ export class BuyListComponent implements OnInit {
       this.textbooks=this.searchFilteredTXBK;
     if(event.target.value != "All")//only filter when user selected specific college.
       this.textbooks = this.textbooks.filter((a) => a.college == event.target.value)
+    this.pageNums = Array(Math.ceil(this.textbooks.length/16)).fill(0).map((x,i)=>i);
+  }
+
+  selectStatus (event: any) {
+    if(this.searchFilteredTXBK.length==0)
+      this.textbooks=this.constTXBK; //repair the textbook, then filter.
+    else
+      this.textbooks=this.searchFilteredTXBK;
+    if(event.target.value != "All")//only filter when user selected specific college.
+      this.textbooks = this.textbooks.filter((a) => a.stat == event.target.value)
     this.pageNums = Array(Math.ceil(this.textbooks.length/16)).fill(0).map((x,i)=>i);
   }
 

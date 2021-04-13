@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { EventEmitterService } from './../Services/event-emitter.service';
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
+import { HttpClient, HttpEventType, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Username, Textbook, Account } from './../model';
+import { Username, Textbooks, Account } from './../model';
 import { RestService } from './../Services/rest.service';
 
 @Component({
@@ -21,8 +21,8 @@ export class BuyOrderComponent implements OnInit {
     private router : Router
     ) { }
 
-  textbooks : Textbook[] = [];
-  constTXBK : Textbook[] = [];
+  textbooks : Textbooks[] = [];
+  constTXBK : Textbooks[] = [];
   accounts : Account[] = [];
   returnMsg : string;
   ngOnInit()
@@ -45,7 +45,7 @@ export class BuyOrderComponent implements OnInit {
       (
         (responses) => 
         {
-          this.constTXBK = this.textbooks = responses[0]["bookdata"];
+          this.constTXBK = this.textbooks = responses[0]["bookdatas"];
         },
         (error) =>
         {
@@ -69,7 +69,7 @@ export class BuyOrderComponent implements OnInit {
   }
 
   onFileSelected(event) {
-    this.selectedFile = event.target.files[0];
+    this.selectedFile = <File>event.target.files[0];
   }
 
   onUpload() {

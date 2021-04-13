@@ -1,4 +1,4 @@
-import { Username, Textbook, Account } from './../model';
+import { Username, Textbook, Textbooks, Account } from './../model';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -28,6 +28,10 @@ export class RestService implements OnInit {
     return this.http.get<Textbook[]>(this.baseUrl + "/booklistall");
   }
 
+  readBuyOrderAll()
+  {
+    return this.http.get<Textbooks[]>(this.baseUrl + "/buylist");
+  }
   readUserData()
   {
     return this.http.get<Account[]>(this.baseUrl + "/profile");

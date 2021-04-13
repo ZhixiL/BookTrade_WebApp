@@ -5,10 +5,11 @@
             <div class="btn">
                 <div class="tag">Sort By</div>
                 <div class="tag">College</div>
+                <div class="tag">Status</div>
             </div>
             <div class="btn2">
                 <div class="sort">
-                    <button type="button" class="sortbutton" (click)="sort(0)">Time Posted</button>
+                    <button type="button" class="sortbutton" (click)="sort(0)">Time Posted</button> 
                     <button type="button" class="sortbutton" (click)="sort(1)">Alphabetical</button>
                     <button type="button" class="sortbutton" (click)="sort(2)">Price</button>
                 </div>
@@ -32,6 +33,16 @@
                     <option value="Dedman College of Hospitality">Dedman College of Hospitality</option>
                     <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
                 </select>
+
+                <select (change)="selectStatus($event)" class="status">
+                    <option value="All" selected>All</option>
+                    <option value="New">New</option>
+                    <option value="Like New">Like new</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                    <option value="Poor">Poor</option>
+                </select>
+
             </div>
         </div>
 

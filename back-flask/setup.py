@@ -2,7 +2,7 @@
 #Function - Solely for adding info to database for testing purpose.
 # --- by Zhixi Lin ---
 import sqlite3
-from app import wadb, Account, Post
+from app import wadb, Account, Post, Order_List
 import datetime
 import time
 wadb.create_all() #create the database.
