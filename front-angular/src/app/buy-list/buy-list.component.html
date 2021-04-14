@@ -50,32 +50,14 @@
     <div class="listingbooks">
         <div class="postedbooks">
             <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
-                <div class="bookpic">
-                </div>
-                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
-                <h5>${{book["price"]}}   Posted By: {{book["by"]}} </h5>
+                <h3>{{book["bookname"]}}</h3>
+                <h4>Author: {{book["author"]}}</h4>
+                <h4>Condition: {{book["stat"]}}</h4>
+                <h4>Asked for ${{book["price"]}}</h4>
+                <h5>{{book["college"]}}</h5>
+                <l5>Contact: </l5><a [routerLink]="['/personal', usern]">{{book["by"]}}</a> 
             </div>
         </div>
-        <!-- these will be handled by the backend
-        <div class="postedbooks" *ngIf="selectedCollege==='' || selectedCollege==='All'; else elseBlock;filter_book">
-            <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
-                <div class="bookpic">
-                </div>
-                <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
-                <h5>${{book["price"]}}   Posted By: {{book["by"]}} </h5>
-            </div>
-        </div>
-        <ng-template #elseBlock> 
-            <div #filter_book class="postedbooks">
-                <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
-                    <div class="bookpic" *ngIf="selectedCollege===book.college">
-                    </div>
-                    <a [routerLink]="['/booklist', book.bookname]" *ngIf="selectedCollege===book.college"><h4>{{book["bookname"]}}</h4></a>
-                    <h5 *ngIf="selectedCollege===book.college">${{book["price"]}}   Posted By: {{book["by"]}}</h5>
-                </div>
-            </div>
-        </ng-template>
-        -->
     </div>
     
     <div class="mainpagination">

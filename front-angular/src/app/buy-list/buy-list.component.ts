@@ -1,5 +1,5 @@
 import { EventEmitterService } from './../Services/event-emitter.service';
-import { Textbooks } from './../model';
+import { buyOrderPost } from './../model';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -15,9 +15,9 @@ export class BuyListComponent implements OnInit {
     private ees : EventEmitterService,
     ) { }
 
-  textbooks : Textbooks[] = [];
-  searchFilteredTXBK : Textbooks[] = [];
-  constTXBK : Textbooks[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
+  textbooks : buyOrderPost[] = [];
+  searchFilteredTXBK : buyOrderPost[] = [];
+  constTXBK : buyOrderPost[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
   initial : number = 0;
   final : number = 16;
   pageNums;

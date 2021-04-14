@@ -29,6 +29,32 @@ export class Textbook
 
 }
 
+export class buyOrderPost
+{
+    author:string;
+    bookname:string;
+    by:string;
+    college:string;
+    id:number;
+    price:number;
+    stat:string;
+    time:string;
+
+
+    constructor(author, bookname, by, college, id,
+         price, stat, time)
+    {
+        this.author = author;
+        this.bookname = bookname;
+        this.by = by;
+        this.college = college;
+        this.id = id;
+        this.price = price;
+        this.stat = stat;
+        this.time = time;
+    }
+}
+
 export class Textbooks
 {
     author:string;

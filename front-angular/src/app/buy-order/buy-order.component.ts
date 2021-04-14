@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { EventEmitterService } from './../Services/event-emitter.service';
 import { HttpClient, HttpEventType, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Username, Textbooks, Account } from './../model';
+import { Account } from './../model';
 import { RestService } from './../Services/rest.service';
 
 @Component({
@@ -21,8 +21,6 @@ export class BuyOrderComponent implements OnInit {
     private router : Router
     ) { }
 
-  textbooks : Textbooks[] = [];
-  constTXBK : Textbooks[] = [];
   accounts : Account[] = [];
   returnMsg : string;
   ngOnInit()
@@ -40,18 +38,6 @@ export class BuyOrderComponent implements OnInit {
       }
     });
 
-    this.rs.readTextbookAll()
-    .subscribe
-      (
-        (responses) => 
-        {
-          this.constTXBK = this.textbooks = responses[0]["bookdatas"];
-        },
-        (error) =>
-        {
-          console.log("No Data Found" + error);
-        }
-      )
   }
 
   logForm(value) {
@@ -68,24 +54,5 @@ export class BuyOrderComponent implements OnInit {
     });
   }
 
-  onFileSelected(event) {
-    this.selectedFile = <File>event.target.files[0];
-  }
-
-  onUpload() {
-    const fd = new FormData();
-    fd.append('image', this.selectedFile)
-    this.http.post('http://127.0.0.1:5000/buyorder', fd, {
-      reportProgress: true,
-      observe: 'events'      
-    })
-      .subscribe(event => {
-        console.log(event);
-      });
-  }
-
-  postService (event: any) {
-    this.textbooks = this.constTXBK; 
-  }
   
 }

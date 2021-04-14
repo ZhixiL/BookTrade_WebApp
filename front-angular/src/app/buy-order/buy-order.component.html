@@ -4,13 +4,13 @@
     </div>
  
     <div class="Warning">
-        <center><p><br/><br/><b>What kind of book do you want to buy?</b><br/> 
+        <p style="text-align:center"><br/><br/><b>What kind of book do you want to buy?</b><br/> 
             Please fill in the basic information about the book you want 
-            to buy into the information column below.</p></center>
+            to buy into the information column below.</p>
         <br/>
     </div>
 
-    <div class="inputs">
+    <div class="inputs" style="text-align:center">
             <form #form="ngForm" (ngSubmit)="logForm(form.value)">           
             <br/>
             <br>Book Name: <input type="text" name = "BookName" ngModel><br>
@@ -43,16 +43,8 @@
                 <option value="College of Social Work">College of Social Work</option>
                 <option value="Dedman College of Hospitality">Dedman College of Hospitality</option>
                 <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
-            </select><br>
-               
-            <br>Picture: <input type="file" ()change)="onFileSelected($event)"> 
-                <button type="button" (click)="onUpload()">Upload</button><br>
-            <br/>
-            <label for="description">Description:</label>
-            <br/>
-            <textarea matInput placeholder=" Enter note here..." rows="8" cols="100"></textarea>      
-            <br/> 
-            <center><input type="submit" value="Submit" class="submit"></center>                   
+            </select><br><br>
+            <input type="submit" value="Submit" class="submit">                  
         </form>
     </div>            
 </div>
