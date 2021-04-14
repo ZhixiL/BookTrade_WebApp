@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitterService } from './../Services/event-emitter.service';
 import { RestService } from './../Services/rest.service';
-import { Textbook, Account } from './../model';
+import { Textbook, Account, Textbooks } from './../model';
 @Component({
   selector: 'app-personal-profile',
   templateUrl: './personal-profile.component.html',
@@ -20,6 +20,8 @@ export class PersonalProfileComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   user : Account[] = [];
+  buyorders : Textbooks[] = [];
+  buyorders2 : Textbooks[] = [];
   textbook : Textbook[] = [];
   textbook2 : Textbook[] = [];
   constTXBK : Textbook[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
@@ -33,6 +35,9 @@ export class PersonalProfileComponent implements OnInit {
   initial : number = 0;
   final : number = 8;
   pageNums;
+  initial2 : number = 0;
+  final2 : number = 8;
+  pageNums2;
   ngOnInit() {
     //only logged on user are allowed
     this.http.post('http://127.0.0.1:5000/getAccount',
@@ -99,12 +104,40 @@ export class PersonalProfileComponent implements OnInit {
               console.log("No Data Found" + error);
             }
           )
+
+        this.rs2.readBuyOrderAll()
+        .subscribe
+          (
+            (response3) => 
+            {
+              this.buyorders = response3[0]["bookdatas"];
+            for (var tb of this.buyorders)
+            {
+              if (tb.by==this.usern)
+              {
+                (this.buyorders2).push(tb);
+                console.log(tb);
+              }
+            }
+            this.pageNums2 = Array(Math.ceil(this.buyorders2.length/8)).fill(0).map((x,i)=>i);
+            },
+            (error) =>
+            {
+              console.log("No Data Found" + error);
+            }
+          )
   }
 
   pageChange(pgNum)
   {
     this.initial = pgNum*8;
     this.final = (pgNum+1)*8;
+  }
+
+  pageChangeBuy(pgNum)
+  {
+    this.initial = pgNum*4;
+    this.final = (pgNum+1)*4;
   }
 
   changePassword() {
@@ -114,6 +147,18 @@ export class PersonalProfileComponent implements OnInit {
   postedBooks() {
     this.showbooklist = !this.showbooklist;
     this.showbuyorder = !this.showbuyorder;
+  }
+
+  deleteBuyOrder(bookn) {
+    var info = {
+      bn: bookn, user: this.usern
+    };
+    console.log(info);
+    this.http.post('http://127.0.0.1:5000/deletebuyorder', info)
+        .subscribe((response)=>{
+      this.returnMsg=response["msg"];
+      console.log(this.returnMsg);
+    });
   }
 
   userChangePass(event) {
@@ -132,13 +177,6 @@ export class PersonalProfileComponent implements OnInit {
         .subscribe((response)=>{
       this.returnMsg=response["msg"];
       console.log(this.returnMsg);
-      // if(response["status"]=="success")
-      // {
-      //   localStorage.setItem('authToken', response["auth_token"]);
-      //   console.log(localStorage.getItem('authToken'));
-      //   this.router.navigate(['/']);
-      //   this.ees.refreshName();
-      // }
     });
   }
 }
