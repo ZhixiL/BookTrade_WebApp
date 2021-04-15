@@ -36,7 +36,7 @@ export class PersonalProfileComponent implements OnInit {
   final : number = 8;
   pageNums;
   initial2 : number = 0;
-  final2 : number = 8;
+  final2 : number = 4;
   pageNums2;
   ngOnInit() {
     //only logged on user are allowed
@@ -69,63 +69,63 @@ export class PersonalProfileComponent implements OnInit {
     })
 
   this.rs.readUserDataAll()
-      .subscribe
-        (
-          (response) => 
-          {
-            this.user = response[0]["userdata"];
-            console.log(this.user)
-          },
-          (error) =>
-          {
-            console.log("No Data Found" + error);
-          }
+    .subscribe
+      (
+        (response) => 
+        {
+          this.user = response[0]["userdata"];
+          console.log(this.user)
+        },
+        (error) =>
+        {
+          console.log("No Data Found" + error);
+        }
 
-        )
+      )
 
-        this.rs.readTextbookAll()
-        .subscribe
-          (
-            (response2) => 
-            {
-              this.textbook = response2[0]["bookdata"];
-            for (var tb of this.textbook)
-            {
-              if (tb.by==this.usern)
-              {
-                (this.textbook2).push(tb);
-                console.log(tb);
-              }
-            }
-            this.pageNums = Array(Math.ceil(this.textbook2.length/8)).fill(0).map((x,i)=>i);
-            },
-            (error) =>
-            {
-              console.log("No Data Found" + error);
-            }
-          )
+  this.rs.readTextbookAll()
+  .subscribe
+    (
+      (response2) => 
+      {
+        this.textbook = response2[0]["bookdata"];
+      for (var tb of this.textbook)
+      {
+        if (tb.by==this.usern)
+        {
+          (this.textbook2).push(tb);
+          console.log(tb);
+        }
+      }
+      this.pageNums = Array(Math.ceil(this.textbook2.length/8)).fill(0).map((x,i)=>i);
+      },
+      (error) =>
+      {
+        console.log("No Data Found" + error);
+      }
+    )
 
-        this.rs2.readBuyOrderAll()
-        .subscribe
-          (
-            (response3) => 
-            {
-              this.buyorders = response3[0]["bookdatas"];
-            for (var tb of this.buyorders)
-            {
-              if (tb.by==this.usern)
-              {
-                (this.buyorders2).push(tb);
-                console.log(tb);
-              }
-            }
-            this.pageNums2 = Array(Math.ceil(this.buyorders2.length/8)).fill(0).map((x,i)=>i);
-            },
-            (error) =>
-            {
-              console.log("No Data Found" + error);
-            }
-          )
+  this.rs2.readBuyOrderAll()
+  .subscribe
+    (
+      (response3) => 
+      {
+        this.buyorders = response3[0]["bookdatas"];
+      for (var tb of this.buyorders)
+      {
+        if (tb.by==this.usern)
+        {
+          (this.buyorders2).push(tb);
+          console.log(tb);
+        }
+      }
+      this.pageNums2 = Array(Math.ceil(this.buyorders2.length/4)).fill(0).map((x,i)=>i);
+      },
+      (error) =>
+      {
+        console.log("No Data Found" + error);
+      }
+    )
   }
 
   pageChange(pgNum)
@@ -136,8 +136,8 @@ export class PersonalProfileComponent implements OnInit {
 
   pageChangeBuy(pgNum)
   {
-    this.initial = pgNum*4;
-    this.final = (pgNum+1)*4;
+    this.initial2 = pgNum*4;
+    this.final2 = (pgNum+1)*4;
   }
 
   changePassword() {
@@ -149,15 +149,16 @@ export class PersonalProfileComponent implements OnInit {
     this.showbuyorder = !this.showbuyorder;
   }
 
-  deleteBuyOrder(bookn) {
+  deleteBuyOrder(bkid) {
     var info = {
-      bn: bookn, user: this.usern
+      bkid: bkid, token: localStorage.getItem('authToken')
     };
     console.log(info);
     this.http.post('http://127.0.0.1:5000/deletebuyorder', info)
         .subscribe((response)=>{
       this.returnMsg=response["msg"];
-      console.log(this.returnMsg);
+      alert(this.returnMsg)
+      window.location.reload();
     });
   }
 

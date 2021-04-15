@@ -148,7 +148,7 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
 #The following is a test model based off post class
 #We want to differentiate the Buy Order List data 
 @dataclass
-class Order_List(wadb.Model):
+class Buyorder(wadb.Model):
     id: int
     time: str
     by: int
@@ -158,7 +158,7 @@ class Order_List(wadb.Model):
     stat: str
     college: str
 
-    __tablename__ = 'order_list'
+    __tablename__ = 'buyorder'
     id = wadb.Column(wadb.Integer, primary_key=True)
     time = wadb.Column(wadb.DateTime, nullable=False)
     # Keep track of time when listing are posted ^^
@@ -328,14 +328,6 @@ def changepass():
     else:
         return "placeholder"
 
-# remove later
-@app.route('/usernamedata', methods=['GET'])
-def usernamedata():
-    username = 'offline'
-    response = jsonify(username=username)
-    return response
-
-
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     usrn = ""
@@ -412,6 +404,29 @@ def deletePost():
         }
     except:
         return {'msg':"Failed to remove from database!", 'stat':"fail"}
+    return {
+        'status': "fail",
+        'msg' : "unknown error"
+    }
+
+@app.route('/deletebuyorder',methods=['POST'])
+def deletebuyorder():
+    form_data = request.get_json(force=True)
+    accID = Account.decode_auth_token(form_data['token'])
+    buyOrder = Buyorder.query.filter_by(id=int(form_data['bkid'])).first()
+    if(buyOrder.by != Account.query.filter_by(id=accID).first().username):
+        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
+        return response
+    try:
+        wadb.session.delete(buyOrder)
+        wadb.session.commit()
+        msg = "The buy order "+buyOrder.bookname+" has been deleted successfully!"
+        return {
+            'msg':msg,
+            'stat':"success"
+        }
+    except:
+        return {'msg':"Failed to remove this buy order from database!", 'stat':"fail"}
     return {
         'status': "fail",
         'msg' : "unknown error"
@@ -535,7 +550,7 @@ def buyorder():
         coll = str(form_data['college'])
 
         # need buy_post database~~
-        buy_post = Order_List(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
+        buy_post = Buyorder(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
                            college=coll, time=datetime.datetime.now())
         wadb.session.add(buy_post)
         wadb.session.commit()
@@ -550,7 +565,7 @@ def buyorder():
 
 @app.route('/buylist', methods=['GET'])
 def buylist():
-    bulist = Order_List.query.order_by(Order_List.time.desc()).all()
+    bulist = Buyorder.query.order_by(Buyorder.time.desc()).all()
     # get all books
     jsonBData = {
         "bookdatas": bulist

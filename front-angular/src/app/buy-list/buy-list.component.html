@@ -48,14 +48,14 @@
 
     <!-- This should be put into a for loop to display all books -->
     <div class="listingbooks">
-        <div class="postedbooks">
-            <div class="onebook" *ngFor="let book of textbooks | slice:initial:final">
-                <h3>{{book["bookname"]}}</h3>
-                <h4>Author: {{book["author"]}}</h4>
-                <h4>Condition: {{book["stat"]}}</h4>
-                <h4>Asked for ${{book["price"]}}</h4>
-                <h5>{{book["college"]}}</h5>
-                <l5>Contact: </l5><a [routerLink]="['/personal', usern]">{{book["by"]}}</a> 
+        <div class="postedbooks" >
+            <div style="text-align:center;line-height:1.5" class="onebook" *ngFor="let buyorder of buyOrders | slice:initial:final">
+                <h3>{{buyorder["bookname"]}}</h3><br>
+                <h4>Author: {{buyorder["author"]}}</h4>
+                <h4>Condition: {{buyorder["stat"]}}</h4>
+                <h4>Asked for ${{buyorder["price"]}}</h4>
+                <h5>{{buyorder["college"]}}</h5>
+                <l5>Contact: </l5><a [routerLink]="['/personal', buyorder.by]">{{buyorder["by"]}}</a> 
             </div>
         </div>
     </div>
