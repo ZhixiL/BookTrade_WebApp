@@ -2,15 +2,17 @@
     <div class="mainsection">
         <br><br><br>
         <div class="outerbox">
-            <h3>Create Your Book Trade Account</h3>
+            <h3 id="title">Create Your Book Trade Account</h3>
             <form (sumbit) = "onClickSubmit($event)">
                 <div class="box1">
                     <div class="profile-pic-div" id="profile-pic-div">
-                        <img src="../../assets/images/blank_profile.png" id="photo">
-                        <input type="file" id="file">
+                        <img id="photo" [src] ="urllink" name="pic">
+                        <input type="file" name = "file" id="file" (change) = "selectFiles($event)">
+                        <br>
                         <label for="file" id="uploadBtn">Choose Photo</label>
                     </div>
-                    <br><br>
+
+                    <br>
                     <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
                     <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
                     <br><br>
@@ -25,7 +27,6 @@
                     <br><br>
                     <input type="submit" value="Sign Up">
                 </div>
-            
             </form>
         </div>
         <h4 class="message">{{returnMsg}}</h4>

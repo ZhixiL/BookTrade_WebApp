@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
 
   user : AccountResgister[] = [];
   returnMsg: string;
+  urllink:string = "assets/images/blank_profile.png"
 
   ngOnInit(){
     this.http.post('http://127.0.0.1:5000/getAccount',
@@ -44,6 +45,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onClickSubmit(event){
+      console.log("submit");
       event.preventDefault();
       const target = event.target;
       const firstname = target.querySelector('#firstName').value;
@@ -78,6 +80,16 @@ export class RegisterComponent implements OnInit {
               this.ees.refreshName();
             }
           });
+    }
+
+    selectFiles(event){
+      if(event.target.files){
+        var reader = new FileReader()
+        reader.readAsDataURL(event.target.files[0])
+        reader.onload = (event:any)=>{
+          this.urllink = event.target.result
+        }
+      }
     }
   }
   

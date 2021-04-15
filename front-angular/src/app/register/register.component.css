@@ -19,6 +19,9 @@
   background-color: #e7dddb;
 }
 
+#title{
+  text-align: center;
+}
 /* main profile section */
 .mainsection {
   width: 1400px;
@@ -33,21 +36,22 @@
 
 /* Profile Pic upload */
 .profilePicDiv {
-  height: 200px;
-  width: 200px;
+  height: 100px;
+  width: 100px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  overflow: hidden;
   border: 1px solid grey;
 }
 
 #photo {
-  height: 100px;
-  width: 100px;
+  border-radius: 50%;
+  height: 125px;
+  width: 125px;
   margin: 0;
+  border: 2px solid grey;
 }
 
 #file {
