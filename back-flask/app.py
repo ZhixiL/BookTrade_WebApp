@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, flash, redirect, request, jso
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
+from werkzeug.utils import secure_filename
 # from marshmallow import Schema, fields
 import datetime
 import time
@@ -25,6 +26,7 @@ More Reference avaliable on above link.
 app = Flask(__name__, static_folder='templates')
 # linking with local SQLite3 database named webapp.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webapp.db'
+app.config['UPLOAD_FOLDER'] = "../front-angular/src/assets/images"
 CORS(app)  # Allowing access from angular
 cors = CORS(app, resources={"/login": {"origins": "http://localhost:4200"}})
 wadb = SQLAlchemy(app)  # Web app database, referencing
@@ -211,7 +213,8 @@ def getAccount():
         # clientside doesn't have a token or token is blacklisted
         response = {
             'status': 'fail',
-            'username': 'offline'
+            'username': 'offline',
+            'pic': 'none'
         }
         return response
     accID = Account.decode_auth_token(form_data['token'])
@@ -221,13 +224,16 @@ def getAccount():
         response = {
             'status': 'success',
             'username': user.firstname + " " + user.lastname,
-            'usern': user.username
+            'usern': user.username,
+            'pic': user.avatar
         }
+        print(user.avatar)
         return response
     else:
         response = {
             'status': 'expired',
-            'username': 'offline'
+            'username': 'offline',
+            'pic': 'none'
         }
         return response
 
@@ -573,7 +579,9 @@ def buylist():
     return jsonify([jsonBData])
 #End of Yuanyuan, Zack
 
-# Following are the code by Dennis Majanos, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
+#picUrl=""
+
+# Following are the code by Dennis Majano, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 @cross_origin()
 def createAcc():
@@ -588,6 +596,7 @@ def createAcc():
         lastName = str(form_data["lastn"])
         pwd1 = str(form_data["pass1"])
         pwd2 = str(form_data["pass2"])
+        picture = str(form_data["pic"])
 
         # Types of errors that can occur
         error1 = "Username already exists. "
@@ -610,8 +619,11 @@ def createAcc():
             try:
                 # add variable input into the database
                 # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
+                #print(picUrl)
                 userinfo = Account(firstname=firstName, lastname=lastName,
-                                   username=user, password=pwd1, email=mail, fsuid=FSUid)
+                                   username=user, avatar=picture, password=pwd1, email=mail, fsuid=FSUid)
+                #print(userinfo.avatar)
+                #print(userinfo.username)
                 wadb.session.add(userinfo)
                 wadb.session.commit()
                 # Ensure the account can be found on database, so there's nothing wrong with input to database.
@@ -626,6 +638,7 @@ def createAcc():
                         'msg': 'Successfully logged in.',
                         'auth_token': authToken
                     })
+                
                 return response
             except:
                 return "Error adding to the database!"
@@ -640,6 +653,22 @@ def createAcc():
         return "Place holder"
     # End Dennis, Yuki, Zack
 
+#Uploads file images
+#Folowing code by Dennis Majano
+@app.route('/uploadFile', methods=['POST'])
+def uploadFile():
+    if request.method == 'POST':
+        #Assume that the post request has a file part
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    
+        return jsonify(
+            msg = "Picture Uploaded", 
+            picUrl = filename
+        )
+        #returns the name of the file that is supposed to be uploaded
+               
 
 if __name__ == '__main__':
     app.run(debug=True)

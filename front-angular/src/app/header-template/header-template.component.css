@@ -94,6 +94,8 @@ li {
 .profile img {
   float: left;
   padding: 6px;
+  height:50px;
+  width:50px
 }
 
 /* username */

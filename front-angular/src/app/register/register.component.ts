@@ -29,6 +29,8 @@ export class RegisterComponent implements OnInit {
   user : AccountResgister[] = [];
   returnMsg: string;
   urllink:string = "assets/images/blank_profile.png"
+  urllink2:string;
+  selectedFile: File = null;
 
   ngOnInit(){
     this.http.post('http://127.0.0.1:5000/getAccount',
@@ -45,41 +47,54 @@ export class RegisterComponent implements OnInit {
   }
 
   onClickSubmit(event){
-      alert("test")
-      // event.preventDefault();
-      // const target = event.target;
-      // const firstname = target.querySelector('#firstName').value;
-      // const lastname = target.querySelector('#lastName').value;
-      // const username = target.querySelector('#username').value;
-      // const password1 = target.querySelector('#pwd1').value;
-      // const password2 = target.querySelector('#pwd2').value;
-      // const email = target.querySelector('#emailAddress').value;
-      // const fsuid = target.querySelector('#fsuId').value;
-      // console.log(localStorage.getItem('authToken') + 'log')
-      // var info = {
-      //   firstn: firstname,
-      //   lastn: lastname,
-      //   usern: username, 
-      //   pass1: password1,
-      //   pass2: password2,
-      //   emaila: email,
-      //   fsu: fsuid
-      // };
-      // console.log(info);
-      // this.http.post('http://127.0.0.1:5000/createAccPage', info)
-      //   .subscribe((response)=>
-      //     { 
-      //       this.returnMsg=response["msg"];
-      //       console.log(this.returnMsg);
+      event.preventDefault();
+      const target = event.target;
+      const firstname = target.querySelector('#firstName').value;
+      const lastname = target.querySelector('#lastName').value;
+      const username = target.querySelector('#username').value;
+      const password1 = target.querySelector('#pwd1').value;
+      const password2 = target.querySelector('#pwd2').value;
+      const email = target.querySelector('#emailAddress').value;
+      const fsuid = target.querySelector('#fsuId').value;
+      console.log(localStorage.getItem('authToken') + 'log');
 
-      //       if(response["status"]=="success")
-      //       {
-      //         localStorage.setItem('authToken', response["auth_token"]);
-      //         console.log(localStorage.getItem('authToken'));
-      //         this.router.navigate(['/']);
-      //         this.ees.refreshName();
-      //       }
-      //     });
+      const fd = new FormData();
+      fd.append('file', this.selectedFile, this.selectedFile.name);
+
+      this.http.post('http://127.0.0.1:5000/uploadFile', fd)
+        .subscribe((response)=>
+        {
+          console.log(response);
+          //this.urllink2 = <string>response["picUrl"];
+        });
+      //console.log(this.urllink2);
+      var info = {
+        pic: this.selectedFile.name,
+        firstn: firstname,
+        lastn: lastname,
+        usern: username, 
+        pass1: password1,
+        pass2: password2,
+        emaila: email,
+        fsu: fsuid
+      };
+
+      console.log(info);
+      this.http.post('http://127.0.0.1:5000/createAccPage', info)
+        .subscribe((response)=>
+        { 
+          this.returnMsg=response["msg"];
+          console.log(this.returnMsg);
+
+          if(response["status"]=="success")
+          {
+            localStorage.setItem('authToken', response["auth_token"]);
+            console.log(localStorage.getItem('authToken'));
+            this.router.navigate(['/']);
+            this.ees.refreshName();
+          }
+        });
+      
     }
 
     selectFiles(event){
@@ -89,6 +104,7 @@ export class RegisterComponent implements OnInit {
         reader.onload = (event:any)=>{
           this.urllink = event.target.result
         }
+        this.selectedFile = <File>event.target.files[0];
       }
     }
   }
