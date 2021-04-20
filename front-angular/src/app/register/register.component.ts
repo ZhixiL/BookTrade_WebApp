@@ -11,15 +11,6 @@ import { EventEmitterService } from './../Services/event-emitter.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  
-  //Every Account needs to have a unique username, email, and fsuid
-  // firstname:string;
-  // lastname:string;
-  // username:string;
-  // password1:string;
-  // password2:string;
-  // email:string;
-  // fsuid:string;
 
   constructor(
     private http : HttpClient, 

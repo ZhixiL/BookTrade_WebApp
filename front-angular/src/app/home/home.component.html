@@ -50,18 +50,6 @@
             <a routerLink="/booklist" class="viewall">View All</a>
         </div>
 
-        <!-- book section -->
-        <!-- <div class="postedbooks">
-            {% for bk in bklist %}
-            <div class="onebook">
-                <div class="bookpic">
-                </div>
-                <a href="#" ><h4>{{bk["bookname"]}}</h4></a>
-                <h5>${{bk["price"]}}&nbsp &nbsp Posted By: {{bk["by"]}}</h5>
-            </div>
-            {% endfor %}
-        </div> -->
-
         <div class="postedbooks">
             <div class="onebook" *ngFor="let book of textbook">
                 <div class="bookpic">
