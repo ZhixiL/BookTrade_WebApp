@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitterService } from './../Services/event-emitter.service';
 import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
-
+import { Textbook, Account, Textbooks } from './../model';
 
 @Component({
   selector: 'app-header-template',
@@ -13,13 +13,15 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderTemplateComponent implements OnInit {
 
   constructor(
+    private rs : RestService,
     private ees : EventEmitterService,
     private http : HttpClient,
     private router : Router
     ) {}
   username : string;
   usern : string;
-
+  profilepic : string;
+  accountInfo : Account[];
   ngOnInit()
   {
     this.http.post('http://127.0.0.1:5000/getAccount',
@@ -36,6 +38,29 @@ export class HeaderTemplateComponent implements OnInit {
         this.refreshUser();
       }); 
     }
+
+    this.rs.readUserDataAll()
+    .subscribe
+    (
+      (response) =>
+      {
+          this.profilepic = "../../assets/images/profilepic.png";
+          this.accountInfo = response[0]["userdata"];
+          for (var u of this.accountInfo)
+          {
+            if (u.avatar != "profilepic.png" && u.username == this.usern)
+            {
+              console.log("test in if")
+              this.profilepic = "../../assets/images/" + u.avatar;
+            }
+          }
+          console.log(this.profilepic)
+      },
+      (error) =>
+      {
+          console.log("No Data Found" + error)
+      }
+    )
   }
 
   refreshUser()
