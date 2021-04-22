@@ -657,18 +657,17 @@ def createAcc():
 #Folowing code by Dennis Majano
 @app.route('/uploadFile', methods=['POST'])
 def uploadFile():
-    if request.method == 'POST':
-        #Assume that the post request has a file part
-        file = request.files['file']
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    
-        return jsonify(
-            msg = "Picture Uploaded", 
-            picUrl = filename
-        )
-        #returns the name of the file that is supposed to be uploaded
-               
+    #Assume that the post request has a file part
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    return jsonify(
+        msg = "Picture Uploaded", 
+        picUrl = filename
+    )
+    #returns the name of the file that is supposed to be uploaded
+# end of Dennis         
 
 if __name__ == '__main__':
     app.run(debug=True)

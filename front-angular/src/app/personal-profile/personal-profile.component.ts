@@ -27,6 +27,7 @@ export class PersonalProfileComponent implements OnInit {
   constTXBK : Textbook[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
   username : string;
   usern : string;
+  profilepic : string;
   returnMsg: string;
   login = false;
   showpass = false;
@@ -52,6 +53,11 @@ export class PersonalProfileComponent implements OnInit {
       }
       else{
         this.login=true;
+        if(response['pic'] == "none"){
+          this.profilepic = "../../assets/images/profilepic.png"
+        }else{
+          this.profilepic = "../../assets/images/" + response['pic']
+        }
       }
     });
 
@@ -128,6 +134,7 @@ export class PersonalProfileComponent implements OnInit {
     )
   }
 
+
   pageChange(pgNum)
   {
     this.initial = pgNum*8;
@@ -161,6 +168,14 @@ export class PersonalProfileComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  // avatarChange(event)
+  // {
+  //   event.preventDefault();
+  //   const target = event.target;
+  //   const newAva = target.querySelector('file')
+    
+  // }
 
   userChangePass(event) {
     event.preventDefault();

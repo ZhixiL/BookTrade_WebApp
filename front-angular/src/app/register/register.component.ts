@@ -49,6 +49,17 @@ export class RegisterComponent implements OnInit {
       const fsuid = target.querySelector('#fsuId').value;
       console.log(localStorage.getItem('authToken') + 'log');
 
+      if(firstname == "" || lastname == "" || username == "" ||
+      password1 == "" || email == "" || fsuid == ""){
+        alert("Please do not leave any field blank!");
+        return 0; //terminate the process
+      }
+
+      if(password1!=password2){
+        alert("The two passwords doesn't match!")
+        return 0;
+      }
+      
       const fd = new FormData();
       fd.append('file', this.selectedFile, this.selectedFile.name);
 
@@ -99,84 +110,3 @@ export class RegisterComponent implements OnInit {
       }
     }
   }
-  
-  /*
-
-  const imgDiv= document.querySelector('profile-pic-div');
-  const img = <HTMLElement>document.querySelector('#photo');
-  const file = document.querySelector('#file');
-  const uploadBtn = <HTMLElement>document.querySelector('#uploadBtn');
-
-  
-  //if user hovers over profile div
-  imgDiv.addEventListener('mouseenter', function()
-  {
-    uploadBtn.style.display="block";
-    //document.getElementById("uploadBtn").style.display="block";
-  });
-
-  //if we hover out from img div 
-  imgDiv.addEventListener('mouseleave', function()
-  {
-    uploadBtn.style.display="none";
-    //document.getElementById("uploadBtn").style.display="none";
-  });
-  
-  //lets work for image showing functionality when we shoose an 
-  //image to upload
-
-  
-  //when we choose a photo to upload
-  file.addEventListener('change', function(){
-    //this referes to file
-    const choosedFile = this.files[0];
-
-    if(choosedFile){
-      //FileReader is a predefined function of JS
-      const reader = new FileReader(); 
-    
-      reader.addEventListener('load', function(){
-        img.setAttribute('src', reader.result as string);
-      });
-
-      reader.readAsDataURL(choosedFile);
-    }
-  });
-  */
-  //checks to make sure that valid data has been entered
-  //checks the to make sure the size of data entered is appropriate
-  //check to make sure that password1 and password2 are the same
-  // validateData(){
-  //   if(this.firstname.length > 30 || this.lastname.length == 0){
-  //     alert("FirstName must be between 1 and 30 characters long");
-  //     return false;
-  //   }
-  //   if(this.lastname.length > 30 || this.lastname.length == 0){
-  //     alert("LastName must be between 1 and 30 characters long");
-  //     return false;
-  //   }
-  //   if(this.username.length > 30 || this.username.length == 0){
-  //     alert("Username must be between 1 and 30 characters long");
-  //     return false;
-  //   }
-  //   if(this.password1.length > 15 || this.password1.length == 0){
-  //     alert("Password must be between 1 and 15 characters long");
-  //     return false;
-  //   }
-  //   if(this.password1 != this.password2){
-  //     alert("Password and confirm password do not match");
-  //     return false;
-  //   }
-  //   if(this.email.length > 100 || this.email.length == 0){
-  //     alert("Email must be between 1 and 100 characters long");
-  //     return false;
-  //   }
-  //   if(this.fsuid.length > 10 || this.fsuid.length == 0){
-  //     alert("Fsuid must be between 1 and 10 characters long");
-  //     return false;
-  //   }
-  //   console.log("New Account: UserInput has correct length and passwords match");
-  //   return true;
-  // }
-  
-// }

@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   textbook : Textbook[] = [];
   textbook2 : Textbook[] = [];
   usern : string;
+  profilepic : string;
   returnMsg: string;
   ngOnInit()
   {
@@ -39,6 +40,15 @@ export class ProfileComponent implements OnInit {
           (response) => 
           {
             this.user = response[0]["userdata"];
+            for(var u of this.user)
+            {
+              if (u.avatar != "profilepic.png" && u.username == this.usern)
+              {
+                this.profilepic = "../../assets/images/" + u.avatar;
+              }else{
+                this.profilepic = "../../assets/images/profilepic.png"
+              }
+            }
           },
           (error) =>
           {
@@ -46,7 +56,7 @@ export class ProfileComponent implements OnInit {
           }
 
         )
-
+        
        this.rs.readTextbookAll()
       .subscribe
         (

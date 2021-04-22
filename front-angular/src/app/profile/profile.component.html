@@ -1,7 +1,9 @@
 <div class="mainsectionbg">
     <div class="mainsection">
         <div class="profilesection">
-            <div class="profilepic"></div>
+            <div class="profilepic">
+                <img src={{profilepic}}>
+            </div>
             <div class="for" *ngFor="let u of user">
                 <div class="profileinfo" *ngIf="usern===u.username">
                     <h2 class="fullname">{{u["firstname"]}} {{u["lastname"]}}</h2>

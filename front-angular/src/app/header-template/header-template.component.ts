@@ -30,6 +30,11 @@ export class HeaderTemplateComponent implements OnInit {
     console.log(response['status']);
     this.username=response['username'];
     this.usern = response['usern'];
+    if(response['pic'] == "none"){
+      this.profilepic = "../../assets/images/profilepic.png"
+    }else{
+      this.profilepic = "../../assets/images/" + response['pic']
+    }
   });
 
     if (this.ees.refreshSubVar==undefined) {    
@@ -38,29 +43,6 @@ export class HeaderTemplateComponent implements OnInit {
         this.refreshUser();
       }); 
     }
-
-    this.rs.readUserDataAll()
-    .subscribe
-    (
-      (response) =>
-      {
-          this.profilepic = "../../assets/images/profilepic.png";
-          this.accountInfo = response[0]["userdata"];
-          for (var u of this.accountInfo)
-          {
-            if (u.avatar != "profilepic.png" && u.username == this.usern)
-            {
-              console.log("test in if")
-              this.profilepic = "../../assets/images/" + u.avatar;
-            }
-          }
-          console.log(this.profilepic)
-      },
-      (error) =>
-      {
-          console.log("No Data Found" + error)
-      }
-    )
   }
 
   refreshUser()

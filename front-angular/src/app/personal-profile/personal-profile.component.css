@@ -22,7 +22,8 @@
   height: 300px;
   margin-left: 200px;
   margin-top: 50px;
-  background: url(../../assets/images/tempbook.jpg);
+  text-align : center;
+  /* background: url(../../assets/images/tempbook.jpg); */
 }
 
 .mainsectionbg .mainsection .profilesection .for .profileinfo {
@@ -54,6 +55,7 @@
   display: block;
   height: 200px;
   margin-left: 10px;
+  text-align: center;
 }
 
 .mainsectionbg
