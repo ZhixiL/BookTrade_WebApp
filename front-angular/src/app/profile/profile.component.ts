@@ -44,13 +44,12 @@ export class ProfileComponent implements OnInit {
           (response) => 
           {
             this.user = response[0]["userdata"];
+            this.profilepic = "../../assets/images/profilepic.png"
             for(var u of this.user)
             {
               if (u.avatar != "profilepic.png" && u.username == this.usern)
               {
                 this.profilepic = "../../assets/images/" + u.avatar;
-              }else{
-                this.profilepic = "../../assets/images/profilepic.png"
               }
             }
           },

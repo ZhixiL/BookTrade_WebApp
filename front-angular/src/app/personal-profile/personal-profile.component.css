@@ -1,3 +1,13 @@
+/* clear all formatting */
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
 .mainsectionbg {
   width: auto;
   height: 1100px;
@@ -151,6 +161,9 @@
 .mainsectionbg .mainsection .show .booksection .for2 .onebook a h4 {
   margin: 20px 0;
   color: #000000;
+  overflow: hidden;
+  max-width: 60ch;
+  max-height: 7ch;
 }
 
 .mainsectionbg .mainsection .show .mainpagination {

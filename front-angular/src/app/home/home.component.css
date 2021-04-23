@@ -141,4 +141,7 @@ li {
 .mainpostbg .mainpost .postedbooks .onebook a h4 {
   margin: 20px 0;
   color: #000000;
+  overflow: hidden;
+  max-width: 60ch;
+  max-height: 7ch;
 }
