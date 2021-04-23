@@ -194,7 +194,7 @@ li {
 .mainbooks .books .listingbooks .onebook .bookpic {
   height: 125px;
   width: 214px;
-  background: url(../../assets/images/tempbook.jpg);
+  /* background: url(../../assets/images/tempbook.jpg); */
 }
 
 .mainbooks .books .listingbooks .onebook a h4 {

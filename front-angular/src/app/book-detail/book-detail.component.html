@@ -29,7 +29,14 @@
                 </div>
                 <ng-template #elseBlock>
                     <div class="bookdetail">
-                        <div class="bookpic"></div>
+                        <div class="bookpic">
+                            <div *ngIf="book['picture']==defaultpic">
+                                <img src={{defaultpiclink}}>
+                            </div>
+                            <div *ngIf="book['picture']!=defaultpic">
+                                <img src={{booklink+book.picture}}>
+                            </div>
+                        </div>
                     <div class="bookinfo">
                         <div class="booktitle">
                             <h4>{{book["bookname"]}}</h4>

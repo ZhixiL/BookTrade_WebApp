@@ -19,6 +19,10 @@ export class BookDetailComponent implements OnInit {
   textbook : Textbook[] = [];
   tbook : string;
   currentUsername : string;
+  bookpic: string;
+  defaultpic:string = "default_book.jpg";
+  defaultpiclink:string = "../../assets/images/default_book.jpg";
+  booklink:string = "../../assets/images/";
 
   ngOnInit()
   {
