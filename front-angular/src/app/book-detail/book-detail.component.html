@@ -4,7 +4,14 @@
             <div class="booksection"*ngIf="tbook===book.bookname">
                 <div class="bookdetail" *ngIf="currentUsername===book.by;else elseBlock;">
                     <!--This is the portion where user has permission to modify the book-->
-                    <div class="bookpic"></div>
+                    <div class="bookpic">
+                        <div *ngIf="book['picture']==defaultpic">
+                            <img src={{defaultpiclink}}>
+                        </div>
+                        <div *ngIf="book['picture']!=defaultpic">
+                            <img src={{booklink+book.picture}}>
+                        </div>
+                    </div>
                     <div class="bookinfo">
                         <form action="">
                         <div class="booktitle">
