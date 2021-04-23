@@ -53,6 +53,11 @@ export class HeaderTemplateComponent implements OnInit {
     console.log(response['status']);
     this.username=response['username'];
     this.usern = response['usern'];
+    if(response['pic'] == "none"){
+      this.profilepic = "../../assets/images/profilepic.png"
+    }else{
+      this.profilepic = "../../assets/images/" + response['pic']
+    }
   });
   }
   listSearch(event)

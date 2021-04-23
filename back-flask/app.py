@@ -661,7 +661,7 @@ def uploadFile():
     file = request.files['file']
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+    print("uploaded",file=sys.stderr)
     return jsonify(
         msg = "Picture Uploaded", 
         picUrl = filename
