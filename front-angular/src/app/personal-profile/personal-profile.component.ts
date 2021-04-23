@@ -27,7 +27,6 @@ export class PersonalProfileComponent implements OnInit {
   constTXBK : Textbook[] = []; //permanently hold textbooks for the session, in case if textbooks is manipulated.
   username : string;
   usern : string;
-  profilepic : string;
   returnMsg: string;
   login = false;
   showpass = false;
@@ -169,13 +168,46 @@ export class PersonalProfileComponent implements OnInit {
     });
   }
 
-  // avatarChange(event)
-  // {
-  //   event.preventDefault();
-  //   const target = event.target;
-  //   const newAva = target.querySelector('file')
-    
-  // }
+//avatar update section
+profilepic : string;
+urllink : string;
+selectedFile: File = null;
+  selectFiles(event){
+    if(event.target.files){
+      var reader = new FileReader()
+      reader.readAsDataURL(event.target.files[0])
+      reader.onload = (event:any)=>{
+        this.urllink = event.target.result
+      }
+      this.selectedFile = <File>event.target.files[0];
+    }
+  }
+  avatarChange(event)
+  {
+    event.preventDefault();
+    const target = event.target;
+    const fd = new FormData();
+    fd.append('file', this.selectedFile, this.selectedFile.name);
+
+    this.http.post('http://127.0.0.1:5000/uploadFile', fd)
+      .subscribe((response)=>
+      {
+        console.log(response);
+        //this.urllink2 = <string>response["picUrl"];
+      });
+
+    var newAva = {
+      ava : this.selectedFile.name,
+      token : localStorage.getItem('authToken')
+    }
+    this.http.post('http://127.0.0.1:5000/changeava', newAva)
+    .subscribe((response)=>
+    { 
+      alert(response["msg"]);
+    });
+  }
+// end of avatar update
+
 
   userChangePass(event) {
     event.preventDefault();

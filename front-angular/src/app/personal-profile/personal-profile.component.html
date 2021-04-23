@@ -13,15 +13,14 @@
                         <h2 class="fullname">{{u["firstname"]}} {{u["lastname"]}}</h2>
                         <h5 class="fsuid">fsuid: {{u["fsuid"]}}</h5>
                         <h3 class="email">Email: {{u["email"]}}</h3>
-                        <!-- <form (submit)="avatarChange($event)">
+                        <form (submit)="avatarChange($event)">
                             <div Id="profile-pic-div" style="text-align: center;">
-                                <img id="photo" [src] ="urllink" name="pic">
                                 <h4>Avatar Change</h4>
                                 <input type="file" name = "file" id="file" (change) = "selectFiles($event)">
                                 <input type="submit" value="Submit Avatar Change">
                                 <br><br><br>
                             </div>
-                        </form> -->
+                        </form>
     
                         <div class="passsection">
                             <button (click)="changePassword()">Change Password</button>

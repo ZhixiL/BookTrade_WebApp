@@ -300,6 +300,21 @@ def login():
         return "hello"
 
 
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    usrn = ""
+    if request.method == 'POST':
+        form_data = request.get_json(force=True)
+        usrn = str(form_data["usr"])
+    print(usrn)
+    userlist = Account.query.filter_by(username=usrn).first()
+    jsonDataUser = {
+        "userdata": [
+            userlist
+        ]
+    }
+    return jsonify([jsonDataUser])
+
 @app.route("/changepass", methods=['POST', 'GET'])
 @cross_origin()
 def changepass():
@@ -334,21 +349,26 @@ def changepass():
     else:
         return "placeholder"
 
-@app.route('/profile', methods=['GET', 'POST'])
-def profile():
-    usrn = ""
-    if request.method == 'POST':
-        form_data = request.get_json(force=True)
-        usrn = str(form_data["usr"])
-    print(usrn)
-    userlist = Account.query.filter_by(username=usrn).first()
-    jsonDataUser = {
-        "userdata": [
-            userlist
-        ]
-    }
-    return jsonify([jsonDataUser])
 
+@app.route('/changeava', methods=['POST'])
+def changeava():
+    form_data = request.get_json(force=True)
+    msg = ""
+    userid = Account.decode_auth_token(form_data['token'])
+    user = Account.query.filter_by(id=userid).first()
+    if user == None:
+        msg = "Invalid user! Avatar change failed."
+    else:
+        try:
+            user.avatar = form_data['ava']
+            wadb.session.commit()
+            msg = "Your avatar is changed!"
+        except:
+            msg = "Some error occured!"
+    response = jsonify({
+        'msg': msg
+    })
+    return response
 
 @app.route('/profilebook', methods=['GET', 'POST'])
 def profileBook():
@@ -667,7 +687,7 @@ def uploadFile():
         picUrl = filename
     )
     #returns the name of the file that is supposed to be uploaded
-# end of Dennis         
+# end of Dennis        
 
 if __name__ == '__main__':
     app.run(debug=True)
