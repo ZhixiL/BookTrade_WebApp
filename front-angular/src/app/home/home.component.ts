@@ -23,6 +23,10 @@ export class HomeComponent implements OnInit {
 
   textbook : Textbook[] = [];
   login = false;
+  bookpic: string;
+  defaultpic:string = "default_book.jpg";
+  defaultpiclink:string = "../../assets/images/default_book.jpg";
+  booklink:string = "../../assets/images/";
   ngOnInit()
   {
     //verify if user has logged on or not.

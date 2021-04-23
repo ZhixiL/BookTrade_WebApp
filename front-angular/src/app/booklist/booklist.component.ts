@@ -21,6 +21,10 @@ export class BooklistComponent implements OnInit {
   initial : number = 0;
   final : number = 16;
   pageNums;
+  bookpic: string;
+  defaultpic:string = "default_book.jpg";
+  defaultpiclink:string = "../../assets/images/default_book.jpg";
+  booklink:string = "../../assets/images/";
 
   ngOnInit()
   {
