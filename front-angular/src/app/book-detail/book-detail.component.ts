@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Textbook, Account } from './../model';
 import { RestService } from '../Services/rest.service';
 import { HttpClient, JsonpClientBackend } from '@angular/common/http';
@@ -14,7 +14,7 @@ export class BookDetailComponent implements OnInit {
     private rs : RestService,
     private route: ActivatedRoute,
     private router:Router,
-    private http: HttpClient,
+    private http: HttpClient
     ) { }
   textbook : Textbook[] = [];
   tbook : string;
