@@ -147,8 +147,8 @@ class Account(wadb.Model):  # This will be a model/table mappping within our wad
             firstname=self.firstname, lastname=self.lastname, username=self.username,
             avatar=self.avatar, email=self.email, fsuid=self.fsuid)
 
-#The following is a test model based off post class
-#We want to differentiate the Buy Order List data 
+# The following is a test model based off post class
+# We want to differentiate the Buy Order List data
 @dataclass
 class Buyorder(wadb.Model):
     id: int
@@ -181,8 +181,8 @@ class Buyorder(wadb.Model):
     def __repr__(self):
         return 'Account({time},{by},{bookname},{price},{stat},{college})'.format(
             time=self.time, by=self.by, bookname=self.bookname, price=self.price, stat=self.stat, college=self.college)
-    
-    
+
+
 class BlacklistToken(wadb.Model):  # Stores JWT tokens
     __tablename__ = 'blacklist_tokens'
     id = wadb.Column(wadb.Integer, primary_key=True, autoincrement=True)
@@ -315,6 +315,7 @@ def profile():
     }
     return jsonify([jsonDataUser])
 
+
 @app.route("/changepass", methods=['POST', 'GET'])
 @cross_origin()
 def changepass():
@@ -370,6 +371,7 @@ def changeava():
     })
     return response
 
+
 @app.route('/profilebook', methods=['GET', 'POST'])
 def profileBook():
     tbooklist = Post.query.filter_by(
@@ -411,54 +413,59 @@ def booklistall():
 
 
 # POST MODIFICATION ROUTES
-@app.route('/deletePost',methods=['POST'])
+@app.route('/deletePost', methods=['POST'])
 def deletePost():
     form_data = request.get_json(force=True)
     accID = Account.decode_auth_token(form_data['token'])
     bkID = form_data['id']
     bk = Post.query.filter_by(id=bkID).first()
     if(bk.by != Account.query.filter_by(id=accID).first().username):
-        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
-        return response #However this shouldn't happen, since user has to be authorized before delete.
+        # Authenticate the current user
+        response = {'status': 'fail', 'msg': 'Unauthorized user!'}
+        # However this shouldn't happen, since user has to be authorized before delete.
+        return response
     try:
         wadb.session.delete(bk)
         wadb.session.commit()
         msg = bk.bookname+" has been deleted successfully!"
         return {
-            'msg':msg,
-            'stat':"success"
+            'msg': msg,
+            'stat': "success"
         }
     except:
-        return {'msg':"Failed to remove from database!", 'stat':"fail"}
+        return {'msg': "Failed to remove from database!", 'stat': "fail"}
     return {
         'status': "fail",
-        'msg' : "unknown error"
+        'msg': "unknown error"
     }
 
-@app.route('/deletebuyorder',methods=['POST'])
+
+@app.route('/deletebuyorder', methods=['POST'])
 def deletebuyorder():
     form_data = request.get_json(force=True)
     accID = Account.decode_auth_token(form_data['token'])
     buyOrder = Buyorder.query.filter_by(id=int(form_data['bkid'])).first()
     if(buyOrder.by != Account.query.filter_by(id=accID).first().username):
-        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
+        # Authenticate the current user
+        response = {'status': 'fail', 'msg': 'Unauthorized user!'}
         return response
     try:
         wadb.session.delete(buyOrder)
         wadb.session.commit()
         msg = "The buy order "+buyOrder.bookname+" has been deleted successfully!"
         return {
-            'msg':msg,
-            'stat':"success"
+            'msg': msg,
+            'stat': "success"
         }
     except:
-        return {'msg':"Failed to remove this buy order from database!", 'stat':"fail"}
+        return {'msg': "Failed to remove this buy order from database!", 'stat': "fail"}
     return {
         'status': "fail",
-        'msg' : "unknown error"
+        'msg': "unknown error"
     }
 
-@app.route('/priceChange',methods=['POST'])
+
+@app.route('/priceChange', methods=['POST'])
 def priceChange():
     form_data = request.get_json(force=True)
     accID = Account.decode_auth_token(form_data['token'])
@@ -468,25 +475,29 @@ def priceChange():
     updatedBK = bk
     updatedBK.price = form_data['newP']
     if(bk.by != Account.query.filter_by(id=accID).first().username):
-        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
-        return response #However this shouldn't happen, since user has to be authorized before delete.
+        # Authenticate the current user
+        response = {'status': 'fail', 'msg': 'Unauthorized user!'}
+        # However this shouldn't happen, since user has to be authorized before delete.
+        return response
     try:
         wadb.session.delete(bk)
         wadb.session.add(updatedBK)
         wadb.session.commit()
-        msg = bk.bookname+"'s price has been updated from $"+str(oldPrice)+" to $"+str(updatedBK.price)
+        msg = bk.bookname+"'s price has been updated from $" + \
+            str(oldPrice)+" to $"+str(updatedBK.price)
         return {
-            'msg':msg,
-            'stat':"success"
+            'msg': msg,
+            'stat': "success"
         }
     except:
-        return {'msg':"Failed to update post!", 'stat':"fail"}
+        return {'msg': "Failed to update post!", 'stat': "fail"}
     return {
         'status': "fail",
-        'msg' : "unknown error"
+        'msg': "unknown error"
     }
 
-@app.route('/descriptionChange',methods=['POST'])
+
+@app.route('/descriptionChange', methods=['POST'])
 def descriptionChange():
     form_data = request.get_json(force=True)
     accID = Account.decode_auth_token(form_data['token'])
@@ -495,22 +506,24 @@ def descriptionChange():
     updatedBK = bk
     updatedBK.description = form_data['newD']
     if(bk.by != Account.query.filter_by(id=accID).first().username):
-        response = {'status':'fail','msg':'Unauthorized user!'} #Authenticate the current user
-        return response #However this shouldn't happen, since user has to be authorized before delete.
+        # Authenticate the current user
+        response = {'status': 'fail', 'msg': 'Unauthorized user!'}
+        # However this shouldn't happen, since user has to be authorized before delete.
+        return response
     try:
         wadb.session.delete(bk)
         wadb.session.add(updatedBK)
         wadb.session.commit()
         msg = bk.bookname+"'s description has been updated!"
         return {
-            'msg':msg,
-            'stat':"success"
+            'msg': msg,
+            'stat': "success"
         }
     except:
-        return {'msg':"Failed to update post!", 'stat':"fail"}
+        return {'msg': "Failed to update post!", 'stat': "fail"}
     return {
         'status': "fail",
-        'msg' : "unknown error"
+        'msg': "unknown error"
     }
 
 # End Zack & Yuki
@@ -523,9 +536,10 @@ def post():
         response = ""
         username = ""
         # pass data from angular to flask
-        form_data_all = request.get_json(force=True)
-        form_data = form_data_all['bookdata']
-        userID = Account.decode_auth_token(form_data_all['token'])
+        form_data = request.get_json(force=True)
+        # form_data = form_data_all['bookdata']
+        # userID = Account.decode_auth_token(form_data_all['token'])
+        userID = Account.decode_auth_token(form_data['token'])
         if str(type(userID)) == "<class 'int'>":
             username = Account.query.filter_by(id=userID).first().username
             print(username, file=sys.stderr)
@@ -533,14 +547,18 @@ def post():
             return jsonify(response="Token Error")
         #print(form_data['BookName'], file=sys.stderr)
         post_by = username
-        bkname = str(form_data['BookName'])
-        aut = str(form_data['Author'])
-        post_price = float(form_data['Price'])
-        stat = str(form_data['status'])
-        coll = str(form_data['college'])
-
+        bkname = str(form_data['bookn'])
+        aut = str(form_data['auth'])
+        post_price = float(form_data['pri'])
+        stat = str(form_data['stat'])
+        coll = str(form_data['col'])
+        desc = str(form_data['des'])
+        pict = str(form_data["pic"])
+        desc = str(form_data["des"])
+        print("Test: ", post_by, bkname, aut,
+              post_price, stat, coll, pict, desc)
         post = Post(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                    college=coll, time=datetime.datetime.now())
+                    college=coll, time=datetime.datetime.now(), description=desc, picture=pict)
         wadb.session.add(post)
         wadb.session.commit()
         if post != None:
@@ -574,10 +592,9 @@ def buyorder():
         post_price = float(form_data['Price'])
         stat = str(form_data['status'])
         coll = str(form_data['college'])
-
         # need buy_post database~~
         buy_post = Buyorder(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
-                           college=coll, time=datetime.datetime.now())
+                            college=coll, time=datetime.datetime.now())
         wadb.session.add(buy_post)
         wadb.session.commit()
         if buy_post != None:
@@ -597,9 +614,9 @@ def buylist():
         "bookdatas": bulist
     }
     return jsonify([jsonBData])
-#End of Yuanyuan, Zack
+# End of Yuanyuan, Zack
 
-#picUrl=""
+# picUrl=""
 
 # Following are the code by Dennis Majano, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
@@ -639,11 +656,11 @@ def createAcc():
             try:
                 # add variable input into the database
                 # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
-                #print(picUrl)
+                # print(picUrl)
                 userinfo = Account(firstname=firstName, lastname=lastName,
                                    username=user, avatar=picture, password=pwd1, email=mail, fsuid=FSUid)
-                #print(userinfo.avatar)
-                #print(userinfo.username)
+                # print(userinfo.avatar)
+                # print(userinfo.username)
                 wadb.session.add(userinfo)
                 wadb.session.commit()
                 # Ensure the account can be found on database, so there's nothing wrong with input to database.
@@ -658,7 +675,7 @@ def createAcc():
                         'msg': 'Successfully logged in.',
                         'auth_token': authToken
                     })
-                
+
                 return response
             except:
                 return "Error adding to the database!"
@@ -673,21 +690,25 @@ def createAcc():
         return "Place holder"
     # End Dennis, Yuki, Zack
 
-#Uploads file images
-#Folowing code by Dennis Majano
+# Uploads file images
+# Folowing code by Dennis Majano
 @app.route('/uploadFile', methods=['POST'])
 def uploadFile():
-    #Assume that the post request has a file part
+    # Assume that the post request has a file part
     file = request.files['file']
+    # user = str(request.files['usern'])
+    # print(user)
+    # filename = secure_filename(file.filename)
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    print("uploaded",file=sys.stderr)
+    print("uploaded", file=sys.stderr)
     return jsonify(
-        msg = "Picture Uploaded", 
-        picUrl = filename
+        msg="Picture Uploaded",
+        picUrl=filename
     )
-    #returns the name of the file that is supposed to be uploaded
-# end of Dennis        
+    # returns the name of the file that is supposed to be uploaded
+# end of Dennis
+
 
 if __name__ == '__main__':
     app.run(debug=True)
