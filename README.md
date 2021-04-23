@@ -6,6 +6,7 @@ Use pip to install following:
 - flask
 - flask-SQLAlchemy
 - CORS
+- flask-cors
 - pyjwt
 
 Run Backend:
