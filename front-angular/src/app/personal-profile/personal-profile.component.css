@@ -21,6 +21,11 @@ li {
   margin: auto;
   background-color: #e7dddb;
 }
+
+.mainsectionbg .mainsection .notlogin {
+  float: left;
+}
+
 .mainsectionbg .mainsection .profilesection {
   display: block;
   height: 400px;

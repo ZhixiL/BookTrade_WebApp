@@ -1,7 +1,7 @@
 <div class="mainsectionbg">
     <div class="mainsection">
         <div *ngIf="login === false;else elseBlock;">
-            <h1>Please Login First!</h1>
+            <h1 class="notlogin">Please Login First!</h1>
         </div>
         <ng-template #elseBlock>
             <div class="profilesection">
