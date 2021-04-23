@@ -64,8 +64,9 @@
                     </div>
                 </ng-template>
                     <div class="desbox" *ngIf="currentUsername===book.by;else elseBlock2;">
-                        Description: <p class="desboxp" contenteditable="true" id="desUpdate">{{book["description"]}}</p>
+                        Description: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         <button (click)="editDes(book.id)">Edit Description</button>
+                        <p class="desboxp" contenteditable="true" id="desUpdate">{{book["description"]}}</p>
                     </div>
                 
                     <ng-template #elseBlock2>
