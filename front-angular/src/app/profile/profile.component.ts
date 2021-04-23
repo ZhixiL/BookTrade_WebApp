@@ -25,6 +25,10 @@ export class ProfileComponent implements OnInit {
   usern : string;
   profilepic : string;
   returnMsg: string;
+  bookpic: string;
+  defaultpic:string = "default_book.jpg";
+  defaultpiclink:string = "../../assets/images/default_book.jpg";
+  booklink:string = "../../assets/images/";
   ngOnInit()
   {
 

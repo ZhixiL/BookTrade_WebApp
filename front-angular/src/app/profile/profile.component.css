@@ -71,10 +71,11 @@
   padding: 15px 17.51px;
 }
 
-.mainsectionbg .mainsection .booksection .for2 .onebook .bookpic {
+.mainsectionbg .mainsection .booksection .for2 .onebook .bookpic,
+.mainsectionbg .mainsection .booksection .for2 .onebook .bookpic img {
   height: 125px;
   width: 214px;
-  background: url(../../assets/images/tempbook.jpg);
+  /* background: url(../../assets/images/tempbook.jpg); */
 }
 
 .mainsectionbg .mainsection .booksection .for2 .onebook a h4 {

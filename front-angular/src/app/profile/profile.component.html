@@ -17,6 +17,12 @@
             <div class="for2" *ngFor="let book of textbook2">
                 <div class="onebook" *ngIf="usern===book.by">
                     <div class="bookpic">
+                        <div *ngIf="book.picture==defaultpic">
+                            <img src={{defaultpiclink}}>
+                        </div>
+                        <div *ngIf="book.picture!=defaultpic">
+                            <img src={{booklink+book.picture}}>
+                        </div>
                     </div>
                     <a [routerLink]="['/booklist', book.bookname]" ><h4>{{book["bookname"]}}</h4></a>
                     <h5>${{book["price"]}}</h5>
