@@ -38,6 +38,10 @@ export class PersonalProfileComponent implements OnInit {
   initial2 : number = 0;
   final2 : number = 4;
   pageNums2;
+  bookpic: string;
+  defaultpic:string = "default_book.jpg";
+  defaultpiclink:string = "../../assets/images/default_book.jpg";
+  booklink:string = "../../assets/images/";
   ngOnInit() {
     //only logged on user are allowed
     this.http.post('http://127.0.0.1:5000/getAccount',
@@ -94,6 +98,7 @@ export class PersonalProfileComponent implements OnInit {
       (response2) => 
       {
         this.textbook = response2[0]["bookdata"];
+        this.bookpic = "../../assets/images/profilepic.png";
       for (var tb of this.textbook)
       {
         if (tb.by==this.usern)
@@ -103,6 +108,18 @@ export class PersonalProfileComponent implements OnInit {
         }
       }
       this.pageNums = Array(Math.ceil(this.textbook2.length/8)).fill(0).map((x,i)=>i);
+
+      // this.profilepic = "../../assets/images/profilepic.png";
+      //      this.accInfo = response[0]["userdata"];
+      //      for (var u of this.accountInfo)
+      //      {
+      //        if (u.avatar != "profilepic.png" && u.username == this.usern)
+      //        {
+      //          console.log("test in if")
+      //          this.profilepic = "../../assets/images/" + u.avatar;
+      //        }
+      //      }
+      //      console.log(this.profilepic)
       },
       (error) =>
       {
