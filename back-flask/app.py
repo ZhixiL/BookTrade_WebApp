@@ -372,14 +372,14 @@ def changeava():
     return response
 
 
-@app.route('/profilebook', methods=['GET', 'POST'])
-def profileBook():
-    tbooklist = Post.query.filter_by(
-        by="zacklin").order_by(Post.time).limit(8).all()
-    jsonDataBook = {
-        "bookdata": tbooklist
-    }
-    return jsonify([jsonDataBook])
+# @app.route('/profilebook', methods=['GET', 'POST'])
+# def profileBook():
+#     tbooklist = Post.query.filter_by(
+#         by="zacklin").order_by(Post.time).limit(8).all()
+#     jsonDataBook = {
+#         "bookdata": tbooklist
+#     }
+#     return jsonify([jsonDataBook])
 
 
 @app.route('/booklistbrief', methods=['GET'])
@@ -529,7 +529,7 @@ def descriptionChange():
 # End Zack & Yuki
 
 
-# Yuanyuan Bao, Zack, Dennis
+# Yuanyuan Bao, Zack, Dennis, Yuki
 @app.route("/post", methods=['POST', 'GET'])
 def post():
     if request.method == 'POST':
@@ -561,6 +561,14 @@ def post():
                     college=coll, time=datetime.datetime.now(), description=desc, picture=pict)
         wadb.session.add(post)
         wadb.session.commit()
+
+        numpost = Account.query.filter_by(id=userID).first().num_of_posts
+        numpost += 1
+
+        correct = Account.query.filter_by(id=userID).first()
+        correct.num_of_posts = numpost
+        wadb.session.commit()
+
         if post != None:
             response = 'Successfully uploaded!'
         else:
@@ -568,7 +576,7 @@ def post():
         return jsonify(response=response)
     if request.method == 'GET':
         return "placeholder"
-# end of Yuanyuan, Zack, Dennis
+# end of Yuanyuan, Zack, Dennis, Yuki
 
 # Yuanyuan Bao, Zack Lin
 @app.route("/buyorder", methods=['POST', 'GET'])
