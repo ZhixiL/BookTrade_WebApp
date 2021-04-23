@@ -23,6 +23,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { BuyOrderComponent } from './buy-order/buy-order.component';
 import { BuyListComponent } from './buy-list/buy-list.component';
 import { CommonQuestionsComponent } from './common-questions/common-questions.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CommonQuestionsComponent } from './common-questions/common-questions.co
     PersonalProfileComponent,
     AboutUsComponent,
     CommonQuestionsComponent,
+    ContactComponent,
   ],
   imports: [
     FormsModule,
@@ -90,6 +92,10 @@ import { CommonQuestionsComponent } from './common-questions/common-questions.co
       {
         path: 'aboutus',
         component: AboutUsComponent
+      },
+      {
+        path: 'contact',
+        component: ContactComponent
       },
       {
 	      path: 'buyorder',
