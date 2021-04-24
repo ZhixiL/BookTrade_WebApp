@@ -605,6 +605,14 @@ def buyorder():
                             college=coll, time=datetime.datetime.now())
         wadb.session.add(buy_post)
         wadb.session.commit()
+
+        numpost = Account.query.filter_by(id=userID).first().num_of_posts
+        numpost += 1
+
+        correct = Account.query.filter_by(id=userID).first()
+        correct.num_of_posts = numpost
+        wadb.session.commit()
+
         if buy_post != None:
             response = 'Successfully uploaded!'
         else:
