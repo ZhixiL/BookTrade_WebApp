@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitterService } from './../Services/event-emitter.service';
-import { RestService } from './../Services/rest.service';
 import { Component, OnInit } from '@angular/core';
 import { Textbook, Account, Textbooks } from './../model';
 
@@ -13,7 +12,6 @@ import { Textbook, Account, Textbooks } from './../model';
 export class HeaderTemplateComponent implements OnInit {
 
   constructor(
-    private rs : RestService,
     private ees : EventEmitterService,
     private http : HttpClient,
     private router : Router

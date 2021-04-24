@@ -51,15 +51,4 @@ export class RestService implements OnInit {
   {
     return this.http.get<Account[]>(this.baseUrl + "/login");
   }
-
-  // getUserAndPass(username, password)
-  // {
-  //   let request = this.http.get("/login", {
-  //     "user": username,
-  //     "pass": password
-  //   });
-  //   request.subscribe(data => {
-  //     console.log(data, "This is the data")
-  //   });
-  // }
 }

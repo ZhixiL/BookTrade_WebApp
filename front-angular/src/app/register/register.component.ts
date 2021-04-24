@@ -67,9 +67,8 @@ export class RegisterComponent implements OnInit {
         .subscribe((response)=>
         {
           console.log(response);
-          //this.urllink2 = <string>response["picUrl"];
         });
-      //console.log(this.urllink2);
+
       var info = {
         pic: this.selectedFile.name,
         firstn: firstname,

@@ -83,7 +83,7 @@ export class PersonalProfileComponent implements OnInit {
         (response) => 
         {
           this.user = response[0]["userdata"];
-          console.log(this.user)
+
         },
         (error) =>
         {
@@ -109,17 +109,6 @@ export class PersonalProfileComponent implements OnInit {
       }
       this.pageNums = Array(Math.ceil(this.textbook2.length/8)).fill(0).map((x,i)=>i);
 
-      // this.profilepic = "../../assets/images/profilepic.png";
-      //      this.accInfo = response[0]["userdata"];
-      //      for (var u of this.accountInfo)
-      //      {
-      //        if (u.avatar != "profilepic.png" && u.username == this.usern)
-      //        {
-      //          console.log("test in if")
-      //          this.profilepic = "../../assets/images/" + u.avatar;
-      //        }
-      //      }
-      //      console.log(this.profilepic)
       },
       (error) =>
       {
@@ -210,7 +199,6 @@ selectedFile: File = null;
       .subscribe((response)=>
       {
         console.log(response);
-        //this.urllink2 = <string>response["picUrl"];
       });
 
     var newAva = {
@@ -237,7 +225,7 @@ selectedFile: File = null;
       oldp: oldpass, p1: pass1, p2: pass2, token: localStorage.getItem('authToken'), user: this.usern
     };
     console.log(info);
-    // this.us.getUserAndPass(username, password);
+    
     this.http.post('http://127.0.0.1:5000/changepass', info)
         .subscribe((response)=>{
       this.returnMsg=response["msg"];

@@ -56,22 +56,21 @@ export class LoginComponent implements OnInit {
     const username = target.querySelector('#username').value;
     const password = target.querySelector('#password').value;
     const keeplogin = target.querySelector('#keeplogin').checked;
-    console.log(localStorage.getItem('authToken') + 'log')
+    
     var info = {
       usern: username, pass: password,
       token: localStorage.getItem('authToken'),
       keeplog: keeplogin
     };
-    console.log(info);
+
     // this.us.getUserAndPass(username, password);
     this.http.post('http://127.0.0.1:5000/login', info)
         .subscribe((response)=>{
       this.returnMsg=response["msg"];
-      console.log(this.returnMsg);
+      
       if(response["status"]=="success")
       {
         localStorage.setItem('authToken', response["auth_token"]);
-        console.log(localStorage.getItem('authToken'));
         this.router.navigate(['/']);
         this.ees.refreshName();
       }

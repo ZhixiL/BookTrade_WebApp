@@ -16,7 +16,6 @@ export class BuyOrderComponent implements OnInit {
   selectedFile: File = null;
   constructor(
     private http : HttpClient, 
-    private rs : RestService,
     private ees : EventEmitterService,
     private router : Router
     ) { }
