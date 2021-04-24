@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from dataclasses import dataclass
 from werkzeug.utils import secure_filename
-# from marshmallow import Schema, fields
 import datetime
 import time
 import os
@@ -218,7 +217,7 @@ def getAccount():
         }
         return response
     accID = Account.decode_auth_token(form_data['token'])
-    # print(accID, file=sys.stderr)
+
     if str(type(accID)) == "<class 'int'>":  # successful retrived id
         user = Account.query.filter_by(id=accID).first()
         response = {
@@ -276,8 +275,7 @@ def login():
         pas = str(form_data['pass'])
         keeplog = form_data['keeplog']
         temp = Account.query.filter_by(username=usr).first()
-        # if form_data['token'] != "nodata":
-        #     print(Account.decode_auth_token(form_data['token']), file=sys.stderr)
+
         if temp == None:  # this is the case where temp matches with no account
             msg = 'Username does not exist!'
         elif temp.password == pas:  # temp has matched an account, veryfing the password
@@ -327,7 +325,6 @@ def changepass():
         correct = Account.query.filter_by(username=usern).first()
         pass1 = str(form_data['p1'])
         pass2 = str(form_data['p2'])
-        print(oldpass, pass1, pass2, usern)
 
         if correct == None:
             msg = "Your session ended. Please login again."
@@ -370,16 +367,6 @@ def changeava():
         'msg': msg
     })
     return response
-
-
-# @app.route('/profilebook', methods=['GET', 'POST'])
-# def profileBook():
-#     tbooklist = Post.query.filter_by(
-#         by="zacklin").order_by(Post.time).limit(8).all()
-#     jsonDataBook = {
-#         "bookdata": tbooklist
-#     }
-#     return jsonify([jsonDataBook])
 
 
 @app.route('/booklistbrief', methods=['GET'])
@@ -537,15 +524,14 @@ def post():
         username = ""
         # pass data from angular to flask
         form_data = request.get_json(force=True)
-        # form_data = form_data_all['bookdata']
-        # userID = Account.decode_auth_token(form_data_all['token'])
+
         userID = Account.decode_auth_token(form_data['token'])
         if str(type(userID)) == "<class 'int'>":
             username = Account.query.filter_by(id=userID).first().username
             print(username, file=sys.stderr)
         else:
             return jsonify(response="Token Error")
-        #print(form_data['BookName'], file=sys.stderr)
+
         post_by = username
         bkname = str(form_data['bookn'])
         aut = str(form_data['auth'])
@@ -593,13 +579,14 @@ def buyorder():
             print(username, file=sys.stderr)
         else:
             return jsonify(responses="Token Error")
-        #print(form_data['BookName'], file=sys.stderr)
+
         post_by = username
         bkname = str(form_data['BookName'])
         aut = str(form_data['Author'])
         post_price = float(form_data['Price'])
         stat = str(form_data['status'])
         coll = str(form_data['college'])
+
         # need buy_post database~~
         buy_post = Buyorder(by=post_by, bookname=bkname, author=aut, price=post_price, stat=stat,
                             college=coll, time=datetime.datetime.now())
@@ -632,8 +619,6 @@ def buylist():
     return jsonify([jsonBData])
 # End of Yuanyuan, Zack
 
-# picUrl=""
-
 # Following are the code by Dennis Majano, Hanyan Zhang (Yuki), Zhixi Lin (Zack)
 @app.route('/createAccPage', methods=['POST', 'GET'])
 @cross_origin()
@@ -655,7 +640,6 @@ def createAcc():
         error1 = "Username already exists. "
         error2 = "Email already exists. "
         error3 = "FSUID already exists. "
-        error4 = "Failed to register data, please try again. "
 
         # Validation of the user input:
         # If filter returns a result, it means the user or email already exsist
@@ -671,18 +655,12 @@ def createAcc():
         if msg == "":
             try:
                 # add variable input into the database
-                # if wadb.session.query(Account).filter_by(email=mail).count() < 1:
-                # print(picUrl)
                 userinfo = Account(firstname=firstName, lastname=lastName,
                                    username=user, avatar=picture, password=pwd1, email=mail, fsuid=FSUid)
-                # print(userinfo.avatar)
-                # print(userinfo.username)
+
                 wadb.session.add(userinfo)
                 wadb.session.commit()
-                # Ensure the account can be found on database, so there's nothing wrong with input to database.
-                # session['user'] = str(Account.query.filter_by(
-                #     username=user).first().username)
-                # msg = "You have successfully registered!"
+
                 temp = Account.query.filter_by(username=user).first()
                 authToken = temp.encode_auth_token(temp.id)
                 if authToken:  # ensure authentication token is correctly generated
@@ -712,9 +690,6 @@ def createAcc():
 def uploadFile():
     # Assume that the post request has a file part
     file = request.files['file']
-    # user = str(request.files['usern'])
-    # print(user)
-    # filename = secure_filename(file.filename)
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     print("uploaded", file=sys.stderr)
