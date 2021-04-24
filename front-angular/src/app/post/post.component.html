@@ -2,19 +2,8 @@
     <div class="book">
         <img src="../../assets/images/books2.jpg" alt=" " style="width:71.5%"/>
     </div>
- 
-    <div class="Warning">
-        <p><br/><b>Warning: </b>This website does not guarantee the accuracy, 
-            completeness, validity, timeliness, and legality of articles, 
-            information, pictures, materials, etc. posted by all users on 
-            this website. Please make your own judgment based on the situation. 
-            The user is responsible for the losses caused by misleading reading 
-            of the contents of this edition and other factors. This site has no 
-            responsibility.</p>
-        <br/>
-    </div>
 
-    <div class="inputs">
+    <div class="inputs" style="text-align: center;">
 <!--           <form (submit)="postService($event)">   --> 
             <form (submit)="logForm($event)">           
             <br/> <br/>
@@ -49,15 +38,15 @@
                 <option value="Dedman College of Hospitality">Dedman College of Hospitality</option>
                 <option value="Jim Moran College of Entrepreneurship">Jim Moran College of Entrepreneurship</option>
             </select><br>
-            
-            Picture: <input type="file" name = "file" id="file" (change) = "onFileSelected($event)">
             <br>
-            <label for="file" id="uploadBtn">Choose Photo</label>
+            Picture: <input type="file" name = "file" id="file" (change) = "onFileSelected($event)">
+            <br><br>
+            <label for="file" id="uploadBtn"></label>
             <label for="description">Description:</label>
             <br/>
             <textarea matInput placeholder=" Enter note here..." rows="8" cols="100" name="Description" id="Description"></textarea>                    
             <br/> <br/>
-            <center><input type="submit" value="Submit" class="submit"></center>                   
+            <input type="submit" value="Submit" class="submit">                  
         </form>
     </div>            
 </div>
