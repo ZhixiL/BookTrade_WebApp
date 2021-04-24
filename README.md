@@ -34,5 +34,6 @@ P.S. There're approximately 20 commit by Yuki and Zack that're missing due to an
 push, and reverse of push. However all the files are secured with the commit "repair"
 
 
-Contact Information - Zack Lin
-- Email: zl19@my.fsu.edu
+Contact Information:
+- Zack Lin (Leader) Email: zl19@my.fsu.edu
+- Yuki Zhang (core member/supervisor) Email: hz19@my.fsu.edu
