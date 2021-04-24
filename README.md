@@ -24,7 +24,7 @@ For Client to access web app:
 - This web application should be able to operate on any browsers including Chrome.
 - Safari may experience some issue with display format.
 - Access with the following link:
-- http://localhost:5000/
+- http://localhost:4200/
 
 Sample Account to Test Features:
 username: zacklin
