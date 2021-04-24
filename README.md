@@ -21,9 +21,10 @@ Run Frontend (must be at ./front-angular, and run (npm install) to install neces
 - ng serve
 
 For Client to access web app:
-- This web application should be able to operate on any browsers including Safari and Chrome.
+- This web application should be able to operate on any browsers including Chrome.
+- Safari may experience some issue with display format.
 - Access with the following link:
-- http://localhost:5000/
+- http://localhost:4200/
 
 Sample Account to Test Features:
 username: zacklin
@@ -33,5 +34,6 @@ P.S. There're approximately 20 commit by Yuki and Zack that're missing due to an
 push, and reverse of push. However all the files are secured with the commit "repair"
 
 
-Contact Information - Zack Lin
-- Email: zl19@my.fsu.edu
+Contact Information:
+- Zack Lin (Leader) Email: zl19@my.fsu.edu
+- Yuki Zhang (core member/supervisor) Email: hz19@my.fsu.edu
