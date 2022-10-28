@@ -35,5 +35,5 @@ push, and reverse of push. However all the files are secured with the commit "re
 
 
 Contact Information:
-- Zack Lin (Leader) Email: zl19@my.fsu.edu
-- Yuki Zhang (core member/supervisor) Email: hz19@my.fsu.edu
+- Zack Lin (Leader) Email: zacklin821@gmail.com
+- Yuki Zhang (Deputy Leader) Email: hz19@fsu.edu
